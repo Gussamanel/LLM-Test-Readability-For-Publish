@@ -11,7 +11,6 @@ import pytest
 import sys
 from . import pytest_runner
 from dotenv import load_dotenv
-from .rag.rag_refactorer import TestRefactorRAG
 from .rag.langchain_model_adapter import LangChainModelAdapter
 from langchain_openai import ChatOpenAI
 from pathlib import Path
@@ -66,12 +65,8 @@ class RefactorManager:
         self._log_dir = os.path.join(directory, "Log")
         os.makedirs(self._log_dir, exist_ok=True)
 
-        # Use Hugging Face streaming API
-        hf_token = os.getenv("HF_TOKEN")
-        if not hf_token:
-            raise ValueError(
-                "Missing Hugging Face token. Set HF_TOKEN environment variable."
-            )
+        # Hugging Face token (optional for API models)
+        hf_token = os.getenv("HF_TOKEN") or hf_token
 
         # AGGRESSIVE MEMORY CLEANUP
         import gc
@@ -109,12 +104,16 @@ class RefactorManager:
 
         # Optional RAG
         # We now expect a dict of vectorstores and we pass the tokenizer too
-        self.rag = TestRefactorRAG(
-            llm=self.llm, 
-            vectorstores=vectorstores, 
-            tokenizer=self.model.tokenizer,
-            prompt_type=self.prompt_type
-        ) if vectorstores else None
+        if vectorstores:
+            from .rag.rag_refactorer import TestRefactorRAG
+            self.rag = TestRefactorRAG(
+                llm=self.llm, 
+                vectorstores=vectorstores, 
+                tokenizer=self.model.tokenizer,
+                prompt_type=self.prompt_type
+            )
+        else:
+            self.rag = None
 
         # Info printout
         info = f"""
@@ -205,6 +204,8 @@ class RefactorManager:
             response = 1
         
         except Exception as err:
+            import traceback
+            traceback.print_exc()
             print(f"Error during get_response: {err}")
             response = None
             
@@ -728,7 +729,7 @@ class RefactorManager:
             return 
 
         if self._functions is None:
-            self.functions = extractor.extract_functions_from_files(self._modules_paths)
+            self._functions = extractor.extract_functions_from_files(self._modules_paths)
 
         test_case_prompts = prompts.generate_first_all_prompts_with_functions(self._new_imports, self._test_cases, self._functions, version="functions")
 

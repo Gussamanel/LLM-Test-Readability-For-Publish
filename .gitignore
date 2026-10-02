@@ -1,0 +1,10 @@
+venv*/
+output*/
+slurm_logs/
+__pycache__/
+*.pyc
+*.pyo
+*.slurm
+.env
+*.out
+.coverage

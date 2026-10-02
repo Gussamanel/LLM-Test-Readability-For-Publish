@@ -1,3 +1,4 @@
+from __future__ import annotations
 # main.py
 import os
 import re
@@ -5,7 +6,7 @@ import torch
 import subprocess
 import urllib.request
 from dataclasses import dataclass
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List, Optional, Tuple, Any
 
 from bs4 import BeautifulSoup
 from langchain_chroma import Chroma
@@ -14,7 +15,6 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import RunnableParallel
 from langchain_core.language_models import BaseLanguageModel
-from langchain_nomic import NomicEmbeddings
 from langchain_core.messages import SystemMessage, HumanMessage
 from .. import prompts
 
@@ -93,7 +93,8 @@ def load_llm(model_id: str = "deepseek-ai/deepseek-coder-6.7b-instruct") -> tupl
     return HuggingFacePipeline(pipeline=gen_pipe), tokenizer
 
 
-def load_embeddings() -> NomicEmbeddings:
+def load_embeddings():
+    from langchain_nomic import NomicEmbeddings
     return NomicEmbeddings(model="nomic-embed-text-v1.5", dimensionality=768)
 
 

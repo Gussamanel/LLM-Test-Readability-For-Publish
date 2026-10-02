@@ -137,7 +137,7 @@ class Model:
         device = self.model.device
         input_ids = input_ids.to(device)
 
-        if isinstance(input_ids, dict):
+        if hasattr(input_ids, "keys") and "input_ids" in input_ids:
             input_ids = input_ids["input_ids"]
 
         # 3. Calculate max tokens
@@ -147,9 +147,9 @@ class Model:
             max_allowed_tokens = self.context_window - total_input_tokens - 100
             if max_allowed_tokens < 0:
                 raise NegativeTokenCountError()
-            dynamic_max_new_tokens = max(0, max_allowed_tokens)
+            dynamic_max_new_tokens = min(2048, max(0, max_allowed_tokens))
         else:
-            dynamic_max_new_tokens = self.max_new_tokens
+            dynamic_max_new_tokens = min(2048, self.max_new_tokens)
 
         # 4. Generate
         with torch.no_grad():
@@ -175,7 +175,7 @@ class Model:
         history_copy = copy.deepcopy(history)
         history_copy.append({"role": "user", "content": prompt})
         input_ids = self.tokenizer.apply_chat_template(history_copy, add_generation_prompt=True, return_tensors="pt")
-        if isinstance(input_ids, dict):
+        if hasattr(input_ids, "keys") and "input_ids" in input_ids:
             input_ids = input_ids["input_ids"]
         return input_ids.shape[1]
 
@@ -210,24 +210,28 @@ class Model:
 
         # Check if we should use Chalmers Proxy (GPT-5 Mini or Claude 4.6 Sonnet)
         if "gpt" in m_path_str or "mini" in m_path_str:
-            api_key = os.getenv("CHALMERS_GPT_API_KEY")
+            api_key = os.getenv("CHALMERS_GPT_API_KEY") or os.getenv("CHALMERS_API_KEY")
+            base_url = os.getenv("CHALMERS_BASE_URL", "https://ai-gateway.portal.chalmers.se/llm/openai/v1")
             if not api_key:
-                raise ValueError("CHALMERS_GPT_API_KEY environment variable not set.")
+                raise ValueError("CHALMERS_GPT_API_KEY or CHALMERS_API_KEY environment variable not set.")
             return ChalmersProxyModel.load(
                 model_name="gpt-5-mini",
                 api_key=api_key,
+                base_url=base_url,
                 temperature=temperature,
                 max_new_tokens=max_new_tokens or 2048,
                 context_window=context_window
             )
 
         if "claude" in m_path_str or "sonnet" in m_path_str:
-            api_key = os.getenv("CHALMERS_CLAUDE_API_KEY")
+            api_key = os.getenv("CHALMERS_CLAUDE_API_KEY") or os.getenv("CHALMERS_API_KEY")
+            base_url = os.getenv("CHALMERS_BASE_URL", "https://ai-gateway.portal.chalmers.se/llm/openai/v1")
             if not api_key:
-                raise ValueError("CHALMERS_CLAUDE_API_KEY environment variable not set.")
+                raise ValueError("CHALMERS_CLAUDE_API_KEY or CHALMERS_API_KEY environment variable not set.")
             return ChalmersProxyModel.load(
                 model_name="claude-sonnet-4-6",
                 api_key=api_key,
+                base_url=base_url,
                 temperature=temperature,
                 max_new_tokens=max_new_tokens or 2048,
                 context_window=context_window
@@ -597,19 +601,21 @@ class ChalmersProxyModel(Model):
         cls,
         model_name: str,
         api_key: str,
+        base_url: str = "https://ai-gateway.portal.chalmers.se/llm/openai/v1",
         temperature: float = 1.0,
         max_new_tokens: int = 8192,
         context_window: int = 128000
     ) -> "ChalmersProxyModel":
         try:
-            tokenizer = AutoTokenizer.from_pretrained("deepseek-ai/deepseek-coder-33b-instruct", trust_remote_code=True)
+            import tiktoken
+            tokenizer = tiktoken.get_encoding("cl100k_base")
         except Exception:
-            print("Warning: Could not load local tokenizer for ChalmersProxyModel. Token counting may be inaccurate.")
             tokenizer = None
 
         instance = cls(
             model_name=model_name,
             api_key=api_key,
+            base_url=base_url,
             tokenizer=tokenizer,
             max_new_tokens=max_new_tokens,
             context_window=context_window,
@@ -639,13 +645,18 @@ class ChalmersProxyModel(Model):
         
         for attempt in range(max_retries):
             try:
-                completion = self.client.chat.completions.create(
-                    model=self.model_name,
-                    messages=history,
-                    temperature=actual_temp,
-                    max_tokens=self.max_new_tokens,
-                    stream=True
-                )
+                kwargs = {
+                    "model": self.model_name,
+                    "messages": history,
+                    "temperature": actual_temp,
+                    "stream": True
+                }
+                if "gpt-5-mini" in self.model_name.lower() or "mini" in self.model_name.lower():
+                    kwargs["max_completion_tokens"] = self.max_new_tokens
+                else:
+                    kwargs["max_tokens"] = self.max_new_tokens
+
+                completion = self.client.chat.completions.create(**kwargs)
 
                 full_content = ""
                 
@@ -677,8 +688,12 @@ class ChalmersProxyModel(Model):
 
     def count_tokens(self, history: list[dict[str, str]], prompt: str) -> int:
         if self.tokenizer:
-            return super().count_tokens(history, prompt)
-        return len(str(history)) // 3 # Very rough estimate
+            try:
+                full_text = "\n".join(m.get("content", "") for m in history) + "\n" + prompt
+                return len(self.tokenizer.encode(full_text))
+            except Exception:
+                pass
+        return len(str(history) + prompt) // 3 # Fallback estimate
 
 # =========================
 # Session

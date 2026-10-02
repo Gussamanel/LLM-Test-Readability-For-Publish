@@ -1,3 +1,10 @@
+try:
+    import pysqlite3
+    import sys
+    sys.modules['sqlite3'] = pysqlite3.dbapi2
+except ImportError:
+    pass
+
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -8,7 +15,6 @@ from .util import prompts
 from .util import refactoring_manager
 from .util import pytest_runner
 from .util.data_analysis.data_collection import TestRunDataCollector
-from .util.rag.index_manager import RepoIndexManager, RepoSpec
 from .util.dan.dan_integration import DANIntegrator
 #from .util.rag.rag import RepoSpec
 
@@ -68,7 +74,7 @@ else:
     module_name = os.path.basename(single_path)
 
 output_dir, session_name = file_handler.setup_output_dir(
-    model, job, session, temperature, version, module_name, prompt_type, run
+    model, job, session, temperature, version, module_name, prompt_type, run, no_rag=args.no_rag
 )
 
 # Copy module and tests to output directory
@@ -81,6 +87,7 @@ print(f"Output directory: {output_dir}\n")
 vector_store = None
 vectorstores = None
 if not args.no_rag:
+    from .util.rag.index_manager import RepoIndexManager, RepoSpec
     REPOS: List[RepoSpec] = [
         RepoSpec(
             repo_id="codetiming",

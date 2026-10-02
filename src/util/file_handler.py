@@ -12,7 +12,7 @@ def generate_timestamp():
 
 
 
-def setup_output_dir(model, job, session, temperature, version, module_path, prompt_type, run_number):
+def setup_output_dir(model, job, session, temperature, version, module_path, prompt_type, run_number, no_rag=False):
     session_name = f"session{session}_temp{temperature}"
     
     try:
@@ -20,7 +20,10 @@ def setup_output_dir(model, job, session, temperature, version, module_path, pro
     except (ValueError, TypeError):
         is_temp1 = False
 
-    base_dir = "./output/temp1" if is_temp1 else "./output"
+    if no_rag:
+        base_dir = "./output/no_rag/temp1" if is_temp1 else "./output/no_rag"
+    else:
+        base_dir = "./output/temp1" if is_temp1 else "./output"
     
     # Format: base_dir/model/module_path/prompt_type/runN
     output_dir = os.path.join(

@@ -5,7 +5,6 @@ import networkx as nx
 import torch
 from transformers import AutoModelForMaskedLM, AutoTokenizer, AutoModelForCausalLM
 import numpy as np
-from scipy.stats import wilcoxon
 import logging
 import re
 
@@ -252,12 +251,16 @@ def main():
     
     # Wilcoxon
     if len(org_vals) > 1:
-        stat, p_value = wilcoxon(org_vals, imp_vals)
-        logger.info(f"Wilcoxon Signed-Rank Test: Statistic={stat}, p-value={p_value:.4e}")
-        if p_value < 0.05:
-            logger.info("Result is STATISTICALLY SIGNIFICANT.")
-        else:
-            logger.info("Result is NOT statistically significant.")
+        try:
+            from scipy.stats import wilcoxon
+            stat, p_value = wilcoxon(org_vals, imp_vals)
+            logger.info(f"Wilcoxon Signed-Rank Test: Statistic={stat}, p-value={p_value:.4e}")
+            if p_value < 0.05:
+                logger.info("Result is STATISTICALLY SIGNIFICANT.")
+            else:
+                logger.info("Result is NOT statistically significant.")
+        except ImportError:
+            logger.info("scipy not installed; skipping Wilcoxon test.")
     else:
         logger.info("Not enough samples for statistical test.")
 
