@@ -1,0 +1,81 @@
+{
+    "module": "immutable_list.py",
+    "timestamp": "2026-09-28T17:37:45.019473",
+    "llm_info": {
+        "model": "mini",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 1,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 20,
+        "diff_failing_tests": -20,
+        "diff_coverage": 6.1
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 24, 'pass': 1, 'fail': 22, 'error': 0}",
+        "Refactored Test Results": "{'total': 24, 'pass': 21, 'fail': 2, 'error': 0}",
+        "total_tests_before": 24,
+        "total_tests_after": 24
+    },
+    "coverage": {
+        "before_refactoring": 73.76,
+        "after_refactoring": 79.86
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "fail",
+            "test_case_1": "fail",
+            "test_case_2": "fail",
+            "test_case_3": "fail",
+            "test_case_4": "fail",
+            "test_case_5": "fail",
+            "test_case_6": "fail",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail",
+            "test_case_10": "fail",
+            "test_case_11": "fail",
+            "test_case_12": "fail",
+            "test_case_13": "fail",
+            "test_case_14": "fail",
+            "test_case_15": "pass",
+            "test_case_16": "fail",
+            "test_case_17": "fail",
+            "test_case_18": "fail",
+            "test_case_19": "fail",
+            "test_case_20": "fail",
+            "test_case_21": "fail",
+            "test_case_22": "fail"
+        },
+        "after_refactoring": {
+            "test_empty_immutable_list_self_equality_and_conversions": "pass",
+            "test_unshift_add_find_str_and_reduce_behaviors": "fail",
+            "test_append_creates_new_list_and_find_requires_callable": "pass",
+            "test_add_raises_value_error_with_non_immutable_other": "pass",
+            "test_find_raises_type_error_when_predicate_is_not_callable": "pass",
+            "test_length_and_find_on_single_element_list": "pass",
+            "test_find_raises_type_error_for_non_callable_argument": "pass",
+            "test_find_on_empty_list_append_and_invalid_concat_raises": "pass",
+            "test_map_raises_type_error_when_given_non_callable": "pass",
+            "test_map_raises_typeerror_when_non_callable_passed": "pass",
+            "test_filter_with_non_callable_predicate_raises_type_error": "pass",
+            "test_filter_raises_type_error_for_non_callable_predicate": "pass",
+            "test_find_on_empty_list_returns_none_and_list_length_zero": "pass",
+            "test_find_returns_none_for_single_element_when_predicate_false": "pass",
+            "test_reduce_on_empty_list_returns_accumulator_and_find_with_non_callable_raises_typeerror": "pass",
+            "test_create_empty_immutable_list_initial_state": "pass",
+            "test_find_returns_false_and_string_representation_for_single_element_list": "pass",
+            "test_unshift_preserves_head_and_allows_find_call_with_self_predicate": "fail",
+            "test_find_raises_type_error_with_non_callable_predicate_on_combined_list": "pass",
+            "test_append_boolean_increases_length_and_find_returns_appended_value": "pass",
+            "test_reduce_on_empty_list_and_list_operations_with_non_callable_find": "pass",
+            "test_reduce_on_empty_returns_acc_and_list_operations": "pass",
+            "test_reduce_raises_type_error_for_non_callable_reducer": "pass"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

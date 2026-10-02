@@ -1,0 +1,47 @@
+{
+    "module": "helpers.py",
+    "timestamp": "2026-09-29T12:54:04.279692",
+    "llm_info": {
+        "model": "deepseek-v3",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 2,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": -4,
+        "diff_failing_tests": 4,
+        "diff_coverage": -22.19
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 7, 'pass': 4, 'fail': 2, 'error': 0}",
+        "Refactored Test Results": "{'total': 7, 'pass': 0, 'fail': 6, 'error': 0}",
+        "total_tests_before": 7,
+        "total_tests_after": 7
+    },
+    "coverage": {
+        "before_refactoring": 45.45,
+        "after_refactoring": 23.26
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "pass",
+            "test_case_1": "pass",
+            "test_case_2": "pass",
+            "test_case_3": "fail",
+            "test_case_4": "pass",
+            "test_case_5": "fail"
+        },
+        "after_refactoring": {
+            "test_should_return_none_when_debug_is_called_with_purge_result_wrapped_in_callable": "fail",
+            "test_variables_generator_starts_with_no_variables": "fail",
+            "test_eager_materializes_variables_generator_output_into_list": "fail",
+            "test_eager_composability_and_get_source_returns_nonempty_string_for_int_input": "fail",
+            "test_warn_writes_formatted_message_to_stderr_instead_of_stdout": "fail",
+            "test_eager_wrapper_passes_itself_as_first_arg_and_unraisable_input_leads_to_type_error": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

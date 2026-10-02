@@ -1,0 +1,55 @@
+{
+    "module": "codetiming_timer.py",
+    "timestamp": "2026-09-29T12:48:39.328598",
+    "llm_info": {
+        "model": "mini",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "combined"
+    },
+    "run_number": 3,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 3,
+        "diff_failing_tests": -3,
+        "diff_coverage": -2.7
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 11, 'pass': 3, 'fail': 7, 'error': 0}",
+        "Refactored Test Results": "{'total': 11, 'pass': 6, 'fail': 4, 'error': 0}",
+        "total_tests_before": 11,
+        "total_tests_after": 11
+    },
+    "coverage": {
+        "before_refactoring": 69.92,
+        "after_refactoring": 67.22
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "pass",
+            "test_case_1": "fail",
+            "test_case_2": "pass",
+            "test_case_3": "fail",
+            "test_case_4": "fail",
+            "test_case_5": "pass",
+            "test_case_6": "fail",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail"
+        },
+        "after_refactoring": {
+            "test_timer_error_is_instantiable_and_is_exception": "fail",
+            "test_timer_context_manager_start_stop_and_double_start_raises": "pass",
+            "test_timer_context_manager_start_and_stop_are_called": "pass",
+            "test_timer_exit_returns_none_and_stops_timer": "pass",
+            "test_timer_context_manager_starts_timer_and_returns_self_when_no_logger": "pass",
+            "test_timer_context_start_stop_equality_and_repr": "fail",
+            "test_timer_context_start_repr_eq_stop_and_start_with_custom_text": "fail",
+            "test_timer_start_and_exit_resets_start_time": "pass",
+            "test_start_raises_type_error_when_logger_is_non_callable_and_initial_text_present": "pass",
+            "test_timer_start_stop_enter_and_copy_behavior": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

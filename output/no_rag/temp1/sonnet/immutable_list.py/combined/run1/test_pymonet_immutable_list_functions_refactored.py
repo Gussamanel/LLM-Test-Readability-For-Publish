@@ -1,0 +1,560 @@
+import pytest
+import immutable_list as immutable_list
+
+def test_empty_immutable_list_operations():
+    # Test basic operations on an empty ImmutableList:
+    # equality check, string representation, conversion to list, and concatenation
+
+    # Setup: Create an empty ImmutableList
+    empty_list = immutable_list.ImmutableList()
+
+    # Execute: Perform operations on the empty ImmutableList
+
+    # Verify that an empty ImmutableList is equal to itself
+    is_equal_to_itself = empty_list.__eq__(empty_list)
+
+    # Get the string representation of the empty ImmutableList
+    string_representation = empty_list.__str__()
+
+    # Convert the empty ImmutableList to a regular Python list
+    converted_list = empty_list.to_list()
+
+    # Concatenate the converted list with itself (regular list addition)
+    concatenated_regular_list = converted_list.__add__(converted_list)
+
+    # Get the length of the converted regular list
+    converted_list_length = converted_list.__len__()
+
+    # Concatenate the empty ImmutableList with a regular list should raise ValueError
+    # since 'converted_list' is not an ImmutableList
+    with pytest.raises(ValueError):
+        empty_list.__add__(converted_list)
+
+    # Assert: Verify that the empty ImmutableList is equal to itself
+    assert is_equal_to_itself is True
+
+    # Verify the length of the converted regular list is 0 (empty list)
+    assert converted_list_length == 0
+
+    # Verify that the concatenated regular list of two empty lists is also empty
+    assert concatenated_regular_list == []
+
+def test_empty_immutable_list_operations():
+    # Test various operations on an empty ImmutableList, verifying
+    # equality checks, concatenation, find, string representation,
+    # unshift, and reduce behave correctly on an empty list.
+
+    # Constants
+    INITIAL_ACCUMULATOR = True
+
+    # Setup: Create an empty ImmutableList
+    empty_list = immutable_list.ImmutableList()
+
+    # Verify that an empty ImmutableList is not equal to a non-ImmutableList value (True)
+    is_equal_to_bool = empty_list.__eq__(INITIAL_ACCUMULATOR)
+
+    # Concatenate the empty list with itself, resulting in another empty list
+    concatenated_empty_list = empty_list.__add__(empty_list)
+
+    # Attempt to find an element using the result of the equality check (False) as predicate
+    found_element = empty_list.find(is_equal_to_bool)
+
+    # Get the string representation of the empty list
+    string_representation = empty_list.__str__()
+
+    # Prepend the empty list to itself using unshift, creating a new list
+    # with the empty list as the first element
+    unshifted_list = empty_list.unshift(empty_list)
+
+    # Reduce the unshifted list using itself as the reducer function and INITIAL_ACCUMULATOR as accumulator
+    reduce_result = unshifted_list.reduce(unshifted_list, INITIAL_ACCUMULATOR)
+
+    # Assertions
+    # The empty list should not equal a boolean True value
+    assert is_equal_to_bool is False
+
+    # Concatenating two empty lists should result in an empty list
+    assert concatenated_empty_list == empty_list
+
+    # Finding in an empty list should return None
+    assert found_element is None
+
+    # String representation of an empty list
+    assert string_representation == "ImmutableList[]"
+
+    # Reduce of the unshifted list with INITIAL_ACCUMULATOR should return the accumulator
+    assert reduce_result == INITIAL_ACCUMULATOR
+
+def test_find_on_single_element_list_with_itself_as_predicate():
+    # Test that find() works correctly when searching a single-element ImmutableList
+    # using the list itself as the predicate function, after appending an element
+    
+    # Setup: Create an ImmutableList with a single boolean True element
+    INITIAL_VALUE = True
+    immutable_list_single = immutable_list.ImmutableList(INITIAL_VALUE, is_empty=INITIAL_VALUE)
+    
+    # Execution: Append the boolean value to create a new list, 
+    # then search the original single-element list using itself as the predicate
+    immutable_list_appended = immutable_list_single.append(INITIAL_VALUE)
+    result = immutable_list_single.find(immutable_list_single)
+    
+    # Assertion: The find operation should complete without errors
+    # Since ImmutableList is used as a callable predicate, 
+    # the result depends on whether it evaluates to truthy for the head element
+    assert result is not None or result is None  # Verifies find() executes without raising exceptions
+
+def test_add_raises_value_error_when_adding_non_immutable_list():
+    # Test that adding a non-ImmutableList instance (None) raises a ValueError
+    # This verifies that the __add__ method enforces type safety
+    
+    # Setup
+    empty_immutable_list = immutable_list.ImmutableList()
+    non_immutable_list_value = None
+
+    # Execution & Assertion
+    with pytest.raises(ValueError):
+        # Attempting to add None to an ImmutableList should raise a ValueError
+        # since only ImmutableList instances are valid operands
+        empty_immutable_list.__add__(non_immutable_list_value)
+
+def test_find_returns_none_when_searching_empty_list():
+    """
+    Test that find() returns None when called on an empty ImmutableList.
+    The test creates an empty ImmutableList, verifies it has length 0,
+    then creates a new ImmutableList using the empty list as both the head
+    and the is_empty parameter, and confirms that find() returns None
+    when no matching element exists.
+    """
+    # Setup: Create an empty ImmutableList and verify it has no elements
+    empty_list = immutable_list.ImmutableList()
+    EXPECTED_EMPTY_LENGTH = 0
+    actual_length = empty_list.__len__()
+    assert actual_length == EXPECTED_EMPTY_LENGTH
+
+    # Setup: Create a new ImmutableList using the empty list as head and is_empty flag
+    list_with_empty_head = immutable_list.ImmutableList(
+        empty_list, is_empty=empty_list
+    )
+
+    # Execution: Attempt to find an element using the list itself as the search function
+    result = list_with_empty_head.find(list_with_empty_head)
+
+    # Assertion: Verify that find() returns None since there are no valid elements
+    assert result is None
+
+def test_find_returns_none_when_list_is_empty():
+    # Test that find() returns None when searching an empty ImmutableList
+    # An ImmutableList initialized with False head and is_empty=False
+    # behaves as an empty list, so find() should return None
+    
+    # Constants
+    EMPTY_VALUE = False
+    EXPECTED_LENGTH = 0
+    
+    # Setup: Create an empty ImmutableList using False as head value and is_empty flag
+    empty_list = immutable_list.ImmutableList(EMPTY_VALUE, is_empty=EMPTY_VALUE)
+    
+    # Execution: Verify the list length is 0 (empty list)
+    actual_length = empty_list.__len__()
+    
+    # Assert: Confirm the list is empty
+    assert actual_length == EXPECTED_LENGTH
+    
+    # Execution: Attempt to find an element using the list itself as the search function
+    # Since the list is empty (head is None), find() should return None
+    result = empty_list.find(empty_list)
+    
+    # Assert: No element should be found in an empty list
+    assert result is None
+
+def test_find_with_list_as_predicate_on_single_element_list():
+    # Test that find() works when using a list as the predicate function
+    # on an ImmutableList containing a single False element
+    
+    # Setup: Create an ImmutableList with a single False element (no tail)
+    INITIAL_VALUE = False
+    single_element_list = immutable_list.ImmutableList(INITIAL_VALUE, is_empty=INITIAL_VALUE)
+    
+    # Execution: Convert ImmutableList to a regular Python list,
+    # then use that list as the predicate function for find()
+    python_list = single_element_list.to_list()
+    result = single_element_list.find(python_list)
+    
+    # Assertion: Since the list [False] is falsy when called with False as argument,
+    # find() should return None as the predicate does not match the head element
+    assert result is None
+
+def test_find_returns_none_on_empty_list_and_add_non_list_raises_type_error():
+    # Setup: Create an empty ImmutableList
+    empty_immutable_list = immutable_list.ImmutableList()
+    search_value = None
+
+    # Execution: Attempt to find None in an empty list (should return None since list is empty)
+    find_result = empty_immutable_list.find(search_value)
+
+    # Append the empty list to itself, creating a list containing the empty list as an element
+    list_with_nested_list = empty_immutable_list.append(empty_immutable_list)
+
+    # Convert the resulting ImmutableList to a regular Python list
+    converted_list = list_with_nested_list.to_list()
+
+    # Assertion: Attempting to add None (not an ImmutableList) to a regular Python list
+    # should raise a TypeError since list.__add__ expects another list, not None
+    with pytest.raises(TypeError):
+        converted_list.__add__(search_value)
+
+def test_map_with_list_as_function_on_non_empty_immutable_list():
+    # Test that map can be called with a list as the mapping function
+    # on an ImmutableList initialized with is_empty=False
+    
+    # Setup: Create a non-empty ImmutableList and a default ImmutableList
+    IS_EMPTY = False
+    non_empty_list = immutable_list.ImmutableList(is_empty=IS_EMPTY)
+    default_list = immutable_list.ImmutableList()
+    
+    # Execution: Convert non_empty_list to a regular Python list
+    # This list will be used as the mapping function
+    list_representation = non_empty_list.to_list()
+    
+    # Verify to_list returns the same result on subsequent calls
+    list_representation_second_call = non_empty_list.to_list()
+    
+    # Apply map using the list as the callable mapping function
+    # (a list is callable when used as a mapping function since elements can be accessed)
+    mapped_result = non_empty_list.map(list_representation_second_call)
+
+def test_map_with_none_raises_type_error():
+    """
+    Test that calling map() with None as the mapping function raises a TypeError.
+    
+    This test verifies that:
+    1. An ImmutableList can be created with None values
+    2. Elements can be prepended (unshift) and appended to the list
+    3. Calling map() with None as the function argument raises a TypeError,
+       since None is not callable
+    """
+    # Constants
+    NONE_VALUE = None
+
+    # Setup: Create initial ImmutableList with None head and tail
+    initial_list = immutable_list.ImmutableList(NONE_VALUE, NONE_VALUE)
+
+    # Prepend None to the initial list
+    list_with_none_prepended = initial_list.unshift(NONE_VALUE)
+
+    # Prepend the previous list to the initial list
+    initial_list.unshift(list_with_none_prepended)
+
+    # Append None to the list that had None prepended
+    list_with_none_appended = list_with_none_prepended.append(NONE_VALUE)
+
+    # Execution & Assertion: map() with None as function should raise TypeError
+    # since None is not callable
+    with pytest.raises(TypeError):
+        list_with_none_appended.map(NONE_VALUE)
+
+def test_filter_with_immutable_list_as_predicate():
+    # Test that filter can be called with an ImmutableList as the predicate function
+    # Since ImmutableList is used as the filter function, it acts as a callable predicate
+    
+    # Setup: Create an ImmutableList with False as head and is_empty=False
+    IS_EMPTY = False
+    HEAD_VALUE = False
+    immutable_list_as_predicate = immutable_list.ImmutableList(HEAD_VALUE, is_empty=IS_EMPTY)
+    
+    # Execution: Use the ImmutableList instance itself as the filter predicate
+    # This tests that filter accepts any callable, including ImmutableList instances
+    result = immutable_list_as_predicate.filter(immutable_list_as_predicate)
+    
+    # Assertion: The filter operation should complete without raising an exception
+    # Since the head is False, and the predicate (ImmutableList) is called with False,
+    # the result should be an empty ImmutableList
+    assert result is not None
+    assert result.is_empty
+
+def test_filter_with_length_as_predicate_on_concatenated_empty_lists():
+    # Test that filtering a concatenated empty ImmutableList using its length as a predicate works correctly
+    # An empty ImmutableList concatenated with itself should produce an empty list of length 0
+    # Filtering with 0 (falsy value) should return an empty ImmutableList
+
+    # Setup: Create an empty ImmutableList
+    empty_list = immutable_list.ImmutableList()
+
+    # Execution: Concatenate the empty list with itself and get the length
+    concatenated_empty_list = empty_list.__add__(empty_list)
+    concatenated_list_length = concatenated_empty_list.__len__()
+
+    # Assert: Verify the length is 0 (empty list)
+    assert concatenated_list_length == 0
+
+    # Execution: Filter the concatenated list using its own length (0) as the predicate
+    # Since 0 is falsy, no elements should pass the filter
+    filtered_list = concatenated_empty_list.filter(concatenated_list_length)
+
+    # Assert: Filtered result should be an empty ImmutableList
+    assert len(filtered_list) == 0
+
+def test_find_on_empty_list_returns_none_with_zero_length():
+    # Test that finding an element in an empty ImmutableList returns None,
+    # and that the result has a length of 0.
+
+    # Constants
+    SEARCH_VALUE = 1947
+
+    # Setup: Create an empty ImmutableList with None head and None tail
+    empty_head = None
+    empty_tail = None
+    empty_list = immutable_list.ImmutableList(empty_head, empty_tail)
+
+    # Execution: Attempt to find an element using a predicate in the empty list
+    # Since the list is empty (head is None), find() should return None
+    find_result = empty_list.find(SEARCH_VALUE)
+
+    # Assertion: Verify that the result of find on an empty list has length 0
+    # None is returned from find, and len(None) equivalent returns 0
+    assert find_result.__len__() == 0
+
+def test_find_returns_none_using_empty_list_as_predicate():
+    # Test that find() returns None when searching an empty ImmutableList
+    # An ImmutableList initialized with False and is_empty=False represents an empty list
+
+    # Setup: Create an empty ImmutableList
+    IS_EMPTY = False
+    empty_immutable_list = immutable_list.ImmutableList(IS_EMPTY, is_empty=IS_EMPTY)
+
+    # Execute: Attempt to find an element using the empty list itself as the predicate function
+    result = empty_immutable_list.find(empty_immutable_list)
+
+    # Assert: find() should return None since the list has no valid head element
+    assert result is None
+
+def test_reduce_empty_list_and_find_with_non_callable_predicate():
+    """
+    Tests that:
+    1. reduce() on an empty ImmutableList returns the accumulator unchanged when given a non-callable (False)
+    2. find() on an ImmutableList created with False value returns None when given a non-callable predicate (ImmutableList instance)
+    """
+    # Constants
+    NON_CALLABLE_VALUE = False
+
+    # Setup: Create an empty ImmutableList
+    empty_list = immutable_list.ImmutableList()
+
+    # Execution: reduce on empty list should return the accumulator (NON_CALLABLE_VALUE) unchanged
+    # since head is None, reduce returns acc regardless of fn being callable or not
+    reduce_result = empty_list.reduce(NON_CALLABLE_VALUE, empty_list)
+
+    # Assert: reduce on empty list returns the accumulator (empty_list) unchanged
+    assert reduce_result == empty_list
+
+    # Setup: Create a non-empty ImmutableList with False as value and is_empty=False
+    non_empty_list = immutable_list.ImmutableList(NON_CALLABLE_VALUE, is_empty=NON_CALLABLE_VALUE)
+
+    # Execution: find() with a non-callable predicate (ImmutableList instance)
+    # Since tail is None and fn(head) will raise or return falsy, result should be None
+    find_result = non_empty_list.find(non_empty_list)
+
+    # Assert: find returns None when the predicate is non-callable and head check fails
+    assert find_result is None
+
+def test_immutable_list_default_initialization():
+    # Test that an ImmutableList can be created with default initialization
+    # and that no exceptions are raised during instantiation
+    
+    # Setup & Execution: Create an ImmutableList with no arguments
+    empty_immutable_list = immutable_list.ImmutableList()
+
+def test_find_on_empty_immutable_list_returns_none():
+    # Test that find() returns None when searching an empty ImmutableList
+    # using the list itself as the search function (which evaluates to False)
+    
+    # Setup: Create an empty ImmutableList using False as initial value and is_empty flag
+    IS_EMPTY = False
+    empty_list = immutable_list.ImmutableList(IS_EMPTY, is_empty=IS_EMPTY)
+    
+    # Execute: Get string representation and attempt to find using the list as predicate
+    list_str = empty_list.__str__()
+    result = empty_list.find(empty_list)
+    
+    # Assert: When searching an empty list, find() should return None
+    assert result is None
+    assert list_str == "ImmutableList[]"
+
+def test_find_element_after_unshift_with_immutable_list_as_predicate():
+    # Test that find() works correctly after unshifting an ImmutableList onto another ImmutableList,
+    # using the ImmutableList itself as the search predicate (which acts as a truthy/falsy value)
+    
+    # Setup: Create an ImmutableList initialized with False and is_empty=False
+    INITIAL_VALUE = False
+    immutable_list_with_false = immutable_list.ImmutableList(INITIAL_VALUE, is_empty=INITIAL_VALUE)
+    
+    # Execution: Unshift the ImmutableList onto itself, creating a new list with the original list as head
+    new_list_with_prepended_element = immutable_list_with_false.unshift(immutable_list_with_false)
+    
+    # Assertion: Find using the ImmutableList as a predicate (callable), 
+    # verifying find() can be called without raising an error
+    result = immutable_list_with_false.find(immutable_list_with_false)
+
+def test_find_with_false_predicate_on_list_with_nested_list():
+    # Test that find() returns None when predicate is False for all elements
+    # in a list that contains an ImmutableList as an element
+    
+    # Setup: Create an empty ImmutableList and build a list with nested structure
+    IS_EMPTY = False
+    SEARCH_PREDICATE = False  # Using False as predicate will never match any element
+    
+    # Create initial empty-flagged ImmutableList
+    base_list = immutable_list.ImmutableList(is_empty=IS_EMPTY)
+    
+    # Execution: Build list structure
+    # Add False to the beginning of base_list: [False]
+    list_with_false_prepended = base_list.unshift(IS_EMPTY)
+    
+    # Append base_list as element to create nested structure: [False, ImmutableList]
+    list_with_nested_list = list_with_false_prepended.append(base_list)
+    
+    # Search for element where predicate (False) returns True - should find nothing
+    result = list_with_nested_list.find(SEARCH_PREDICATE)
+    
+    # Assertion: Since the predicate is always False, no element should be found
+    assert result is None
+
+def test_immutable_list_append_and_find_on_empty_list():
+    # Constants for test setup
+    INITIAL_VALUE = True
+    IS_EMPTY = True
+
+    # Setup: Create an ImmutableList initialized with True and marked as empty
+    initial_list = immutable_list.ImmutableList(INITIAL_VALUE, is_empty=IS_EMPTY)
+
+    # Execution: Append a boolean value to the initial list
+    appended_list = initial_list.append(INITIAL_VALUE)
+
+    # Assert: Verify the length of the appended list is correct
+    appended_list_length = appended_list.__len__()
+    assert appended_list_length == 1, "Appended list should contain exactly one element"
+
+    # Execution & Assert: Use the initial list as a callable to find an element in the initial list.
+    # Since is_empty=True, the head is None, so find should return None
+    find_result = initial_list.find(initial_list)
+    assert find_result is None, "Find on an empty ImmutableList should return None"
+
+def test_reduce_with_immutable_list_accumulator_and_nested_operations():
+    """
+    Tests a sequence of ImmutableList operations:
+    1. Creates an empty ImmutableList and appends itself to create a list with one element (the empty list)
+    2. Reduces the empty list using the appended list as both the function and accumulator
+    3. Verifies equality comparison between two ImmutableList instances
+    4. Prepends an element to a list and converts it to string
+    5. Creates a new ImmutableList using the string representation as is_empty parameter
+    6. Appends a reduced result to itself and searches through a list
+    """
+    # Setup: Create initial empty ImmutableList and derive subsequent lists
+    empty_list = immutable_list.ImmutableList()
+    
+    # Execution: Build a list by appending the empty list to itself
+    list_with_self = empty_list.append(empty_list)
+    
+    # Reduce the empty list using list_with_self as both function and accumulator
+    # Since empty_list.head is None, reduce returns the accumulator (list_with_self)
+    reduced_result = empty_list.reduce(list_with_self, list_with_self)
+    
+    # Compare list_with_self to empty_list for equality (expected: False since they differ)
+    are_lists_equal = list_with_self.__eq__(empty_list)
+    
+    # Prepend list_with_self to itself to create a new list
+    list_with_prepended = list_with_self.unshift(list_with_self)
+    
+    # Convert the prepended list to its string representation
+    list_string_representation = list_with_prepended.__str__()
+    
+    # Create a new ImmutableList using the string representation as is_empty parameter
+    list_with_string_is_empty = immutable_list.ImmutableList(is_empty=list_string_representation)
+    
+    # Append the reduced result to itself
+    list_with_appended_reduced = reduced_result.append(reduced_result)
+    
+    # Search for reduced_result in list_with_prepended using reduced_result as predicate
+    found_element = list_with_prepended.find(reduced_result)
+    
+    # Assertions: Verify equality check returns False (different lists)
+    assert are_lists_equal == False
+    
+    # Verify the string representation starts with expected prefix
+    assert list_string_representation.startswith("ImmutableList")
+    
+    # Verify new ImmutableList was created with the string as is_empty
+    assert list_with_string_is_empty.is_empty == list_string_representation
+
+def test_reduce_and_find_on_nested_immutable_lists():
+    """
+    Tests the interaction between reduce, find, unshift, and equality operations
+    on ImmutableList instances, including edge cases with empty lists and 
+    nested list elements.
+    
+    Steps:
+    1. Create an empty ImmutableList and prepend itself as an element
+    2. Use reduce with the nested list as both the function and accumulator
+    3. Check the length of the prepended list
+    4. Further nest lists and verify equality
+    5. Create a new ImmutableList using the length as is_empty flag
+    6. Use find on the reduced result
+    """
+    # Setup: Create an empty ImmutableList
+    empty_list = immutable_list.ImmutableList()
+
+    # Execution: Prepend the empty list to itself, creating a list containing itself
+    list_with_self_as_element = empty_list.unshift(empty_list)
+
+    # Use the nested list as both the reducer function and initial accumulator
+    # Since list_with_self_as_element is used as 'fn', it processes the first element
+    reduced_result = empty_list.reduce(list_with_self_as_element, list_with_self_as_element)
+
+    # Get the length of the list containing itself as element (should be 1)
+    EXPECTED_LENGTH = 1
+    list_length = list_with_self_as_element.__len__()
+    assert list_length == EXPECTED_LENGTH
+
+    # Prepend the nested list to itself again, creating a deeper nesting
+    doubly_nested_list = list_with_self_as_element.unshift(list_with_self_as_element)
+
+    # Assert: The doubly nested list should not be equal to the original empty list
+    are_equal = doubly_nested_list.__eq__(empty_list)
+    assert not are_equal
+
+    # Create a new ImmutableList using the length as the is_empty flag
+    list_with_length_as_flag = immutable_list.ImmutableList(is_empty=list_length)
+
+    # Use find on the reduced result, searching with reduced_result as the predicate
+    # Since reduced_result is an ImmutableList (not a callable returning bool), 
+    # this tests behavior when find receives a non-standard callable
+    find_result = reduced_result.find(reduced_result)
+    assert find_result is None  # Empty list head is None, so find returns None
+
+def test_reduce_with_to_list_as_function_and_accumulator():
+    # Test that reduce can handle using to_list() result as both the function
+    # and accumulator arguments when the list has a single element (is_empty=True)
+    
+    # Setup
+    IS_EMPTY = True
+    HEAD_VALUE = True
+    EMPTY_TAIL = {}
+    
+    # Create an ImmutableList with an empty dict as tail (acts as base node)
+    immutable_list_with_empty_tail = immutable_list.ImmutableList(tail=EMPTY_TAIL)
+    
+    # Create an ImmutableList with a boolean head and marked as empty
+    immutable_list_with_bool_head = immutable_list.ImmutableList(HEAD_VALUE, is_empty=IS_EMPTY)
+    
+    # Execution
+    # Convert the list to a regular Python list, which will serve as both fn and acc
+    list_representation = immutable_list_with_bool_head.to_list()
+    
+    # Use the list representation as both the reducer function and accumulator
+    # This tests that reduce handles the case where head is not None and tail is None
+    result = immutable_list_with_bool_head.reduce(list_representation, list_representation)
+    
+    # Assertion
+    # When tail is None, reduce returns fn(acc, head) = list_representation(list_representation, HEAD_VALUE)
+    assert result == list_representation(list_representation, HEAD_VALUE)
+

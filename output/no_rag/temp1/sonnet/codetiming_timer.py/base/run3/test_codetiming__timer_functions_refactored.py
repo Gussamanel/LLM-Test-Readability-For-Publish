@@ -1,0 +1,284 @@
+import pytest
+import codetiming_timer as timer
+
+def test_timer_error_can_be_instantiated():
+    # Test that TimerError can be instantiated without any arguments
+    # This verifies that TimerError is a valid exception class that can be created
+    
+    # Execution: Create a TimerError instance with no arguments
+    timer_error = timer.TimerError()
+    
+    # Assertion: Verify that the created instance is of type TimerError
+    assert isinstance(timer_error, timer.TimerError)
+
+def test_timer_raises_error_when_started_twice():
+    """
+    Test that starting a timer that is already running raises a TimerError.
+    
+    This test verifies that:
+    1. A timer can be used as a context manager (started via __enter__)
+    2. After the context manager exits (timer stopped via __exit__)
+    3. The timer can be started again via start()
+    4. But starting the timer again while it's already running raises a TimerError
+    """
+    # Setup: Create a new timer instance
+    running_timer = timer.Timer()
+
+    # Execution: Use the timer as a context manager, which starts and stops the timer
+    active_timer = running_timer.__enter__()  # Starts the timer
+    running_timer.__exit__()  # Stops the timer
+
+    # Start the timer again after context manager has exited
+    active_timer.start()  # Restarts the timer on the original instance reference
+
+    # Assert: Starting an already running timer raises a TimerError
+    with pytest.raises(timer.TimerError):
+        running_timer.start()  # Should raise TimerError since timer is already running
+
+def test_timer_context_manager_enter_and_exit():
+    """
+    Test that Timer can be used as a context manager,
+    verifying that __enter__ returns the timer instance
+    and __exit__ stops the timer without errors.
+    """
+    # Setup: Create a new Timer instance
+    timer_instance = timer.Timer()
+
+    # Execution: Simulate entering the context manager (starts the timer)
+    returned_timer = timer_instance.__enter__()
+
+    # Assert: __enter__ returns the same Timer instance
+    assert returned_timer is timer_instance
+
+    # Execution: Simulate exiting the context manager (stops the timer)
+    exit_result = timer_instance.__exit__()
+
+    # Assert: __exit__ returns None as it only stops the timer
+    assert exit_result is None
+
+def test_timer_exit_stops_context_manager():
+    # Test that calling __exit__ on a Timer instance properly stops the context manager timer
+    # Setup: Create a Timer instance and start it
+    test_timer = timer.Timer()
+    
+    # Execution: Enter the context manager and then exit it
+    test_timer.__enter__()
+    
+    # Assert: Verify that __exit__ calls stop() without raising errors
+    test_timer.__exit__(None, None, None)
+    assert test_timer.last is not None
+
+def test_timer_start_with_none_logger_and_context_manager_enter():
+    """
+    Test that a Timer initialized with logger=None can be started successfully.
+    Verifies that Timer.start() returns None when no logger is provided.
+    """
+    # Setup: Create a Timer with no logger
+    test_timer = timer.Timer(logger=None)
+
+    # Execution: Start the timer (should not raise since logger is None)
+    result_of_start = test_timer.start()
+
+    # Assertion: Verify timer started successfully (start returns None)
+    assert result_of_start is None
+
+def test_timer_context_manager_with_float_arg_and_repr():
+    """
+    Test Timer behavior when used as a context manager, with FloatArg configurations,
+    equality comparison, stopping, and string representation.
+    
+    - Creates a Timer and enters it as a context manager (starts the timer).
+    - Compares the running timer to an integer value.
+    - Stops the context manager timer and retrieves elapsed time.
+    - Creates additional timers with FloatArg and boolean initial_text configurations.
+    - Verifies string representations of timers.
+    - Starts a new timer configured with FloatArg text.
+    """
+    NEGATIVE_INT_VALUE = -1092
+
+    # Setup: Create a Timer and enter it as a context manager (starts the timer)
+    base_timer = timer.Timer()
+    context_timer = base_timer.__enter__()  # Starts the timer and returns self
+
+    # Create FloatArg instances for timer text configuration
+    float_arg_text = timer.FloatArg()
+    float_arg_text_2 = timer.FloatArg()
+
+    # Create a timer using the running context_timer as initial_text
+    timer_with_context_as_initial_text = timer.Timer(initial_text=context_timer)
+
+    # Execution: Compare the base timer to a negative integer
+    equality_result = base_timer.__eq__(NEGATIVE_INT_VALUE)
+
+    # Stop the context manager timer and capture elapsed time
+    elapsed_time = context_timer.stop()
+
+    # Create a timer with FloatArg as text and equality result as initial_text
+    timer_with_float_arg = timer.Timer(text=float_arg_text, initial_text=equality_result)
+
+    # Get string representations of both timers
+    base_timer_repr = base_timer.__repr__()
+    float_arg_timer_repr = timer_with_float_arg.__repr__()
+
+    # Start the timer configured with FloatArg text
+    start_result = timer_with_float_arg.start()
+
+    # Assertions: Verify start() returns None and repr strings are valid
+    assert start_result is None
+    assert isinstance(base_timer_repr, str)
+    assert isinstance(float_arg_timer_repr, str)
+    assert isinstance(elapsed_time, float)
+
+def test_timer_context_manager_with_initial_text_and_float_arg():
+    """
+    Test that a Timer can be used as a context manager, stopped, and that new
+    Timers can be created with initial_text and FloatArg text configurations.
+    Verifies that repr works correctly in running and stopped states, and that
+    equality comparison with a non-Timer value returns NotImplemented/False.
+    """
+    ARBITRARY_INT = -1092
+
+    # Setup: Create and start a timer using context manager protocol
+    base_timer = timer.Timer()
+    running_timer = base_timer.__enter__()
+
+    # Get the repr of the running timer to use as initial_text for other timers
+    running_timer_repr = running_timer.__repr__()
+
+    # Setup: Create FloatArg instances for text configuration
+    float_arg_text = timer.FloatArg()
+    float_arg_initial = timer.FloatArg()
+
+    # Setup: Create additional timers with initial_text set
+    timer_with_initial_text = timer.Timer(initial_text=running_timer_repr)
+
+    # Execute: Compare the base timer with an arbitrary integer (expected: False/NotImplemented)
+    equality_result = base_timer.__eq__(ARBITRARY_INT)
+
+    # Execute: Stop the running timer and capture elapsed time
+    elapsed_time = running_timer.stop()
+
+    # Setup: Create a timer with both a FloatArg text and initial_text
+    timer_with_float_text = timer.Timer(text=float_arg_text, initial_text=running_timer_repr)
+
+    # Execute: Get repr of base timer (now stopped) and the new timer
+    stopped_timer_repr = base_timer.__repr__()
+    float_text_timer_repr = timer_with_float_text.__repr__()
+
+    # Execute: Start the timer configured with FloatArg text
+    timer_with_float_text.start()
+
+    # Assertions
+    assert elapsed_time >= 0, "Elapsed time should be non-negative"
+    assert isinstance(running_timer_repr, str), "Timer repr should return a string"
+    assert isinstance(stopped_timer_repr, str), "Stopped timer repr should return a string"
+    assert isinstance(float_text_timer_repr, str), "Float-text timer repr should return a string"
+    assert equality_result is NotImplemented or equality_result is False, (
+        "Comparing timer to an integer should return NotImplemented or False"
+    )
+
+def test_timer_start_after_exit_raises_error():
+    """
+    Test that a dict object (used to simulate a None-keyed entry) does not have
+    a start() method, and that calling start() on it raises an AttributeError.
+
+    This test verifies that:
+    1. A Timer can be created with no logger (None) and started successfully.
+    2. The timer can be stopped via __exit__.
+    3. Calling start() on a dict object raises an AttributeError,
+       since dict does not have a start() method.
+    """
+    # Create and start a timer with no logger
+    timer_instance = timer.Timer(logger=None)
+    timer_instance.start()
+
+    # Stop the timer via context manager exit
+    timer_instance.__exit__()
+
+    # Store a dict under a None key to retrieve a dict object
+    tracking_dict = {}
+    tracking_dict[None] = tracking_dict
+    retrieved_value = tracking_dict[None]
+
+    # Assertion - calling start() on a dict should raise AttributeError
+    with pytest.raises(AttributeError):
+        retrieved_value.start()
+
+def test_timer_start_with_logger_and_initial_text_from_context_manager():
+    """
+    Test that a Timer can be started with a logger and initial_text derived from
+    a context manager timer instance.
+
+    Steps:
+    1. Create a Timer and use it as a context manager to get a running Timer instance.
+    2. Check equality of the timer with itself (returns True, used as logger callable stand-in).
+    3. Exit the context manager to stop the first timer.
+    4. Create a second Timer using the context manager timer as initial_text and equality result as logger.
+    5. Create a third Timer using the context manager timer as name, second timer as initial_text, and equality result as logger.
+    6. Start the third timer and verify it logs the initial text via the logger.
+    """
+    # Setup: Create and use a Timer as a context manager to obtain a started Timer reference
+    base_timer = timer.Timer()
+    context_timer = base_timer.__enter__()  # Starts the timer and returns self
+
+    # Capture the result of equality check (True), used as a truthy logger placeholder
+    is_equal_to_self = base_timer.__eq__(base_timer)  # Evaluates to True
+
+    # Stop the context manager timer by exiting the context
+    base_timer.__exit__()
+
+    # Create a Timer with context_timer as initial_text and is_equal_to_self as logger
+    timer_with_context_as_initial_text = timer.Timer(
+        initial_text=context_timer,
+        logger=is_equal_to_self
+    )
+
+    # Create a Timer with context_timer as name, timer_with_context_as_initial_text as initial_text,
+    # and is_equal_to_self as logger
+    timer_with_full_config = timer.Timer(
+        context_timer,
+        initial_text=timer_with_context_as_initial_text,
+        logger=is_equal_to_self
+    )
+
+    # Execution: Start the fully configured timer
+    # This exercises the logger and initial_text logic in the start() method
+    timer_with_full_config.start()
+
+def test_timer_start_stop_and_context_manager_with_named_timer():
+    """
+    Test that a named Timer can be started, stopped, and re-entered as a context manager.
+    
+    This test verifies:
+    1. A Timer can be initialized with a custom name.
+    2. The timer can be started and stopped, returning elapsed time as a float.
+    3. After being stopped, the timer can be re-used as a context manager via __enter__,
+       which internally calls start() again.
+    4. The timer can be copied after these operations.
+    """
+    # Constants
+    TIMER_NAME = "Timer started"
+
+    # Setup: Create a named timer
+    named_timer = timer.Timer(TIMER_NAME)
+
+    # Execution: Start and stop the timer to measure elapsed time
+    named_timer.start()
+    elapsed_time = named_timer.stop()
+
+    # Assert: Elapsed time is a valid float value
+    assert isinstance(elapsed_time, float)
+    assert elapsed_time >= 0
+
+    # Execution: Re-enter the timer as a context manager (calls start() internally)
+    context_timer = named_timer.__enter__()
+
+    # Assert: The context manager returns the same timer instance
+    assert context_timer is named_timer
+
+    # Execution: Copy the timer after context manager entry
+    timer_copy = named_timer.copy()
+
+    # Assert: The copy is a valid Timer instance
+    assert isinstance(timer_copy, timer.Timer)
+

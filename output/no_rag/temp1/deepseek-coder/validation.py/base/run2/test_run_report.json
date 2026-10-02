@@ -1,0 +1,73 @@
+{
+    "module": "validation.py",
+    "timestamp": "2026-10-02T21:48:28.369122",
+    "llm_info": {
+        "model": "deepseek-coder",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 2,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 1,
+        "diff_failing_tests": -1,
+        "diff_coverage": -0.05
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 20, 'pass': 1, 'fail': 18, 'error': 0}",
+        "Refactored Test Results": "{'total': 20, 'pass': 2, 'fail': 17, 'error': 0}",
+        "total_tests_before": 20,
+        "total_tests_after": 20
+    },
+    "coverage": {
+        "before_refactoring": 24.34,
+        "after_refactoring": 24.29
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "fail",
+            "test_case_1": "fail",
+            "test_case_2": "fail",
+            "test_case_3": "fail",
+            "test_case_4": "fail",
+            "test_case_5": "fail",
+            "test_case_6": "pass",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail",
+            "test_case_10": "fail",
+            "test_case_11": "fail",
+            "test_case_12": "fail",
+            "test_case_13": "fail",
+            "test_case_14": "fail",
+            "test_case_15": "fail",
+            "test_case_16": "fail",
+            "test_case_17": "fail",
+            "test_case_18": "fail"
+        },
+        "after_refactoring": {
+            "test_validation_success_conversion_to_just_maybe": "fail",
+            "test_validation_equals_none": "fail",
+            "test_check_validation_fails_alternative": "pass",
+            "test_successful_validation_conversion_to_just_maybe": "fail",
+            "test_validation_to_either_either": "fail",
+            "test_transform_validation_to_maybe": "fail",
+            "test_validation_object_creation_with_none_values": "fail",
+            "test_validation_to_maybe_success_returns_just_value": "fail",
+            "test_failure_when_errors_are_present_in_validation": "fail",
+            "test_validation_map_method": "fail",
+            "test_bind_none_to_validation": "fail",
+            "test_validation_when_ap_func_return_validation_adds_new_errors": "pass",
+            "test_validation_to_box_success_empty_errors": "fail",
+            "test_bind_to_lazy": "fail",
+            "test_validation_is_successful_when_no_errors": "fail",
+            "test_successful_try_from_validation": "fail",
+            "test_validation_is_correctly_transformed_and_validated": "fail",
+            "test_validation_bind_method": "fail",
+            "test_validation_equal_if_values_and_errors_lists_are_the_same": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

@@ -1,0 +1,82 @@
+{
+    "module": "immutable_list.py",
+    "timestamp": "2026-10-02T19:09:08.537379",
+    "llm_info": {
+        "model": "deepseek-coder",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 1,
+    "diff_metrics": {
+        "diff_total_tests": 1,
+        "diff_passing_tests": 1,
+        "diff_failing_tests": 0,
+        "diff_coverage": 0.42
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 24, 'pass': 1, 'fail': 22, 'error': 0}",
+        "Refactored Test Results": "{'total': 25, 'pass': 2, 'fail': 22, 'error': 0}",
+        "total_tests_before": 24,
+        "total_tests_after": 25
+    },
+    "coverage": {
+        "before_refactoring": 24.47,
+        "after_refactoring": 24.89
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "fail",
+            "test_case_1": "fail",
+            "test_case_2": "fail",
+            "test_case_3": "fail",
+            "test_case_4": "fail",
+            "test_case_5": "fail",
+            "test_case_6": "fail",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail",
+            "test_case_10": "fail",
+            "test_case_11": "fail",
+            "test_case_12": "fail",
+            "test_case_13": "fail",
+            "test_case_14": "fail",
+            "test_case_15": "pass",
+            "test_case_16": "fail",
+            "test_case_17": "fail",
+            "test_case_18": "fail",
+            "test_case_19": "fail",
+            "test_case_20": "fail",
+            "test_case_21": "fail",
+            "test_case_22": "fail"
+        },
+        "after_refactoring": {
+            "test_equality_of_empty_immutable_list_with_none": "fail",
+            "test_reduce_method_on_immutable_list": "fail",
+            "test_find_element_in_prepended_immutable_list": "fail",
+            "test_case_3": "fail",
+            "test_find_element_in_prepended_immutable_list_alternative": "fail",
+            "test_append_and_find_in_empty_list": "fail",
+            "test_map_functionality": "fail",
+            "test_unshift_new_element_on_empty_list": "fail",
+            "test_unshift_new_element_on_existing_list": "fail",
+            "test_append_new_element_to_empty_list": "fail",
+            "test_immutable_list_filter_true": "fail",
+            "test_immutable_list_filter_by_length": "fail",
+            "test_immutable_list_find_returns_first_element_passing_criteria": "pass",
+            "test_find_matching_element_alternative": "pass",
+            "test_immutable_list_reduce_behavior": "fail",
+            "test_immutable_list_find_behavior": "fail",
+            "test_immutable_list_zero_length_at_init": "fail",
+            "test_finding_element_in_immutable_list": "fail",
+            "test_find_in_unshifted_list_should_return_first_matching_element_correctly": "fail",
+            "test_add_element_at_start_and_find_it": "fail",
+            "test_append_and_find_in_immutable_list": "fail",
+            "test_find_element_in_prepended_immutable_list_difference": "fail",
+            "test_reduce_length_and_unshift_operation": "fail",
+            "test_to_list_method_with_empty_tail": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

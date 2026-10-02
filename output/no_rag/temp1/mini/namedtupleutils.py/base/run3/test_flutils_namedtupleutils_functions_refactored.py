@@ -1,0 +1,379 @@
+import pytest
+
+import namedtupleutils as namedtuple_utils
+import collections as collections_stdlib
+
+def test_to_namedtuple_preserves_float_value_and_type():
+    """Verify that to_namedtuple returns a float unchanged (value and type)."""
+
+    # Arrange
+    INPUT_FLOAT = -476.66
+
+    # Act
+    result = namedtuple_utils.to_namedtuple(INPUT_FLOAT)
+
+    # Assert: value is preserved
+    assert result == INPUT_FLOAT
+    # Assert: type remains float (not converted to a namedtuple or container)
+    assert type(result) is float
+
+def test_to_namedtuple_converts_tuple_with_set_member():
+    """Verify to_namedtuple on a tuple containing a float and a set preserves the float
+    and that the converted second element still contains the float. Also ensure calling
+    to_namedtuple on the set itself does not raise and yields a result that contains
+    the float (or equals it if not container-like).
+    """
+    # Constants / Setup
+    FLOAT_VALUE = -67.0
+    # Duplicate literals in a set literal collapse to a single entry.
+    original_set = {FLOAT_VALUE, FLOAT_VALUE, FLOAT_VALUE}
+    original_tuple = (FLOAT_VALUE, original_set)
+
+    # Execution
+    converted_tuple = namedtuple_utils.to_namedtuple(original_tuple)
+    converted_set_result = namedtuple_utils.to_namedtuple(original_set)
+
+    # Assertions (tuple conversion)
+    assert isinstance(converted_tuple, tuple), "Expected to_namedtuple to return a tuple for tuple input"
+    assert len(converted_tuple) == 2, "Converted tuple should have two elements"
+    assert converted_tuple[0] == FLOAT_VALUE, "First element (float) should be preserved"
+
+    second_element = converted_tuple[1]
+    # The conversion of the set may produce a set, list, tuple, or another container-like object.
+    assert hasattr(second_element, "__contains__"), "Second element should be a container holding the float"
+    assert FLOAT_VALUE in second_element, "Converted second element must contain the original float value"
+
+    # Assertions (set conversion)
+    # Ensure calling to_namedtuple on the set does not raise and the result contains the float value
+    if hasattr(converted_set_result, "__contains__"):
+        assert FLOAT_VALUE in converted_set_result
+    else:
+        # Fallback: if the result is not container-like, it should equal the float (defensive check)
+        assert converted_set_result == FLOAT_VALUE
+
+def test_to_namedtuple_converts_mapping_and_is_idempotent():
+    # This test ensures that:
+    # 1) A mapping (dict) is converted into a namedtuple with attributes
+    #    corresponding to the dict keys.
+    # 2) Passing an already-converted namedtuple back into to_namedtuple is
+    #    idempotent (it yields an equal namedtuple of the same type).
+
+    # Constants for the test input and expected values
+    TEST_KEY = "author"
+    TEST_VALUE = "author"
+    TEST_DICT = {TEST_KEY: TEST_VALUE}
+
+    # ---------------------
+    # Setup
+    # ---------------------
+    input_mapping = TEST_DICT
+
+    # ---------------------
+    # Exercise
+    # ---------------------
+    # Convert the dict to a namedtuple
+    first_namedtuple = namedtuple_utils.to_namedtuple(input_mapping)
+    # Convert the already-converted namedtuple again
+    second_namedtuple = namedtuple_utils.to_namedtuple(first_namedtuple)
+
+    # ---------------------
+    # Assert
+    # ---------------------
+    # The converted object should behave like a namedtuple (tuple subclass with _fields)
+    assert isinstance(first_namedtuple, tuple)
+    assert hasattr(first_namedtuple, "_fields"), "Converted object should have _fields"
+
+    # The attribute corresponding to the original dict key should exist and have the expected value
+    assert getattr(first_namedtuple, TEST_KEY) == TEST_VALUE
+
+    # Converting an already-converted namedtuple should be idempotent:
+    # result should be equal and of the same type
+    assert second_namedtuple == first_namedtuple
+    assert type(second_namedtuple) is type(first_namedtuple)
+
+def test_to_namedtuple_returns_bytes_unchanged_for_bytes_input():
+    # Purpose:
+    # Verify that passing a bytes object into to_namedtuple returns the original
+    # bytes value unchanged (i.e., not converted into a NamedTuple or other type).
+    #
+    # Setup: define a representative bytes value used as the input.
+    BYTES_INPUT = b"xs&,\x9b\xc2\xf1\x80\xb3y"
+
+    # Execution: convert the bytes using the to_namedtuple helper.
+    result = namedtuple_utils.to_namedtuple(BYTES_INPUT)
+
+    # Assertion: the returned value should still be of type 'bytes' and equal
+    # to the original input (no transformation should have occurred).
+    assert isinstance(result, bytes)
+    assert result == BYTES_INPUT
+
+def test_to_namedtuple_returns_empty_tuple_for_empty_input():
+    """Verify to_namedtuple returns an empty tuple unchanged and as a tuple type."""
+    # Arrange
+    empty_tuple = ()
+
+    # Act
+    result = namedtuple_utils.to_namedtuple(empty_tuple)
+
+    # Assert
+    assert isinstance(result, tuple)
+    assert result == empty_tuple
+    assert len(result) == 0
+
+def test_to_namedtuple_handles_empty_ordereddict_and_tuple_with_bytes():
+    # Purpose:
+    # Verify that to_namedtuple correctly converts an empty OrderedDict into
+    # a NamedTuple-like object (with no fields) and that converting a tuple
+    # containing that NamedTuple and a bytes object yields a tuple where the
+    # NamedTuple remains a NamedTuple and the bytes stays unchanged.
+    
+    # Setup - constants and initial objects
+    EMPTY_ORDERED_DICT = collections_stdlib.OrderedDict()
+    SAMPLE_BYTES = b"\xe2\xf8\xb9\x01\x8c\xa5\xed\xb1\x0e&rdHE"
+    
+    # Execution - perform conversions (including repeated conversions to
+    # exercise idempotency/recursion behavior)
+    namedtuple_empty = namedtuple_utils.to_namedtuple(EMPTY_ORDERED_DICT)
+    namedtuple_converted_again = namedtuple_utils.to_namedtuple(namedtuple_empty)
+    namedtuple_empty_again = namedtuple_utils.to_namedtuple(EMPTY_ORDERED_DICT)
+    # Mixed tuple: (NamedTuple, bytes)
+    mixed_tuple = (namedtuple_converted_again, SAMPLE_BYTES)
+    converted_tuple_result = namedtuple_utils.to_namedtuple(mixed_tuple)
+    another_namedtuple_from_empty = namedtuple_utils.to_namedtuple(EMPTY_ORDERED_DICT)
+    
+    # Assertions - verify structure and preservation of types/values
+    # The conversion of an empty OrderedDict should yield an object with _fields
+    # (collections.namedtuple-like) and no fields.
+    assert hasattr(namedtuple_empty, "_fields"), "Converted empty OrderedDict should have _fields"
+    assert isinstance(namedtuple_empty._fields, tuple)
+    assert namedtuple_empty._fields == (), "Expected no fields for an empty OrderedDict conversion"
+    
+    # Converting an already-converted namedtuple should preserve the namedtuple-like type
+    assert type(namedtuple_converted_again) == type(namedtuple_empty)
+    assert namedtuple_converted_again._fields == namedtuple_empty._fields
+    
+    # The tuple conversion should return a tuple of same length with:
+    # - first element being a namedtuple-like object (same empty fields)
+    # - second element being the original bytes object (unchanged)
+    assert isinstance(converted_tuple_result, tuple)
+    assert len(converted_tuple_result) == 2
+    first_element, second_element = converted_tuple_result
+    assert hasattr(first_element, "_fields")
+    assert first_element._fields == namedtuple_empty._fields
+    assert second_element == SAMPLE_BYTES
+    assert isinstance(second_element, (bytes, bytearray))
+    
+    # Repeated conversions from the same empty OrderedDict should produce the same
+    # shape (i.e., a namedtuple-like object with empty fields).
+    assert hasattr(another_namedtuple_from_empty, "_fields")
+    assert another_namedtuple_from_empty._fields == ()
+
+def test_to_namedtuple_handles_ordereddict_with_non_identifier_keys_and_invalid_constructor_arg():
+    # This test verifies two related behaviors:
+    # 1) namedtuple_utils.to_namedtuple can accept an OrderedDict whose keys
+    #    are not valid Python identifiers (such keys should not crash the conversion).
+    # 2) collections.OrderedDict raises a TypeError when called with an invalid
+    #    positional argument (here: None).
+    #
+    # The test is organized into setup, execution and assertion sections for clarity.
+
+    # --- Setup ---
+    # Key contains characters that are not valid Python identifier characters.
+    NON_IDENTIFIER_KEY = "wm=-g\ry#\x0b#:*"
+    sample_mapping = {NON_IDENTIFIER_KEY: NON_IDENTIFIER_KEY}
+
+    # Construct an OrderedDict from the mapping (use the mapping constructor,
+    # not kwargs, since the key is not a valid identifier).
+    ordered = collections_stdlib.OrderedDict(sample_mapping)
+
+    # --- Execution ---
+    converted = namedtuple_utils.to_namedtuple(ordered)
+
+    # --- Assertion ---
+    # The conversion should return a tuple-like object (NamedTuple subclasses tuple).
+    assert isinstance(converted, tuple)
+
+    # Additionally, ensure that calling OrderedDict with a single None positional
+    # argument raises a TypeError (invalid constructor usage).
+    with pytest.raises(TypeError):
+        collections_stdlib.OrderedDict(None)
+
+def test_to_namedtuple_converts_nested_empty_list_and_returns_none_for_none_input():
+    # Purpose:
+    # Verify that to_namedtuple converts a list containing an empty list into
+    # a new list with the inner empty list converted (new object but equal content),
+    # and that passing None returns None unchanged.
+
+    # Setup
+    EMPTY_INNER_LIST = []
+    INPUT_LIST_WITH_EMPTY = [EMPTY_INNER_LIST]
+    NONE_VALUE = None
+
+    # Execution
+    converted_list = namedtuple_utils.to_namedtuple(INPUT_LIST_WITH_EMPTY)
+    converted_none = namedtuple_utils.to_namedtuple(NONE_VALUE)
+
+    # Assertions
+    # Outer container should be a new list with equivalent content.
+    assert isinstance(converted_list, list)
+    assert converted_list == [EMPTY_INNER_LIST]
+    assert converted_list is not INPUT_LIST_WITH_EMPTY
+
+    # Inner empty list should be converted to a new list (equal but not the same object).
+    assert isinstance(converted_list[0], list)
+    assert converted_list[0] == EMPTY_INNER_LIST
+    assert converted_list[0] is not EMPTY_INNER_LIST
+
+    # None should be returned unchanged.
+    assert converted_none is None
+
+def test_to_namedtuple_handles_mixed_nested_structures():
+    # Purpose:
+    # Verify that to_namedtuple can handle:
+    #  - a mapping with a non-identifier string key -> produces a namedtuple-like object
+    #  - a tuple containing that namedtuple -> remains a tuple and preserves the inner value
+    #  - a mapping that uses a tuple and a boolean as keys -> still converts to a namedtuple-like object
+    #  - repeated conversion is idempotent and primitive values (like False) are returned unchanged
+
+    # Setup: create a long string (simulating a docstring-like key/value) and build inputs
+    LONG_DOC = (
+        "Normalize a given path.\n\n"
+        "The given ``path`` will be normalized in the following process.\n\n"
+        "#. :obj:`bytes` will be converted to a :obj:`str` using the encoding\n"
+        "   given by :obj:`getfilesystemencoding() <sys.getfilesystemencoding>`.\n"
+        "#. :obj:`PosixPath <pathlib.PosixPath>` and\n"
+        "   :obj:`WindowsPath <pathlib.WindowsPath>` will be converted\n"
+        "   to a :obj:`str` using the :obj:`as_posix() <pathlib.PurePath.as_posix>`\n"
+        "   method.\n"
+        "#. An initial component of ``~`` will be replaced by that user’s\n"
+        "   home directory.\n"
+        "#. Any environment variables will be expanded.\n"
+        "#. Non absolute paths will have the current working directory from\n"
+        "   :obj:`os.getcwd() <os.cwd>`prepended.  If needed, use\n"
+        "   :obj:`os.chdir() <os.chdir>` to change the current working directory\n"
+        "   before calling this function.\n"
+        "#. Redundant separators and up-level references will be normalized, so\n"
+        "   that ``A//B``, ``A/B/``, ``A/./B`` and ``A/foo/../B`` all become\n"
+        "   ``A/B``.\n\n"
+        "Args:\n"
+        "    path (:obj:`str`, :obj:`bytes` or :obj:`Path <pathlib.Path>`):\n"
+        "        The path to be normalized.\n\n"
+        ":rtype:\n"
+        "    :obj:`Path <pathlib.Path>`\n\n"
+        "    * :obj:`PosixPath <pathlib.PosixPath>` or\n"
+        "      :obj:`WindowsPath <pathlib.WindowsPath>` depending on the system.\n\n"
+        "    .. Note:: :obj:`Path <pathlib.Path>` objects are immutable. Therefore,\n"
+        "       any given ``path`` of type :obj:`Path <pathlib.Path>` will not be\n"
+        "       the same object returned.\n\n"
+        "Example:\n\n"
+        "    >>> from flutils.pathutils import normalize_path\n"
+        "    >>> normalize_path('~/tmp/foo/../bar')\n"
+        "    PosixPath('/home/test_user/tmp/bar')\n"
+    )
+
+    mapping_input = {LONG_DOC: LONG_DOC}
+
+    # Execution: convert the mapping to a namedtuple-like object
+    namedtuple_from_mapping = namedtuple_utils.to_namedtuple(mapping_input)
+
+    # Assertion: result should be a namedtuple-like object (tuple subclass with _fields)
+    assert isinstance(namedtuple_from_mapping, tuple), "Expected a tuple-like namedtuple result"
+    assert hasattr(namedtuple_from_mapping, "_fields"), "Expected namedtuple-like result to expose _fields"
+    # The single value stored should be the original long document string
+    assert len(namedtuple_from_mapping) == 1
+    assert namedtuple_from_mapping[0] == LONG_DOC
+
+    # Execution: put the namedtuple into a tuple and convert that tuple
+    tuple_input = (namedtuple_from_mapping,)
+    converted_tuple = namedtuple_utils.to_namedtuple(tuple_input)
+
+    # Assertion: converting a tuple should yield a tuple and preserve the inner element
+    assert isinstance(converted_tuple, tuple), "Expected conversion of a tuple to yield a tuple"
+    assert converted_tuple[0] == namedtuple_from_mapping
+
+    # Setup: create a mapping that uses a tuple and a boolean as keys
+    dict_with_complex_keys = {converted_tuple: namedtuple_from_mapping, False: namedtuple_from_mapping}
+
+    # Execution: convert the complex-keyed mapping
+    namedtuple_from_complex_mapping = namedtuple_utils.to_namedtuple(dict_with_complex_keys)
+
+    # Assertion: result should be a namedtuple-like object and conversion should be idempotent
+    assert isinstance(namedtuple_from_complex_mapping, tuple), "Expected a tuple-like namedtuple result"
+    assert hasattr(namedtuple_from_complex_mapping, "_fields"), "Expected namedtuple-like result to expose _fields"
+    # Re-converting an already converted namedtuple-like object should return an equivalent object (idempotence)
+    reconverted = namedtuple_utils.to_namedtuple(namedtuple_from_complex_mapping)
+    assert reconverted == namedtuple_from_complex_mapping
+
+    # Primitive values that cannot be converted should be returned unchanged
+    assert namedtuple_utils.to_namedtuple(False) is False
+
+def test_to_namedtuple_recursive_conversion_and_idempotence():
+    # Purpose:
+    # - Verify that to_namedtuple recursively converts a list containing a tuple
+    #   which itself contains a mapping.
+    # - Verify repeated conversions are idempotent (converting an already converted
+    #   structure does not change it).
+    # - Verify primitive types (int) are returned unchanged.
+
+    # Setup: define inputs with slightly odd/edge-case keys (non-identifier string and an empty tuple)
+    ORIGINAL_STRING = "\x0cMv"
+    EMPTY_TUPLE = ()
+    ORIGINAL_MAPPING = {
+        ORIGINAL_STRING: EMPTY_TUPLE,  # string key that is not a valid Python identifier
+        EMPTY_TUPLE: EMPTY_TUPLE       # non-string key
+    }
+    ORIGINAL_TUPLE = (ORIGINAL_STRING, ORIGINAL_MAPPING)
+    INPUT_LIST = [ORIGINAL_TUPLE]
+    INT_VALUE = 2
+
+    # Execution: perform conversion once and multiple times to test idempotence
+    converted_once = namedtuple_utils.to_namedtuple(INPUT_LIST)
+    converted_twice = namedtuple_utils.to_namedtuple(converted_once)
+    converted_thrice = namedtuple_utils.to_namedtuple(converted_twice)
+    converted_int = namedtuple_utils.to_namedtuple(INT_VALUE)
+
+    # Assertions: structure, content and idempotence
+    assert isinstance(converted_once, list), "Expected a list result for list input"
+    assert len(converted_once) == 1, "Converted list should preserve the single element"
+
+    first_item = converted_once[0]
+    assert isinstance(first_item, tuple), "The list element should be a tuple after conversion"
+    assert first_item[0] == ORIGINAL_STRING, "The string element should be preserved"
+
+    nested_mapping_converted = first_item[1]
+    # The mapping should be converted to a namedtuple-like object (a tuple subclass with _fields)
+    assert isinstance(nested_mapping_converted, tuple), "Converted mapping should be a tuple (namedtuple) or tuple-like"
+    assert hasattr(nested_mapping_converted, "_fields"), "Converted mapping should expose _fields (namedtuple)"
+
+    # Idempotence: repeated conversions should produce equal structures
+    assert converted_once == converted_twice == converted_thrice, "to_namedtuple should be idempotent for the same input"
+
+    # Primitives: int should be returned unchanged
+    assert converted_int == INT_VALUE and type(converted_int) is int
+
+def test_to_namedtuple_with_byte_keys_and_values_does_not_raise_and_returns_tuple():
+    # Purpose:
+    # Verify that to_namedtuple can be called with a mapping that uses bytes
+    # for keys and values and that it does not raise an exception.
+    # The function should return one of the allowed return types (for mappings,
+    # a NamedTuple is expected which is a subclass of tuple).
+    #
+    # Setup
+    BYTES_SAMPLE = b"F\xdb\xfdf\x8a\xe4\n\xa2\x1d[\xdc*\xa3\xba\xf6s}"
+    # Original test provided duplicate entries of the same bytes key. A dict
+    # will naturally deduplicate these, so this models the original input.
+    mapping_with_bytes_keys = {
+        BYTES_SAMPLE: BYTES_SAMPLE,
+        BYTES_SAMPLE: BYTES_SAMPLE,
+        BYTES_SAMPLE: BYTES_SAMPLE,
+    }
+
+    # Execution
+    result = namedtuple_utils.to_namedtuple(mapping_with_bytes_keys)
+
+    # Assertion
+    # For mapping inputs, to_namedtuple is expected to return a NamedTuple,
+    # which is a tuple subclass. We assert that the return is a tuple and that
+    # the call completed without raising.
+    assert isinstance(result, tuple)
+

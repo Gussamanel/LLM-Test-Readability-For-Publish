@@ -1,0 +1,29 @@
+{
+  "collection_failed": false,
+  "tests": {
+    "test_empty_immutable_list_self_equality_and_conversions": "pass",
+    "test_unshift_add_find_str_and_reduce_behaviors": "fail",
+    "test_append_creates_new_list_and_find_requires_callable": "pass",
+    "test_add_raises_value_error_with_non_immutable_other": "pass",
+    "test_find_raises_type_error_when_predicate_is_not_callable": "pass",
+    "test_length_and_find_on_single_element_list": "pass",
+    "test_find_raises_type_error_for_non_callable_argument": "pass",
+    "test_find_on_empty_list_append_and_invalid_concat_raises": "pass",
+    "test_map_raises_type_error_when_given_non_callable": "pass",
+    "test_map_raises_typeerror_when_non_callable_passed": "pass",
+    "test_filter_with_non_callable_predicate_raises_type_error": "pass",
+    "test_filter_raises_type_error_for_non_callable_predicate": "pass",
+    "test_find_on_empty_list_returns_none_and_list_length_zero": "pass",
+    "test_find_returns_none_for_single_element_when_predicate_false": "pass",
+    "test_reduce_on_empty_list_returns_accumulator_and_find_with_non_callable_raises_typeerror": "pass",
+    "test_create_empty_immutable_list_initial_state": "pass",
+    "test_find_returns_false_and_string_representation_for_single_element_list": "pass",
+    "test_unshift_preserves_head_and_allows_find_call_with_self_predicate": "fail",
+    "test_find_raises_type_error_with_non_callable_predicate_on_combined_list": "pass",
+    "test_append_boolean_increases_length_and_find_returns_appended_value": "pass",
+    "test_reduce_on_empty_list_and_list_operations_with_non_callable_find": "pass",
+    "test_reduce_on_empty_returns_acc_and_list_operations": "pass",
+    "test_reduce_raises_type_error_for_non_callable_reducer": "pass",
+    "_captured_output": ".F...............F.....                                                  [100%]\n=================================== FAILURES ===================================\n________________ test_unshift_add_find_str_and_reduce_behaviors ________________\noutput/no_rag/temp1/mini/immutable_list.py/base/run1/test_pymonet_immutable_list_functions_refactored.py:101: in test_unshift_add_find_str_and_reduce_behaviors\n    assert empty_str == \"ImmutableList[]\"\nE   AssertionError: assert 'ImmutableList[None]' == 'ImmutableList[]'\nE     \nE     - ImmutableList[]\nE     + ImmutableList[None]\nE     ?               ++++\n_____ test_unshift_preserves_head_and_allows_find_call_with_self_predicate _____\noutput/no_rag/temp1/mini/immutable_list.py/base/run1/test_pymonet_immutable_list_functions_refactored.py:426: in test_unshift_preserves_head_and_allows_find_call_with_self_predicate\n    find_result = unshifted_list.find(original_list)\ndata/pymonet.immutable_list/immutable_list.py:146: in find\n    if fn(self.head):\nE   TypeError: 'ImmutableList' object is not callable\n=============================== warnings summary ===============================\nvenv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290\nvenv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290\n  /nobackup/proj/disk/llm-readability/shared/llm-test-readability/venv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; langsmith\n    self._mark_plugins_for_rewrite(hook, disable_autoload)\n\nvenv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290\nvenv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290\n  /nobackup/proj/disk/llm-readability/shared/llm-test-readability/venv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; anyio\n    self._mark_plugins_for_rewrite(hook, disable_autoload)\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nFAILED output/no_rag/temp1/mini/immutable_list.py/base/run1/test_pymonet_immutable_list_functions_refactored.py::test_unshift_add_find_str_and_reduce_behaviors\nFAILED output/no_rag/temp1/mini/immutable_list.py/base/run1/test_pymonet_immutable_list_functions_refactored.py::test_unshift_preserves_head_and_allows_find_call_with_self_predicate\n2 failed, 21 passed, 4 warnings in 0.07s\n"
+  }
+}

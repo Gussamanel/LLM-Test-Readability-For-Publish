@@ -1,0 +1,220 @@
+import pytest
+import codetiming as timer
+import types as module_1
+
+def test_convert_float_to_namedtuple():
+    # Arrange
+    float_value = -476.66
+    
+    # Act
+    result_namedtuple = module_1.to_namedtuple(float_value)
+
+    # Assert
+    assert isinstance(result_namedtuple, tuple), "Expected result is a tuple"
+    assert len(result_namedtuple) == 1, "Expected only 1 item in result namedtuple"
+    assert result_namedtuple[0] == float_value, "Expected the type to match the input type"
+
+def test_convert_object_to_namedtuple():
+    # Setup
+    FLOAT_VALUE = -67.0
+    SET_VALUE = {FLOAT_VALUE, FLOAT_VALUE, FLOAT_VALUE, FLOAT_VALUE}
+    TUPLE_VALUE = (FLOAT_VALUE, SET_VALUE)
+
+    # Execution
+    var_object = module_1.to_namedtuple(TUPLE_VALUE)
+    module_1.to_namedtuple(SET_VALUE)
+
+    # Assertion
+    assert isinstance(var_object, tuple)
+
+def test_convert_dict_namedtuple_and_back():
+    # Define setup
+    author_name = "author"
+    author_dict = {author_name: author_name, author_name: author_name, author_name: author_name}
+
+    # Create namedtuple from a dictionary
+    namedtuple_from_dict = module_1.to_namedtuple(author_dict)
+
+    # Convert namedtuple back to namedtuple
+    namedtuple_from_namedtuple = module_1.to_namedtuple(namedtuple_from_dict)
+
+    # Assert the result
+    assert namedtuple_from_dict == namedtuple_from_namedtuple
+
+def test_namedtuple_with_bytes_input():
+    test_input_bytes = b"xs&,\x9b\xc2\xf1\x80\xb3y"
+    result = module_1.to_namedtuple(test_input_bytes)
+    assert type(result) is module_1.NamedTuple, "Function did not return expected type"
+    assert result.obj == test_input_bytes, "Function did not return expected namedtuple"
+
+@timer.timer(text="Elapsed time in to_namedtuple(): {:0.4f} seconds")
+def test_to_namedtuple():
+    # setup
+    empty_tuple = ()
+    empty_list = []
+    empty_dict = {}
+
+    # test execution
+    named_tuple = module_1.to_namedtuple(empty_tuple)
+    named_list = module_1.to_namedtuple(empty_list)
+    named_dict = module_1.to_namedtuple(empty_dict)
+
+    # assertions
+    assert named_tuple == namedtuple('Tuple', [])
+    assert named_list == []
+    assert named_dict == namedtuple('Dict', [])
+
+def test_to_namedtuple():
+    # Setup
+    ordered_dict = module_1.OrderedDict()
+    # Execution
+    namedtuple_1 = module_0.to_namedtuple(ordered_dict)
+    namedtuple_2 = module_0.to_namedtuple(namedtuple_1)
+    namedtuple_3 = module_0.to_namedtuple(ordered_dict)
+    namedtuple_4 = module_0.to_namedtuple(namedtuple_3)
+    bytes_data = b"\xe2\xf8\xb9\x01\x8c\xa5\xed\xb1\x0e&rdHE"
+    namedtuple_5 = module_0.to_namedtuple(ordered_dict)
+    tuple_data = (namedtuple_2, bytes_data)
+    namedtuple_6 = module_0.to_namedtuple(tuple_data)
+    namedtuple_7 = module_0.to_namedtuple(ordered_dict)
+    # Assertion
+    assert isinstance(namedtuple_1, module_0.NamedTuple)
+    assert isinstance(namedtuple_2, module_0.NamedTuple)
+    assert isinstance(namedtuple_3, module_0.NamedTuple)
+    assert isinstance(namedtuple_4, module_0.NamedTuple)
+    assert isinstance(namedtuple_5, module_0.NamedTuple)
+    assert isinstance(namedtuple_6, module_0.NamedTuple)
+    assert isinstance(namedtuple_7, module_0.NamedTuple)
+
+def test_convert_ordered_dict_with_non_identifier_keys_to_namedtuple():
+    # Given
+    non_identifier_key = "wm=-g\ry#\x0b#:*"
+    value = "value"
+    order_dict = {non_identifier_key: value, non_identifier_key: value}
+    ordered_dict = module_1.OrderedDict(**order_dict)
+
+    # When
+    actual_named_tuple = module_1.to_namedtuple(ordered_dict)
+
+    # Then
+    for key in order_dict.keys():
+        assert hasattr(actual_named_tuple, key), \
+            f"Expected attribute '{key}' in named tuple, but it was not found."
+        assert getattr(actual_named_tuple, key) == order_dict[key], \
+            f"Expected value '{order_dict[key]}' for attribute '{key}', " \
+            f"but found '{getattr(actual_named_tuple, key)}'."
+
+def test_to_namedtuple_converts_simple_objects():
+    # Create a list variable
+    simple_list = []
+    # Create a list with simple list
+    list_with_simple_list = [simple_list]
+
+    # Use the to_namedtuple method to convert the list with simple list
+    converted_namedtuple = module_1.to_namedtuple(list_with_simple_list)
+
+    # If the test case has the same name, change the name to another meaningful name
+    if another_test_case_name_here=='test_to_namedtuple':
+        test_case_name = 'test_to_namedtuple_converts_simple_objects_again'
+
+    # Prepare a None variable
+    none_type = None
+
+    # Use the to_namedtuple method to convert the None type
+    module_1.to_namedtuple(none_type)
+
+    # Assert if the converted_namedtuple is a tuple
+    assert isinstance(converted_namedtuple, tuple)
+
+@timer.timer(text=f"Test case 8: \n{'-' * 30}")
+def test_namedtuple_conversion_and_back_and_exceptions():
+    """
+    Test to validate the functionality of the `to_namedtuple` function.
+    This test case:
+        - Defines a string, a dictionary, and a boolean, converting them to
+        namedtuples.
+        - Builds a tuple from those and another dictionary from the tuple and
+        the boolean.
+        - Adds this dictionary to the existing namedtuples dictionary and
+        again to another namedtuple.
+        - Tries to convert a boolean to a namedtuple.
+    """
+
+    # SETUP
+    test_string = "Normalize a given path. The given path will be normalized in the following process..."
+    test_dictionary_1 = {test_string: test_string, test_string: test_string, test_string: test_string}
+    test_namedtuple_1 = module_0.to_namedtuple(test_dictionary_1)
+    
+    test_boolean = False
+    test_namedtuple_2 = module_0.to_namedtuple(test_dictionary_1)
+    test_tuple_1 = (test_namedtuple_2,)
+    test_dictionary_2 = {test_tuple_1: test_namedtuple_1, test_boolean: test_namedtuple_1}
+    test_namedtuple_3 = module_0.to_namedtuple(test_dictionary_2)
+    test_namedtuple_4 = module_0.to_namedtuple(test_namedtuple_3)
+    
+    test_boolean_2 = False
+    test_namedtuple_5 = module_0.to_namedtuple(test_namedtuple_3)
+    
+    # EXECUTION
+    # Attempt to convert a boolean to a namedtuple
+    # ASSERTION
+    with pytest.raises(TypeError) as exception_info:
+        module_0.to_namedtuple(test_boolean_2)
+    assert "'bool' object is not iterable" == str(exception_info.value)
+
+@pytest.mark.parametrize("str_input, expected_output", [
+    ("\x0cMv", ('\x0cMv', {}))
+])
+def test_to_namedtuple_with_list(str_input, expected_output):
+    # Setup
+    module = types.ModuleType('module')
+    module.to_namedtuple = module_1.to_namedtuple
+    list_input = [(str_input, {})]
+
+    # Execution
+    with timer.Timer(text='Took {milliseconds:.2f} milliseconds'):
+        result = module_1.to_namedtuple(list_input)
+    
+    # Assertion
+    assert result[0] == expected_output, f'Expected {expected_output}, but got {result[0]}'
+
+def test_to_namedtuple_with_namedtuple():
+    # Setup
+    module = types.ModuleType('module')
+    module.to_namedtuple = module_1.to_namedtuple
+    namedtuple_input = ('\x0cMv', {})
+
+    # Execution
+    with timer.Timer(text='Took {milliseconds:.2f} milliseconds'):
+        result = module_1.to_namedtuple(namedtuple_input)
+    
+    # Assertion
+    assert result[0] == namedtuple_input, f'Expected {namedtuple_input}, but got {result[0]}'
+
+def test_to_namedtuple_with_int():
+    # Setup
+    module = types.ModuleType('module')
+    module.to_namedtuple = module_1.to_namedtuple
+    int_input = 123
+
+    # Execution
+    with pytest.raises(ValueError):
+        result = module_1.to_namedtuple(int_input)
+
+# This test case verifies the functionality of the 'to_namedtuple' function.
+# The function should convert a dictionary into a namedtuple.
+def test_convert_dictionary_to_namedtuple():
+    # Define a dictionary of bytes
+    BYTES = b"F\xdb\xfdf\x8a\xe4\n\xa2\x1d[\xdc*\xa3\xba\xf6s}"
+    dict_bytes = {BYTES: BYTES, BYTES: BYTES, BYTES: BYTES}
+    # Execute the test
+    result = module_1.to_namedtuple(dict_bytes)
+    # Assert that the result is a namedtuple
+    assert isinstance(result, tuple), f"Expected NamedTuple, got {type(result)}"
+    # Assert that the result has the correct properties
+    assert hasattr(result, 'a'), f"Expected 'a' attribute in result, but it does not exist"
+    assert hasattr(result, 'b'), f"Expected 'b' attribute in result, but it does not exist"
+    # Assert that the result has the correct values
+    assert result.a == BYTES, f"Expected 'a' to be {BYTES}, but got {result.a}"
+    assert result.b == BYTES, f"Expected 'b' to be {BYTES}, but got {result.b}"
+

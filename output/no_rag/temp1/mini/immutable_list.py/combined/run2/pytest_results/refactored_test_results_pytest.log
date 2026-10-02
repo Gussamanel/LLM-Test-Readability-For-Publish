@@ -1,0 +1,29 @@
+{
+  "collection_failed": false,
+  "tests": {
+    "test_empty_immutable_list_basic_behaviors": "pass",
+    "test_immutable_list_empty_behaviour_and_reduce_raises_type_error": "pass",
+    "test_append_returns_new_list_and_find_locates_element": "pass",
+    "test_add_raises_for_non_immutable_list_operand": "pass",
+    "test_find_returns_head_when_predicate_matches": "pass",
+    "test_find_returns_none_when_predicate_returns_false_for_single_element_list": "fail",
+    "test_find_raises_typeerror_when_predicate_is_not_callable": "pass",
+    "test_append_self_and_invalid_add_operations_raise": "pass",
+    "test_map_raises_type_error_when_given_non_callable_argument": "pass",
+    "test_map_with_non_callable_raises_type_error": "pass",
+    "test_filter_with_non_callable_argument_raises_type_error": "pass",
+    "test_filter_raises_type_error_when_given_non_callable_after_concatenating_empty_lists": "pass",
+    "test_find_on_empty_immutable_list_returns_none_and_none_has_no_len": "pass",
+    "test_find_raises_type_error_for_non_callable_predicate": "pass",
+    "test_reduce_on_empty_returns_acc_and_find_with_non_callable_raises_typeerror": "pass",
+    "test_create_empty_immutable_list_is_instance_and_initially_empty": "pass",
+    "test_str_and_find_on_empty_immutable_list_returns_expected": "fail",
+    "test_unshift_puts_element_at_head_and_find_with_non_callable_predicate_raises_type_error": "pass",
+    "test_find_returns_none_when_predicate_matches_no_elements": "pass",
+    "test_append_increases_length_and_find_returns_matching_head": "pass",
+    "test_reduce_unshift_append_and_find_non_callable_predicate_behavior": "fail",
+    "test_reduce_on_empty_returns_acc_and_list_operations": "pass",
+    "test_reduce_with_non_callable_fn_raises_type_error": "pass",
+    "_captured_output": ".....F..........F...F..                                                  [100%]\n=================================== FAILURES ===================================\n_ test_find_returns_none_when_predicate_returns_false_for_single_element_list __\noutput/no_rag/temp1/mini/immutable_list.py/combined/run2/test_pymonet_immutable_list_functions_refactored.py:143: in test_find_returns_none_when_predicate_returns_false_for_single_element_list\n    find_result = single_element_list.find(single_element_list)\ndata/pymonet.immutable_list/immutable_list.py:144: in find\n    return self.head if fn(self.head) else None\nE   TypeError: 'ImmutableList' object is not callable\n__________ test_str_and_find_on_empty_immutable_list_returns_expected __________\noutput/no_rag/temp1/mini/immutable_list.py/combined/run2/test_pymonet_immutable_list_functions_refactored.py:370: in test_str_and_find_on_empty_immutable_list_returns_expected\n    assert list_representation == EXPECTED_STR\nE   AssertionError: assert 'ImmutableList[False]' == 'ImmutableList[]'\nE     \nE     - ImmutableList[]\nE     + ImmutableList[False]\nE     ?               +++++\n_____ test_reduce_unshift_append_and_find_non_callable_predicate_behavior ______\noutput/no_rag/temp1/mini/immutable_list.py/combined/run2/test_pymonet_immutable_list_functions_refactored.py:477: in test_reduce_unshift_append_and_find_non_callable_predicate_behavior\n    assert appended_twice.to_list() == [single_item_list, single_item_list]\nE   assert [None, <immut...40015356bee0>] == [<immutable_l...40015356bee0>]\nE     \nE     At index 0 diff: None != <immutable_list.ImmutableList object at 0x40015356bee0>\nE     Left contains one more item: <immutable_list.ImmutableList object at 0x40015356bee0>\nE     Use -v to get more diff\n=============================== warnings summary ===============================\nvenv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290\nvenv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290\n  /nobackup/proj/disk/llm-readability/shared/llm-test-readability/venv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; langsmith\n    self._mark_plugins_for_rewrite(hook, disable_autoload)\n\nvenv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290\nvenv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290\n  /nobackup/proj/disk/llm-readability/shared/llm-test-readability/venv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; anyio\n    self._mark_plugins_for_rewrite(hook, disable_autoload)\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nFAILED output/no_rag/temp1/mini/immutable_list.py/combined/run2/test_pymonet_immutable_list_functions_refactored.py::test_find_returns_none_when_predicate_returns_false_for_single_element_list\nFAILED output/no_rag/temp1/mini/immutable_list.py/combined/run2/test_pymonet_immutable_list_functions_refactored.py::test_str_and_find_on_empty_immutable_list_returns_expected\nFAILED output/no_rag/temp1/mini/immutable_list.py/combined/run2/test_pymonet_immutable_list_functions_refactored.py::test_reduce_unshift_append_and_find_non_callable_predicate_behavior\n3 failed, 20 passed, 4 warnings in 0.09s\n"
+  }
+}

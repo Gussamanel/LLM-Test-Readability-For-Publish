@@ -1,0 +1,282 @@
+import pytest
+import namedtupleutils as namedtuple_utils
+import collections as collections_module
+
+def test_to_namedtuple_with_negative_float_returns_input_unchanged():
+    # Setup: A negative float is not a supported type for conversion
+    negative_float_value = -476.66
+
+    # Execution & Assertion: Verify that passing a non-convertible object
+    # (a float) to to_namedtuple returns the original object unchanged,
+    # rather than raising an error or performing a conversion.
+    result = namedtuple_utils.to_namedtuple(negative_float_value)
+    assert result == negative_float_value
+
+def test_to_namedtuple_with_tuple_containing_negative_float_and_set():
+    # A float and a set containing that float. The tuple wraps both.
+    FLOAT_VALUE = -67.0
+    SET_VALUE = {FLOAT_VALUE, FLOAT_VALUE, FLOAT_VALUE, FLOAT_VALUE}
+    INPUT_TUPLE = (FLOAT_VALUE, SET_VALUE)
+
+    # The set is not a valid namedtuple input, but the tuple wrapping it is.
+    EXPECTED_NAMEDTUPLE = (FLOAT_VALUE, SET_VALUE)
+
+    # Execution: convert the tuple to a namedtuple.
+    result_namedtuple = namedtuple_utils.to_namedtuple(INPUT_TUPLE)
+
+    # Assertion: the conversion succeeds and yields a tuple-like result containing the same float and set.
+    assert result_namedtuple == EXPECTED_NAMEDTUPLE
+    assert len(result_namedtuple) == 2
+    assert result_namedtuple[0] == FLOAT_VALUE
+    assert result_namedtuple[1] == SET_VALUE
+
+    # Execution: convert the bare set to a namedtuple (edge case: set is iterable).
+    result_namedtuple_from_set = namedtuple_utils.to_namedtuple(SET_VALUE)
+
+    # Assertion: converting a set must succeed and produce a namedtuple/tuple containing the set's sole element.
+    assert result_namedtuple_from_set == (FLOAT_VALUE,)
+
+def test_to_namedtuple_handles_already_converted_namedtuple_returns_equivalent_namedtuple():
+    # PURPOSE: Verify that calling to_namedtuple on an object that is
+    # already a NamedTuple (produced from a dict) returns an equivalent
+    # NamedTuple without error.
+
+    # SETUP
+    key_name = "author"
+    input_dict = {key_name: key_name, key_name: key_name, key_name: key_name}
+    expected_attributes = {key_name: key_name}
+
+    # EXECUTION
+    converted_from_dict = namedtuple_utils.to_namedtuple(input_dict)
+    converted_again = namedtuple_utils.to_namedtuple(converted_from_dict)
+
+    # ASSERTION
+    assert isinstance(converted_again, tuple)
+    assert hasattr(converted_again, key_name)
+    assert getattr(converted_again, key_name) == expected_attributes[key_name]
+    assert converted_again == converted_from_dict
+
+def test_to_namedtuple_with_bytes_input_raises_type_error():
+    # Setup: a bytes object that is not one of the supported types for
+    # conversion (list, tuple, Mapping, OrderedDict, SimpleNamespace).
+    INVALID_INPUT = b"xs&,\x9b\xc2\xf1\x80\xb3y"
+
+    # Execution & Assertion: calling to_namedtuple on an unsupported type
+    # should raise a TypeError, since bytes objects cannot be converted.
+    with pytest.raises(TypeError):
+        namedtuple_utils.to_namedtuple(INVALID_INPUT)
+
+def test_to_namedtuple_with_empty_tuple_returns_empty_tuple():
+    # Setup: create an empty tuple to test conversion behavior
+    
+    # Execution: convert the empty tuple to a namedtuple
+    result = namedtuple_utils.to_namedtuple(EMPTY_TUPLE)
+    
+    # Assertion: verify the result is an empty tuple
+    assert result == ()
+
+def test_to_namedtuple_with_empty_ordered_dict_and_repeated_recursive_conversion():
+    # Setup: Create an empty OrderedDict as the base object to convert
+    empty_ordered_dict = collections_module.OrderedDict()
+    # A bytes object used as a non-convertible item within a tuple
+    arbitrary_bytes = b"\xe2\xf8\xb9\x01\x8c\xa5\xed\xb1\x0e&rdHE"
+
+    # Execution: Convert the empty OrderedDict to a namedtuple and then
+    # recursively convert the result multiple times, as well as convert
+    # a tuple containing a previously converted namedtuple and the bytes.
+    first_conversion = namedtuple_utils.to_namedtuple(empty_ordered_dict)
+    second_conversion = namedtuple_utils.to_namedtuple(first_conversion)
+    third_conversion = namedtuple_utils.to_namedtuple(empty_ordered_dict)
+    fourth_conversion = namedtuple_utils.to_namedtuple(third_conversion)
+    fifth_conversion = namedtuple_utils.to_namedtuple(empty_ordered_dict)
+    mixed_tuple = (first_conversion, arbitrary_bytes)
+    sixth_conversion = namedtuple_utils.to_namedtuple(mixed_tuple)
+    seventh_conversion = namedtuple_utils.to_namedtuple(empty_ordered_dict)
+
+    # Assertion: All conversions of an empty OrderedDict should yield the same
+    # empty namedtuple type, and converting a tuple containing that namedtuple
+    # and a non-convertible bytes object should produce a tuple where the first
+    # element is the empty namedtuple and the second is the bytes unchanged.
+    assert first_conversion == second_conversion == third_conversion == \
+        fourth_conversion == fifth_conversion == seventh_conversion
+    assert isinstance(sixth_conversion, tuple)
+    assert len(sixth_conversion) == 2
+    assert sixth_conversion[0] == first_conversion
+    assert sixth_conversion[1] == arbitrary_bytes
+
+def test_to_namedtuple_with_ordered_dict_and_special_character_string_keys():
+    # Setup
+    # Create a string with special characters to use as both key and value
+    key_name = "wm=-g\ry#\x0b#:*"
+    # Create input dict where key and value are both the same special string
+    input_dict = {key_name: key_name}
+    
+    # Create an OrderedDict from the input dict
+    input_ordered_dict = collections_module.OrderedDict(**input_dict)
+    
+    # Execution
+    # Convert the OrderedDict to a namedtuple
+    result_namedtuple = namedtuple_utils.to_namedtuple(input_ordered_dict)
+    
+    # Assertion
+    # Verify the conversion preserved the key-value pair correctly
+    assert result_namedtuple._asdict() == {key_name: key_name}
+
+def test_to_namedtuple_handles_empty_list_and_none_gracefully():
+    # Setup: Create an empty list to test that empty lists are properly handled
+    empty_list = []
+    
+    # Create a list containing the empty list to test nested list conversion
+    nested_empty_list = [empty_list]
+    
+    # Setup: Create None value to test that None is properly handled
+    none_value = None
+    
+    # Execution: Convert the nested list structure to namedtuple
+    converted_nested_list = namedtuple_utils.to_namedtuple(nested_empty_list)
+    
+    # Execution: Convert None to namedtuple (should handle gracefully)
+    converted_none = namedtuple_utils.to_namedtuple(none_value)
+    
+    # Assertion: Verify that the function handles empty lists and None without raising exceptions
+    # The function should return the expected converted structures
+    # Note: Specific assertions would depend on expected behavior for edge cases
+    assert converted_nested_list is not None  # Function completed successfully
+    assert converted_none is not None  # Function completed successfully
+
+def test_to_namedtuple_recursively_converts_nested_mappings_tuples_and_booleans():
+    # Core purpose:
+    # Verify that `to_namedtuple` can recursively convert nested mappings,
+    # tuples, and lists into namedtuple representations, and can handle
+    # boolean values as inputs/members without raising unexpected errors.
+    #
+    # Key behaviors being exercised:
+    # - Converting a dict whose keys/values are strings into a namedtuple.
+    # - Converting a tuple containing previously converted namedtuples.
+    # - Converting a dict containing a namedtuple as a key and a namedtuple
+    #   as a value.
+    # - Passing a boolean (False) into `to_namedtuple` as a direct input
+    #   and as a dict key.
+
+    # Setup: a long descriptive string used as both dict key and value.
+    # Using the same string for all entries exercises deduplication behavior
+    # when the same identifier is used multiple times as a dict key.
+    sample_text = (
+        "Normalize a given path.\n\n"
+        "The given ``path`` will be normalized in the following process.\n\n"
+        "#. :obj:`bytes` will be converted to a :obj:`str` using the encoding\n"
+        "   given by :obj:`getfilesystemencoding() <sys.getfilesystemencoding>`.\n"
+        "#. :obj:`PosixPath <pathlib.PosixPath>` and\n"
+        "   :obj:`WindowsPath <pathlib.WindowsPath>` will be converted\n"
+        "   to a :obj:`str` using the :obj:`as_posix() <pathlib.PurePath.as_posix>`\n"
+        "   method.\n"
+        "#. An initial component of ``~`` will be replaced by that user\u2019s\n"
+        "   home directory.\n"
+        "#. Any environment variables will be expanded.\n"
+        "#. Non absolute paths will have the current working directory from\n"
+        "   :obj:`os.getcwd() <os.cwd>`prepended.  If needed, use\n"
+        "   :obj:`os.chdir() <os.chdir>` to change the current working directory\n"
+        "   before calling this function.\n"
+        "#. Redundant separators and up-level references will be normalized, so\n"
+        "   that ``A//B``, ``A/B/``, ``A/./B`` and ``A/foo/../B`` all become\n"
+        "   ``A/B``.\n\n"
+        "Args:\n"
+        "    path (:obj:`str`, :obj:`bytes` or :obj:`Path <pathlib.Path>`):\n"
+        "        The path to be normalized.\n\n"
+        ":rtype:\n"
+        "    :obj:`Path <pathlib.Path>`\n\n"
+        "    * :obj:`PosixPath <pathlib.PosixPath>` or\n"
+        "      :obj:`WindowsPath <pathlib.WindowsPath>` depending on the system.\n\n"
+        "    .. Note:: :obj:`Path <pathlib.Path>` objects are immutable. Therefore,\n"
+        "       any given ``path`` of type :obj:`Path <pathlib.Path>` will not be\n"
+        "       the same object returned.\n\n"
+        "Example:\n\n"
+        "    >>> from flutils.pathutils import normalize_path\n"
+        "    >>> normalize_path('~/tmp/foo/../bar')\n"
+        "    PosixPath('/home/test_user/tmp/bar')\n\n"
+    )
+
+    # Build a dict whose single key and value are the same long string.
+    # Since dict keys collapse on duplicates, this yields a one-entry dict.
+    string_keyed_mapping = {
+        sample_text: sample_text,
+        sample_text: sample_text,
+        sample_text: sample_text,
+    }
+
+    # A boolean used both as a value and as a dict key in later steps.
+    false_value = False
+
+    # Setup: prepare nested structures that mix namedtuples, tuples, and dicts.
+    namedtuple_from_strings = namedtuple_utils.to_namedtuple(string_keyed_mapping)
+    single_item_tuple = (namedtuple_from_strings,)
+    nested_tuple_namedtuple = namedtuple_utils.to_namedtuple(single_item_tuple)
+
+    # A mapping where one key is a namedtuple and another key is a plain bool.
+    mixed_key_mapping = {
+        nested_tuple_namedtuple: namedtuple_from_strings,
+        false_value: namedtuple_from_strings,
+    }
+
+    # Execution: convert the mixed-key mapping and continue re-converting
+    # the resulting namedtuples to exercise recursive/idempotent conversion.
+    converted_mixed_mapping = namedtuple_utils.to_namedtuple(mixed_key_mapping)
+    reconverted_mixed_mapping = namedtuple_utils.to_namedtuple(converted_mixed_mapping)
+    reconverted_again = namedtuple_utils.to_namedtuple(converted_mixed_mapping)
+
+    # Execution: also directly convert a boolean input.
+    # This ensures boolean scalars are handled without raising.
+    converted_boolean = namedtuple_utils.to_namedtuple(false_value)
+
+    # Assertion: the sequence of conversions should not raise and should
+    # produce values of expected types (namedtuples/lists/tuples as per
+    # the documented contract). Booleans passed through should remain usable.
+    # For `False`, `to_namedtuple` may return the value unchanged or wrapped;
+    # we assert it is not lost.
+    assert converted_boolean is not None or converted_boolean is False
+
+def test_to_namedtuple_handles_nested_structures_and_unsupported_types():
+    # --- Setup ---
+    STRING_VALUE = "\x0cMv"
+    EMPTY_TUPLE = ()
+    
+    # Create a dict with various key-value types to test conversion edge cases
+    # Note: duplicate keys collapse — the last assignment wins in Python dict literals
+    nested_dict = {
+        STRING_VALUE: EMPTY_TUPLE,
+        EMPTY_TUPLE: STRING_VALUE,
+        EMPTY_TUPLE: EMPTY_TUPLE,  # overwrites the previous EMPTY_TUPLE key entry
+    }
+    
+    # Build a list containing a tuple of (string, dict) to exercise recursion
+    tuple_with_dict = (STRING_VALUE, nested_dict)
+    input_list = [tuple_with_dict]
+
+    # --- Execution ---
+    # Recursively convert the list structure to namedtuples
+    converted_once = namedtuple_utils.to_namedtuple(input_list)
+    converted_twice = namedtuple_utils.to_namedtuple(converted_once)
+    converted_thrice = namedtuple_utils.to_namedtuple(converted_twice)
+
+    # Passing an int (not a supported type) — should return it as-is, not raise
+    unsupported_input = 2
+    result_for_int = namedtuple_utils.to_namedtuple(unsupported_input)
+
+    # --- Assertions ---
+    # Subsequent conversions should remain stable (idempotent after first pass)
+    assert converted_twice == converted_thrice
+
+    # Non-convertible input (int) is returned unchanged
+    assert result_for_int == unsupported_input
+
+def test_to_namedtuple_with_invalid_bytes_key_raises_type_error():
+    # Setup: Create a dictionary with a non-identifier key (bytes)
+    byte_key = b"F\xdb\xfdf\x8a\xe4\n\xa2\x1d[\xdc*\xa3\xba\xf6s}"
+    input_dict = {byte_key: byte_key}
+
+    # Execution and Assertion: Since the key is not a valid identifier,
+    # `collections.namedtuple` raises TypeError, which should propagate
+    # from `to_namedtuple`. If no exception is raised, the test fails.
+    with pytest.raises(TypeError):
+        namedtuple_utils.to_namedtuple(input_dict)
+

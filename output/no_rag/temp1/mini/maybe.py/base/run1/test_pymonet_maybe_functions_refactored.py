@@ -1,0 +1,697 @@
+import pytest
+
+import maybe as maybe_module
+import typing as typing_module
+
+def test_maybe_constructor_allows_same_bytes_for_both_parameters():
+    # Purpose:
+    # Verify that the Maybe constructor can be called with the same bytes object
+    # for both parameters and that an instance of Maybe is produced without error.
+
+    # --- Setup (constants / inputs) ---
+    SAMPLE_BYTES: bytes = b"\xf4\xaf\xe2\xc9\xee\xc8\xd67n\x9eK\x0b\x97Y\xb5"
+
+    # --- Execution (action under test) ---
+    maybe_instance = maybe_module.Maybe(SAMPLE_BYTES, SAMPLE_BYTES)
+
+    # --- Assertions (verify outcomes) ---
+    # The constructor should return an object of the expected type
+    assert isinstance(maybe_instance, maybe_module.Maybe)
+    # A constructed object should at minimum be self-equal (identity/equality holds)
+    assert maybe_instance == maybe_instance
+
+def test_construct_maybe_with_none_values():
+    # Purpose:
+    # Verify that Maybe can be constructed when both parameters are None
+    # and that the result is an instance of the Maybe class (i.e. construction does not raise).
+
+    # Constants / Test data
+    NONE_VALUE = None
+
+    # Setup: prepare input values (both are None to represent absence)
+    left_input = NONE_VALUE
+    right_input = NONE_VALUE
+
+    # Execution: construct the Maybe object with None inputs
+    maybe_instance = maybe_module.Maybe(left_input, right_input)
+
+    # Assertion: the constructed object is an instance of the Maybe class
+    assert isinstance(maybe_instance, maybe_module.Maybe), "Expected a Maybe instance when constructed with None values"
+
+def test_maybe_basic_operations_and_conversions_behavior():
+    # Purpose:
+    # - Verify basic Maybe operations (map, ap, filter, get_or_else, bind)
+    # - Verify conversions to other monads (to_validation, to_either) do not crash
+    # - Ensure equality semantics behave as expected for Maybe instances vs non-Maybe objects
+
+    # Constants / test data
+    TEST_VALUE = "p4xa>bl^oP"
+    DEFAULT_VALUE = "default"
+    IDENTITY = lambda x: x
+    TO_UPPER = lambda s: s.upper()
+    ALWAYS_TRUE = lambda _: True
+    ALWAYS_FALSE = lambda _: False
+
+    # Setup: create Maybe instances
+    # - maybe_value represents a present value
+    # - maybe_func represents a Maybe wrapping a function (used with ap)
+    maybe_value = maybe_module.Maybe(TEST_VALUE, TEST_VALUE)
+    maybe_func = maybe_module.Maybe(IDENTITY, IDENTITY)
+
+    # Execution: perform operations
+    # equality with a non-Maybe should be False
+    eq_with_non_maybe = maybe_value.__eq__(TEST_VALUE)
+
+    # ap: apply a Maybe-wrapped function to a Maybe-wrapped value
+    applied = maybe_func.ap(maybe_value)
+
+    # get_or_else should return the inner value for a non-empty Maybe
+    get_or_else_result = maybe_value.get_or_else(DEFAULT_VALUE)
+
+    # map with identity should preserve the value
+    mapped_identity = maybe_value.map(IDENTITY)
+
+    # filter should keep or drop the value depending on predicate
+    filtered_true = maybe_value.filter(ALWAYS_TRUE)
+    filtered_false = maybe_value.filter(ALWAYS_FALSE)
+
+    # mapping the result of ap
+    mapped_after_ap = applied.map(TO_UPPER)
+
+    # bind: transform and wrap into a new Maybe
+    bound = maybe_value.bind(lambda v: maybe_module.Maybe(v + "_bound", v + "_bound"))
+
+    # conversions: to_validation and to_either should return something usable (don't raise)
+    validation = maybe_value.to_validation()
+    either_from_bound = bound.to_either()
+
+    # Assertions: check expected outcomes
+    assert eq_with_non_maybe is False, "Maybe should not be equal to a raw non-Maybe value"
+    assert get_or_else_result == TEST_VALUE, "get_or_else should return the contained value when present"
+    assert mapped_identity == maybe_value, "map with identity must produce an equivalent Maybe"
+    assert filtered_true == maybe_value, "filter that always returns True should preserve the Maybe"
+    # filtered_false should be an empty Maybe; check the is_nothing sentinel
+    assert getattr(filtered_false, "is_nothing", True) is True, "filter that returns False should yield a nothing Maybe"
+    # applied and mapping behavior
+    assert applied == maybe_value.map(IDENTITY), "Applying identity function-wrapped Maybe to the value should yield the original value wrapped"
+    assert mapped_after_ap.get_or_else("") == TEST_VALUE.upper(), "Mapping after ap should transform the inner value"
+    # bind result should produce a new Maybe with the transformed value
+    assert bound.get_or_else("") == TEST_VALUE + "_bound"
+    # conversions should not return None (basic smoke checks)
+    assert validation is not None
+    assert either_from_bound is not None
+
+def test_maybe_eq_with_non_maybe_collection_returns_false():
+    # Purpose:
+    #   Verify that Maybe.__eq__ returns False when compared to an object that is not a Maybe instance
+    #   (exercises the isinstance(other, Maybe) branch of the equality check).
+    #
+    # Setup
+    #   Create a non-Maybe object (a set built from repeated False values) and a Maybe instance.
+    NON_MAYBE_SET = {False, False, False, False}  # duplicates demonstrate set deduplication but remain a non-Maybe
+    NOTHING_MARKER = None
+    maybe_nothing = maybe_module.Maybe(NOTHING_MARKER, NOTHING_MARKER)
+
+    # Execution
+    #   Call __eq__ explicitly to test the equality logic against a non-Maybe object.
+    equality_result = maybe_nothing.__eq__(NON_MAYBE_SET)
+
+    # Assertion
+    #   The result must be False because the other object is not an instance of Maybe.
+    assert equality_result is False
+
+def test_bind_and_map_short_circuit_for_nothing_and_set_has_no_to_box():
+    # Constants used in the test
+    BOOL_VALUE = True
+    TUPLE_VALUE = (BOOL_VALUE,) * 4
+
+    # Setup: construct Maybe instances that are marked as "nothing"
+    # In this test-suite's Maybe constructor, the second argument indicates 'is_nothing'.
+    empty_maybe = maybe_module.Maybe(BOOL_VALUE, BOOL_VALUE)
+    another_empty_maybe = maybe_module.Maybe(TUPLE_VALUE, BOOL_VALUE)
+
+    # Execution: calling bind/map on an empty Maybe should short-circuit and return another empty Maybe.
+    # Pass non-callable values so bind/map should not attempt to call them when the Maybe is empty.
+    bind_result = empty_maybe.bind(BOOL_VALUE)
+    map_result = bind_result.map(BOOL_VALUE)
+
+    # Assertions: both bind and map results remain empty (nothing)
+    assert bind_result.is_nothing is True
+    assert map_result.is_nothing is True
+    assert another_empty_maybe.is_nothing is True
+
+    # A plain Python set does not implement to_box, so invoking it should raise AttributeError.
+    plain_set = set()
+    with pytest.raises(AttributeError):
+        plain_set.to_box()
+
+def test_map_with_non_callable_mapper_raises_type_error():
+    # Purpose:
+    # Ensure that Maybe.map raises a TypeError when the provided mapper is not callable.
+    # This verifies the method attempts to call the mapper only when the Maybe is not "nothing"
+    # and that an invalid mapper value is not silently accepted.
+
+    # Constants / test data
+    VALUE_NONE = None
+    NON_CALLABLE_MAPPER = False  # intentionally not a callable to trigger TypeError
+    IS_NOTHING_FLAG = False  # construct a Maybe that is not "nothing" so map will try to call mapper
+
+    # Setup: create a Maybe instance that is not empty and holds a None value
+    maybe_instance = maybe_module.Maybe(VALUE_NONE, IS_NOTHING_FLAG)
+
+    # Execution & Assertion: calling map with a non-callable should raise a TypeError
+    with pytest.raises(TypeError):
+        maybe_instance.map(NON_CALLABLE_MAPPER)
+
+def test_bind_raises_typeerror_when_mapper_not_callable_on_present_value():
+    # Constants: define the value and flags used to construct Maybe objects
+    NONE_VALUE = None
+    IS_NOTHING_FALSE = False
+    NON_CALLABLE_MAPPER = {}  # dict is not callable and should cause TypeError when used as mapper
+
+    # Setup: create a non-empty Maybe containing None (is_nothing flag is False)
+    maybe_with_value = maybe_module.Maybe(NONE_VALUE, IS_NOTHING_FALSE)
+
+    # Execution & Assertion: bind should attempt to call the mapper with the Maybe's value.
+    # Since the mapper provided is not callable, a TypeError is expected.
+    with pytest.raises(TypeError):
+        maybe_with_value.bind(NON_CALLABLE_MAPPER)
+
+def test_maybe_conversion_filter_and_ap_behaviour():
+    # Purpose:
+    # Validate a sequence of Maybe operations: conversion to Box and Lazy,
+    # filtering, applicative application (ap), and equality checks.
+    # The test ensures these methods execute and return objects of the expected types
+    # (or truthiness) rather than raising errors.
+
+    # ---------- Constants / Setup ----------
+    BYTES_VALUE = b"\x9f\x02Gj\xbbw\xdb\x8b\xe7\xda"
+    NONE_FLAG = None
+    INT_VALUE = 0
+    TRUE_FLAG = True
+
+    # Create Maybe instances for the different test scenarios
+    maybe_with_bytes = maybe_module.Maybe(BYTES_VALUE, NONE_FLAG)
+    maybe_with_int = maybe_module.Maybe(INT_VALUE, TRUE_FLAG)
+
+    # ---------- Execution ----------
+    # Convert Maybe to Box (should wrap the Maybe's value or None)
+    box_from_maybe = maybe_with_bytes.to_box()
+
+    # Apply filter using the Maybe instance itself as the filterer (keeps original behaviour)
+    filtered_using_self = maybe_with_int.filter(maybe_with_int)
+
+    # Convert Maybe to Lazy (wrap value in a lazy/lazy-evaluated function)
+    lazy_from_int = maybe_with_int.to_lazy()
+
+    # Use applicative ap: apply the function contained in filtered_using_self (if any)
+    # to maybe_with_bytes (preserve behaviour of original test)
+    applied_result = filtered_using_self.ap(maybe_with_bytes)
+
+    # Filter again using the result of ap (keeps original call pattern)
+    filtered_using_applied = filtered_using_self.filter(applied_result)
+
+    # Create a Maybe from the Lazy and the Box results (mirrors original combination)
+    combined_maybe = maybe_module.Maybe(lazy_from_int, box_from_maybe)
+
+    # Call equality method on the Lazy result against the original boolean flag
+    equality_check_result = lazy_from_int.__eq__(TRUE_FLAG)
+
+    # ---------- Assertions ----------
+    # Ensure the core operations completed and returned values of expected shapes/types.
+    assert isinstance(filtered_using_self, maybe_module.Maybe)
+    assert box_from_maybe is not None
+    assert lazy_from_int is not None
+    assert isinstance(applied_result, maybe_module.Maybe)
+    assert isinstance(filtered_using_applied, maybe_module.Maybe)
+    assert isinstance(combined_maybe, maybe_module.Maybe)
+    assert isinstance(equality_check_result, bool)
+
+def test_ap_with_non_applicative_raises_attribute_error():
+    # Purpose:
+    # Verify that Maybe.ap attempts to call .map on the provided applicative.
+    # If the supplied applicative does not implement .map (e.g. a plain int),
+    # an AttributeError should be raised.
+    
+    # Constants (test data)
+    NON_APPLICATIVE = 2862
+    INNER_VALUE = None          # value stored inside the Maybe instance
+    NOT_EMPTY_FLAG = False      # indicates the Maybe is not "nothing"
+    
+    # Setup: create a non-empty Maybe (is_nothing == False) containing INNER_VALUE
+    maybe_instance = maybe_module.Maybe(INNER_VALUE, NOT_EMPTY_FLAG)
+    
+    # Execution & Assertion: calling ap with a non-applicative (int) should raise AttributeError
+    with pytest.raises(AttributeError):
+        maybe_instance.ap(NON_APPLICATIVE)
+
+def test_maybe_nothing_chaining_returns_nothings_and_unsuccessful_try():
+    """
+    Verify that a Maybe instantiated as 'nothing' short-circuits subsequent
+    operations (filter, map, to_lazy, to_try). Specifically:
+    - filter/map return another Nothing Maybe
+    - to_lazy returns a Lazy-like representation (we only check presence)
+    - to_try returns an unsuccessful Try (is_success is False)
+
+    Operations should be safe to call even when non-callables are passed
+    because the is_nothing flag prevents invocation.
+    """
+    # Setup
+    TEST_VALUE = 0
+    IS_NOTHING = True
+    original_maybe = maybe_module.Maybe(TEST_VALUE, IS_NOTHING)
+
+    # Sanity: original is configured as nothing
+    assert isinstance(original_maybe, maybe_module.Maybe)
+    assert getattr(original_maybe, "is_nothing", False) is True
+
+    # Perform a chain of operations (all should be short-circuited)
+    filtered_once = original_maybe.filter(original_maybe)      # filterer is non-callable
+    lazy_from_original = original_maybe.to_lazy()
+    lazy_from_filtered = filtered_once.to_lazy()
+    filtered_again = filtered_once.filter(lazy_from_filtered)  # still short-circuited
+    try_from_filtered = filtered_again.to_try()
+    another_lazy = original_maybe.to_lazy()
+    mapped_result = filtered_once.map(filtered_once)            # mapper is non-callable
+
+    # Assertions: filtered results remain Nothing
+    assert isinstance(filtered_once, maybe_module.Maybe)
+    assert getattr(filtered_once, "is_nothing", False) is True
+
+    # to_lazy should return some Lazy-like object (we only assert presence)
+    assert lazy_from_original is not None
+    assert lazy_from_filtered is not None
+    assert another_lazy is not None
+
+    # Further filtering remains Nothing
+    assert isinstance(filtered_again, maybe_module.Maybe)
+    assert getattr(filtered_again, "is_nothing", False) is True
+
+    # to_try on a nothing yields an unsuccessful Try-like object
+    assert hasattr(try_from_filtered, "is_success")
+    assert getattr(try_from_filtered, "is_success") is False
+
+    # map on a nothing yields Nothing
+    assert isinstance(mapped_result, maybe_module.Maybe)
+    assert getattr(mapped_result, "is_nothing", False) is True
+
+def test_maybe_filter_skips_non_callable_when_nothing_and_to_lazy_can_be_used_as_filterer():
+    # Purpose:
+    # - Verify that calling Maybe.filter does not attempt to call a non-callable filterer
+    #   when the Maybe is "nothing" (so no TypeError is raised).
+    # - Verify that converting a "nothing" Maybe to a Lazy yields a callable that returns None.
+    # - Verify that the Lazy returned from to_lazy can be passed into a subsequent Maybe.filter call
+    #   (the call completes and returns a Maybe instance).
+    #
+    # Setup (Arrange)
+    INT_VALUE = -283
+    NON_CALLABLE_FILTER = (INT_VALUE, INT_VALUE, INT_VALUE)  # intentionally not a callable
+    DEFAULT_NONE = None
+    SOME_BOOL = True
+
+    # Create a Maybe that is expected to be "nothing" so the filterer should not be invoked.
+    original_maybe = maybe_module.Maybe(DEFAULT_NONE, SOME_BOOL)
+
+    # Execution (Act)
+    filtered_maybe = original_maybe.filter(NON_CALLABLE_FILTER)
+    lazy_from_filtered = filtered_maybe.to_lazy()
+
+    # Create another Maybe and attempt to use the Lazy as a filterer for it.
+    second_maybe = maybe_module.Maybe(DEFAULT_NONE, DEFAULT_NONE)
+    result_of_second_filter = second_maybe.filter(lazy_from_filtered)
+
+    # Assertions (Assert)
+    # When original_maybe is "nothing", filter should return a "nothing" Maybe (no exception from passing non-callable).
+    assert hasattr(filtered_maybe, "is_nothing"), "filtered_maybe should have 'is_nothing' attribute"
+    assert filtered_maybe.is_nothing is True
+
+    # to_lazy() on a "nothing" Maybe should produce a callable Lazy that returns None when invoked.
+    assert callable(lazy_from_filtered), "Lazy returned from to_lazy should be callable"
+    assert lazy_from_filtered() is None
+
+    # Passing the Lazy into another Maybe.filter should complete and return a Maybe instance.
+    assert isinstance(result_of_second_filter, maybe_module.Maybe)
+
+def test_maybe_get_or_else_returns_default_and_to_box_produces_none_and_filter_raises_on_non_callable():
+    # Purpose:
+    # - Verify Maybe.get_or_else returns the provided default when the Maybe is empty.
+    # - Verify Maybe.to_box converts an empty Maybe into a Box holding None.
+    # - Verify Maybe.filter raises a TypeError when given a non-callable filterer.
+    #
+    # Setup: define constants and create Maybe instances in both "nothing" and "just" states.
+    DEFAULT_INT = 2281
+    SAMPLE_STR = "gZ(\\mOcN"
+    sample_dict = {SAMPLE_STR: SAMPLE_STR}
+    sample_tuple = (SAMPLE_STR, SAMPLE_STR, sample_dict, sample_dict)
+
+    # Create an empty Maybe (is_nothing=True) containing the sample tuple
+    maybe_empty = maybe_module.Maybe(sample_tuple, True)
+
+    # Execution: call get_or_else on the empty Maybe to obtain the default
+    default_result = maybe_empty.get_or_else(DEFAULT_INT)
+
+    # Execution: convert the empty Maybe to a Box (should hold None)
+    box_result = maybe_empty.to_box()
+
+    # Prepare a present Maybe (is_nothing=False) for filter call.
+    # Use a plain object as the inner value - no special behavior required here.
+    present_value = object()
+    maybe_present = maybe_module.Maybe(present_value, False)
+
+    # Assertion: get_or_else returned the provided default for the empty Maybe
+    assert default_result == DEFAULT_INT
+
+    # Assertion: to_box on an empty Maybe yields a Box that contains None.
+    # The Box implementation is expected to expose the contained value as an attribute (commonly `value`).
+    assert hasattr(box_result, "value")
+    assert getattr(box_result, "value") is None
+
+    # Assertion: calling filter with a non-callable (the integer returned above) raises TypeError.
+    # The filter implementation attempts to call the provided filterer, so passing a non-callable
+    # must raise.
+    with pytest.raises(TypeError):
+        maybe_present.filter(default_result)
+
+def test_maybe_transformations_and_invalid_bind_raises_type_error():
+    # This test verifies multiple Maybe behaviors:
+    # - transforming Maybe to Validation and Try
+    # - retrieving a value with get_or_else
+    # - identifying a "nothing" Maybe when the sentinel equals the value
+    # - ensuring bind raises a TypeError when given a non-callable mapper (here: a Try instance)
+    
+    # Constants / test data
+    BOOL_VALUE = True
+    NONE_SENTINEL = None
+    INT_VALUE = -1784
+    EMPTY_TUPLE_SENTINEL = ()
+    FLOAT_VALUE = -286.64
+
+    # Setup: create Maybe instances using a sentinel value as the "nothing" indicator.
+    # If value == sentinel, the Maybe should represent "nothing".
+    maybe_bool = maybe_module.Maybe(BOOL_VALUE, NONE_SENTINEL)
+    maybe_int = maybe_module.Maybe(INT_VALUE, EMPTY_TUPLE_SENTINEL)
+    maybe_float_nothing = maybe_module.Maybe(FLOAT_VALUE, FLOAT_VALUE)  # value equals sentinel -> nothing
+
+    # Execution: perform transformations and retrievals
+    validation_from_bool = maybe_bool.to_validation()
+    validation_from_int = maybe_int.to_validation()
+    default_from_int = maybe_int.get_or_else(INT_VALUE)
+    try_from_int = maybe_int.to_try()
+    try_from_float_nothing = maybe_float_nothing.to_try()
+
+    # Assertions: basic sanity checks for produced monads/values
+    # to_validation should return a Validation object (we check it's not None)
+    assert validation_from_bool is not None
+    assert validation_from_int is not None
+
+    # get_or_else should return the actual value when Maybe is not "nothing"
+    assert default_from_int == INT_VALUE
+
+    # to_try on a present Maybe should produce a successful Try with the original value
+    assert getattr(try_from_int, "is_success", False) is True
+    assert getattr(try_from_int, "value", None) == INT_VALUE
+
+    # to_try on a "nothing" Maybe (value == sentinel) should produce an unsuccessful Try
+    assert getattr(try_from_float_nothing, "is_success", True) is False
+
+    # Finally: binding with a non-callable mapper (here, the Try instance) should raise TypeError
+    with pytest.raises(TypeError):
+        maybe_int.bind(try_from_int)
+
+def test_maybe_nothing_map_and_to_either_return_empty_equivalents():
+    # Purpose:
+    # - Verify that mapping over an empty Maybe (Nothing) returns another Nothing.
+    # - Verify that converting an empty Maybe to Either yields a Left containing None.
+    #
+    # Setup: create two Maybe instances that represent "nothing".
+    NOTHING_VALUE = None
+    IS_NOTHING_FLAG = True
+    SAMPLE_INT = -1095
+    EXPECTED_SET_AFTER_MAP = {True}
+
+    maybe_nothing_for_map = maybe_module.Maybe(NOTHING_VALUE, IS_NOTHING_FLAG)
+    maybe_nothing_for_either = maybe_module.Maybe(SAMPLE_INT, IS_NOTHING_FLAG)
+
+    # Execution: attempt to map (using a mapper that would produce a set if it were called)
+    # and convert the other Maybe to an Either.
+    mapped_result = maybe_nothing_for_map.map(lambda _: EXPECTED_SET_AFTER_MAP)
+    either_result = maybe_nothing_for_either.to_either()
+
+    # Assertions:
+    # - Mapping over a Nothing should yield a Maybe that is still nothing.
+    assert hasattr(mapped_result, "is_nothing")
+    assert mapped_result.is_nothing is True
+
+    # - Converting a Nothing to Either should produce a Left containing None.
+    #   We expect the Either-like result to expose a 'value' attribute with value None.
+    assert hasattr(either_result, "value")
+    assert either_result.value is None
+
+def test_maybe_conversion_chain_handles_none_and_nested_maybe():
+    # Purpose:
+    # Verify that Maybe instances (including a Maybe holding None and a Maybe holding a tuple
+    # with another Maybe) can be converted to Lazy, Either and Try without raising errors,
+    # and that the conversion results are non-None objects (i.e., conversions produce monad wrappers).
+    #
+    # Notes:
+    # - This test focuses on the conversion chain and basic non-failure behavior, not on
+    #   the internals of Lazy/Either/Try types (their exact APIs may vary).
+    #
+    # Setup: create two Maybe instances:
+    # 1) maybe_with_none: a Maybe that holds the value None (not flagged as "nothing")
+    # 2) maybe_with_tuple: a Maybe that holds a tuple containing the first Maybe
+    NONE_VALUE = None
+    IS_NOTHING_FALSE = False
+
+    maybe_with_none = maybe_module.Maybe(NONE_VALUE, IS_NOTHING_FALSE)
+    maybe_with_tuple = maybe_module.Maybe((maybe_with_none,), IS_NOTHING_FALSE)
+
+    # Execution: perform various conversions on the Maybe instances
+    lazy_from_none = maybe_with_none.to_lazy()
+    either_from_none = maybe_with_none.to_either()
+
+    try_from_tuple = maybe_with_tuple.to_try()
+    either_from_tuple = maybe_with_tuple.to_either()
+
+    # Also exercise converting the Try result back to a Lazy (some monad implementations provide this)
+    lazy_from_try = try_from_tuple.to_lazy()
+
+    # Assertions: ensure conversions completed and returned non-None wrapper objects.
+    # These asserts check that conversion methods return something usable and do not raise.
+    assert lazy_from_none is not None
+    assert either_from_none is not None
+    assert try_from_tuple is not None
+    assert either_from_tuple is not None
+    assert lazy_from_try is not None
+
+def test_maybe_to_try_then_to_box_preserves_present_value():
+    """Verify that a present Maybe value is preserved when converting Maybe -> Try -> Box.
+    Ensures the monad transformation chain does not lose the contained value when Maybe is not empty.
+    """
+    # Test data
+    PRESENT_VALUE = True
+    IS_NOTHING_FLAG = False  # False means the Maybe is present
+
+    # Create a Maybe that contains a value
+    maybe_present = maybe_module.Maybe(PRESENT_VALUE, IS_NOTHING_FLAG)
+
+    # Convert Maybe -> Try -> Box
+    try_result = maybe_present.to_try()
+    box_result = try_result.to_box()
+
+    # Assertions:
+    # 1) to_try should produce a successful Try containing the original value
+    assert getattr(try_result, "is_success", False) is True
+    assert getattr(try_result, "value", None) == PRESENT_VALUE
+
+    # 2) to_box from the Try should produce a Box containing the same original value
+    assert getattr(box_result, "value", None) == PRESENT_VALUE
+
+def test_maybe_nothing_transformation_and_applicative_interactions():
+    # Purpose:
+    # Verify that a Maybe constructed as "nothing" can undergo a sequence of transformations
+    # (ap, to_lazy, to_validation, filter, get_or_else, to_either, to_try, to_box) and that
+    # these operations complete without raising exceptions. Also ensure basic expected shapes
+    # (instances/attributes/boolean results) are produced.
+
+    # Constants / setup
+    BYTES_PAYLOAD = b"C\xcf\xe7/"
+    DEFAULT_NONE = None
+    IS_NOTHING = True
+
+    # Create a Maybe that represents "nothing"
+    maybe_nothing = maybe_module.Maybe(DEFAULT_NONE, IS_NOTHING)
+
+    # Sanity: the instance should advertise it's a Nothing
+    assert hasattr(maybe_nothing, "is_nothing")
+    assert maybe_nothing.is_nothing is True
+
+    # Execution: run the sequence of operations under test
+    # 1) ap on a Nothing should return a Nothing (copy)
+    after_ap = maybe_nothing.ap(DEFAULT_NONE)
+
+    # 2) convert resulting Maybe to Lazy
+    lazy_from_maybe = after_ap.to_lazy()
+
+    # 3) convert Lazy to Validation (exercise the conversion path)
+    validation_from_lazy = lazy_from_maybe.to_validation()
+
+    # 4) use the produced validation as a filter predicate for the original Maybe
+    filtered_maybe = maybe_nothing.filter(validation_from_lazy)
+
+    # 5) get_or_else with the Maybe itself as default (should return the default when Nothing)
+    get_or_else_result = filtered_maybe.get_or_else(filtered_maybe)
+
+    # 6) transform the filtered Maybe to Either
+    either_result = filtered_maybe.to_either()
+
+    # 7) convert validation (or its result) to Try to exercise to_try conversion
+    try_from_validation = validation_from_lazy.to_try()
+
+    # 8) equality check between two Maybe instances (should produce a boolean)
+    equality_flag = filtered_maybe.__eq__(after_ap)
+
+    # 9) convert the get_or_else result to a Box
+    box_from_result = get_or_else_result.to_box()
+
+    # 10) call ap on the Try-like object with a bytes payload to ensure that call path works
+    ap_on_try_result = try_from_validation.ap(BYTES_PAYLOAD)
+
+    # Assertions: ensure returned objects exist and have expected basic properties
+    # - Operations should return objects (not None)
+    assert after_ap is not None
+    assert lazy_from_maybe is not None
+    assert validation_from_lazy is not None
+    assert filtered_maybe is not None
+    assert get_or_else_result is not None
+    assert either_result is not None
+    assert try_from_validation is not None
+    assert box_from_result is not None
+    assert ap_on_try_result is not None
+
+    # - Type/shape checks: where we have access to the Maybe type, assert instance types
+    assert isinstance(after_ap, maybe_module.Maybe)
+    assert isinstance(filtered_maybe, maybe_module.Maybe)
+
+    # - Equality check produced a boolean
+    assert isinstance(equality_flag, bool)
+
+def test_maybe_applicative_bind_and_conversions_with_bytes_and_none():
+    # Purpose:
+    # - Exercise Maybe.ap, Maybe.bind and conversion helpers (to_validation, to_either, to_try)
+    # - Ensure conversions and equality checks complete and return expected basic results (no exceptions)
+    # - Use a non-empty Maybe that carries raw bytes and a separate Maybe used as an applicative/function holder
+
+    # --- Constants / Setup ---
+    SAMPLE_BYTES = b"\xdbC\xcf\xe7/"
+    NONE_SENTINEL = None
+    SAMPLE_INT = -3289
+    FLAG_TRUE = True
+
+    # A Maybe intended to act as an applicative/function-holder (constructed in the original test)
+    maybe_func_holder = maybe_module.Maybe(NONE_SENTINEL, FLAG_TRUE)
+
+    # A Maybe carrying bytes (non-empty in the original construction pattern)
+    maybe_with_bytes = maybe_module.Maybe(NONE_SENTINEL, SAMPLE_BYTES)
+
+    # --- Execution ---
+    # Apply the function-holder Maybe to None, then apply the result to the bytes value
+    after_first_ap = maybe_func_holder.ap(NONE_SENTINEL)
+    after_second_ap = after_first_ap.ap(SAMPLE_BYTES)
+
+    # Convert the chained result to a Validation
+    validation_from_chain = after_second_ap.to_validation()
+
+    # get_or_else on a non-empty Maybe should return its inner value
+    get_or_else_result = maybe_with_bytes.get_or_else(maybe_with_bytes)
+
+    # Convert the bytes-Maybe to Validation, Either and Try representations
+    validation_from_bytes_maybe = maybe_with_bytes.to_validation()
+    either_from_bytes_maybe = maybe_with_bytes.to_either()
+    try_from_bytes_maybe = maybe_with_bytes.to_try()
+
+    # Bind the Maybe with the Validation result (mirrors original sequence)
+    bind_result = maybe_with_bytes.bind(validation_from_bytes_maybe)
+
+    # Equality comparisons as in the original test
+    either_eq_validation = either_from_bytes_maybe.__eq__(validation_from_bytes_maybe)
+    maybe_eq_bind = maybe_with_bytes.__eq__(bind_result)
+
+    # Additional conversions from bind result and ap on Try
+    validation_from_bind = bind_result.to_validation()
+    try_ap_result = try_from_bytes_maybe.ap(SAMPLE_INT)
+
+    # --- Assertions ---
+    assert get_or_else_result == SAMPLE_BYTES
+
+    # Conversions should produce non-None results (basic sanity checks)
+    assert validation_from_chain is not None
+    assert validation_from_bytes_maybe is not None
+    assert either_from_bytes_maybe is not None
+    assert try_from_bytes_maybe is not None
+    assert validation_from_bind is not None
+    assert try_ap_result is not None
+
+    # Equality checks should produce boolean results
+    assert isinstance(either_eq_validation, bool)
+    assert isinstance(maybe_eq_bind, bool)
+
+def test_maybe_conversions_and_map_with_validation_mapper():
+    # Core purpose:
+    # - Verify that a non-empty Maybe can be converted to Either, Lazy and Validation
+    # - Ensure these conversions do not raise and produce non-null results
+    # - Confirm that mapping a Maybe with a callable that returns a Validation yields a Maybe
+
+    # Constants / setup
+    VALUE = False
+    IS_NOTHING = False
+
+    # Create initial Maybe instances used in the test
+    maybe_original = maybe_module.Maybe(VALUE, IS_NOTHING)
+    maybe_for_map = maybe_module.Maybe(VALUE, IS_NOTHING)
+
+    # Execution: perform conversions and mapping
+    # Compare Maybe to a non-Maybe object (primitive boolean) using __eq__
+    equality_with_non_maybe = maybe_original.__eq__(VALUE)
+
+    # Convert Maybe to Either, Lazy, then Lazy to Validation
+    either_result = maybe_original.to_either()
+    lazy_result = maybe_original.to_lazy()
+    validation_result = lazy_result.to_validation()
+
+    # Use a callable mapper that returns the Validation object to map over another Maybe
+    mapped_maybe = maybe_for_map.map(lambda v: validation_result)
+
+    # Assertions: verify expected outcomes and types
+    # __eq__ with a non-Maybe should be False
+    assert equality_with_non_maybe is False
+
+    # Conversions should produce non-None results (sanity checks that they succeeded)
+    assert either_result is not None
+    assert lazy_result is not None
+    assert validation_result is not None
+
+    # map should return a Maybe instance
+    assert isinstance(mapped_maybe, maybe_module.Maybe)
+
+def test_maybe_just_false_equality_and_conversions():
+    # Purpose:
+    # - Verify that a non-empty Maybe compares equal to itself.
+    # - Verify converting that Maybe to a Try produces a successful Try with the original value.
+    # - Exercise conversion from Try to Validation (ensure conversion completes and returns a value).
+    VALUE = False
+    IS_NOTHING = False  # indicates this Maybe is a "Just" / non-empty Maybe
+    maybe_just_false = maybe_module.Maybe(VALUE, IS_NOTHING)
+
+    # Execution
+    equality_with_self = maybe_just_false == maybe_just_false
+    try_from_maybe = maybe_just_false.to_try()
+    validation_from_try = try_from_maybe.to_validation()
+
+    # Assertions
+    assert equality_with_self is True
+    assert hasattr(try_from_maybe, "is_success")
+    assert try_from_maybe.is_success is True
+    assert getattr(try_from_maybe, "value", None) == VALUE
+    assert validation_from_try is not None
+

@@ -1,0 +1,45 @@
+{
+    "module": "transformers_base.py",
+    "timestamp": "2026-09-29T12:49:42.926632",
+    "llm_info": {
+        "model": "deepseek-v3",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 2,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": -1,
+        "diff_failing_tests": 1,
+        "diff_coverage": -7.61
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 6, 'pass': 2, 'fail': 3, 'error': 0}",
+        "Refactored Test Results": "{'total': 6, 'pass': 1, 'fail': 4, 'error': 0}",
+        "total_tests_before": 6,
+        "total_tests_after": 6
+    },
+    "coverage": {
+        "before_refactoring": 36.7,
+        "after_refactoring": 29.09
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "pass",
+            "test_case_1": "fail",
+            "test_case_2": "fail",
+            "test_case_3": "fail",
+            "test_case_4": "pass"
+        },
+        "after_refactoring": {
+            "test_base_node_transformer_initializes_with_none_context": "pass",
+            "test_visit_importfrom_with_matched_module_rewrite_returns_rewritten_node": "fail",
+            "test_visit_importfrom_with_none_module_no_rewrite_is_noop": "fail",
+            "test_visit_import_from_with_no_matching_rewrite_or_names": "fail",
+            "test_visit_import_from_preserves_unchanged_node_when_generic_visit_fallback": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

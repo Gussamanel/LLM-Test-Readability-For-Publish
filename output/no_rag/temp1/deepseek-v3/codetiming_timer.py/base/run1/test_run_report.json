@@ -1,0 +1,55 @@
+{
+    "module": "codetiming_timer.py",
+    "timestamp": "2026-09-29T12:01:12.745054",
+    "llm_info": {
+        "model": "deepseek-v3",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 1,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 2,
+        "diff_failing_tests": -2,
+        "diff_coverage": -7.74
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 11, 'pass': 3, 'fail': 7, 'error': 0}",
+        "Refactored Test Results": "{'total': 11, 'pass': 5, 'fail': 5, 'error': 0}",
+        "total_tests_before": 11,
+        "total_tests_after": 11
+    },
+    "coverage": {
+        "before_refactoring": 69.92,
+        "after_refactoring": 62.18
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "pass",
+            "test_case_1": "fail",
+            "test_case_2": "pass",
+            "test_case_3": "fail",
+            "test_case_4": "fail",
+            "test_case_5": "pass",
+            "test_case_6": "fail",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail"
+        },
+        "after_refactoring": {
+            "test_timer_error_can_be_instantiated_without_arguments": "pass",
+            "test_timer_start_raises_error_when_already_started": "pass",
+            "test_timer_used_as_context_manager_returns_self_and_exits_without_suppressing_exceptions": "pass",
+            "test_timer_exit_method_stops_timer_without_exception": "fail",
+            "test_entering_timer_context_manager_initializes_start_time": "pass",
+            "test_timer_context_manager_and_manual_start_stop_operations": "fail",
+            "test_timer_operations_with_custom_text_and_float_arguments": "fail",
+            "test_timer_stop_resets_start_time_and_dict_repr_is_string": "pass",
+            "test_timer_can_start_after_another_timer_context_manager_usage": "fail",
+            "test_timer_enter_then_copy_preserves_restarted_state": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

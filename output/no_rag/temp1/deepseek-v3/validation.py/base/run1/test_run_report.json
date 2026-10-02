@@ -1,0 +1,73 @@
+{
+    "module": "validation.py",
+    "timestamp": "2026-09-29T12:31:05.861468",
+    "llm_info": {
+        "model": "deepseek-v3",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 1,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 4,
+        "diff_failing_tests": -4,
+        "diff_coverage": -4.94
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 20, 'pass': 1, 'fail': 18, 'error': 0}",
+        "Refactored Test Results": "{'total': 20, 'pass': 5, 'fail': 14, 'error': 0}",
+        "total_tests_before": 20,
+        "total_tests_after": 20
+    },
+    "coverage": {
+        "before_refactoring": 77.01,
+        "after_refactoring": 72.07
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "fail",
+            "test_case_1": "fail",
+            "test_case_2": "fail",
+            "test_case_3": "fail",
+            "test_case_4": "fail",
+            "test_case_5": "fail",
+            "test_case_6": "pass",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail",
+            "test_case_10": "fail",
+            "test_case_11": "fail",
+            "test_case_12": "fail",
+            "test_case_13": "fail",
+            "test_case_14": "fail",
+            "test_case_15": "fail",
+            "test_case_16": "fail",
+            "test_case_17": "fail",
+            "test_case_18": "fail"
+        },
+        "after_refactoring": {
+            "test_validation_with_repeated_error_string_matches_error_validation": "fail",
+            "test_validation_equality_with_non_validation_object_returns_successful_failed_comparison": "fail",
+            "test_string_representation_of_successful_validation_report": "pass",
+            "test_validation_conversion_to_either_and_maybe_with_empty_sets": "fail",
+            "test_validation_to_maybe_from_failed_validation_with_error_message": "fail",
+            "test_successful_validation_transforms_into_maybe_with_present_value": "fail",
+            "test_validation_initialization_accepts_none_for_both_arguments": "fail",
+            "test_validation_with_none_value_returns_nothing_when_converted_to_maybe": "fail",
+            "test_is_fail_reports_false_for_validation_without_errors": "fail",
+            "test_map_with_non_callable_mapper_raises_type_error": "pass",
+            "test_bind_with_non_callable_none_folder_raises_type_error": "pass",
+            "test_ap_combines_errors_from_both_original_and_returned_validations": "pass",
+            "test_validation_to_box_returns_successful_box_for_valid_validation": "fail",
+            "test_bind_lazy_validation_with_none_and_convert_back_to_lazy_yields_instance": "fail",
+            "test_validation_through_lazy_and_try_keeps_success_state_with_ap": "fail",
+            "test_convert_validation_to_try_returns_success_when_validation_is_valid": "fail",
+            "test_validation_equality_and_monad_conversion_chain": "fail",
+            "test_validation_maybe_conversion_and_bind_identity_equality": "pass",
+            "test_validation_equality_to_box_transformation_with_none_and_bytes": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

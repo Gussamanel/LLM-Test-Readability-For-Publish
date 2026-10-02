@@ -1,0 +1,43 @@
+{
+    "module": "yield_from.py",
+    "timestamp": "2026-09-29T13:31:39.453061",
+    "llm_info": {
+        "model": "deepseek-v3",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 3,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 0,
+        "diff_failing_tests": 0,
+        "diff_coverage": 1.24
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 5, 'pass': 3, 'fail': 1, 'error': 0}",
+        "Refactored Test Results": "{'total': 5, 'pass': 3, 'fail': 1, 'error': 0}",
+        "total_tests_before": 5,
+        "total_tests_after": 5
+    },
+    "coverage": {
+        "before_refactoring": 39.24,
+        "after_refactoring": 40.48
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "fail",
+            "test_case_1": "pass",
+            "test_case_2": "pass",
+            "test_case_3": "pass"
+        },
+        "after_refactoring": {
+            "test_yield_from_transformer_returns_none_when_visiting_none_ast_node": "fail",
+            "test_yield_from_transformer_initialization_with_none_docstring_value": "pass",
+            "test_visit_while_loop_with_none_type_ast_nodes": "pass",
+            "test_yield_from_transformer_visits_while_node_with_synthetic_kwargs": "pass"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

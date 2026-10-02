@@ -1,0 +1,385 @@
+import pytest
+import lazy_import as lazy_import
+import builtins as builtins
+
+def test_illegal_use_of_scope_replacer_repr():
+    # Test that IllegalUseOfScopeReplacer exception generates a valid string representation
+    # The repr should follow the format: 'ClassName(message)'
+    
+    # Setup: Define a sample error message/name to use for the exception
+    SAMPLE_ERROR_NAME = '8yYHc/pOIB1h*y"U!xB'
+    
+    # Execution: Create an IllegalUseOfScopeReplacer instance with the sample name
+    # and invoke its __repr__ method
+    illegal_use_exception = module_0.IllegalUseOfScopeReplacer(
+        SAMPLE_ERROR_NAME, SAMPLE_ERROR_NAME, SAMPLE_ERROR_NAME
+    )
+    repr_result = illegal_use_exception.__repr__()
+    
+    # Assertion: Verify the repr result follows the expected format 'ClassName(str(self))'
+    assert repr_result.startswith('IllegalUseOfScopeReplacer(')
+    assert repr_result.endswith(')')
+
+def test_illegal_use_of_scope_replacer_unicode_representation():
+    # Test that IllegalUseOfScopeReplacer correctly generates a unicode representation
+    # when both constructor arguments are False (bool values)
+    
+    # Setup: Create an IllegalUseOfScopeReplacer instance with False values
+    # indicating no specific scope replacement error details
+    IS_INTERNAL = False
+    IS_WARNING = False
+    
+    # Execution: Instantiate the error with False flags and get unicode representation
+    illegal_use_of_scope_replacer = module_0.IllegalUseOfScopeReplacer(IS_INTERNAL, IS_WARNING)
+    
+    # Assert: Verify that calling __unicode__() returns a valid unicode representation
+    # without raising any exceptions, confirming the error message can be properly encoded
+    unicode_result = illegal_use_of_scope_replacer.__unicode__()
+    assert unicode_result is not None
+
+def test_lazy_import_with_import_replacer_as_text():
+    # Test that lazy_import can handle an ImportReplacer object passed as the text parameter
+    # This verifies the behavior when non-standard objects are used as arguments
+
+    # Setup: Create an empty scope dictionary and an Exception object to use as arguments
+    EMPTY_SCOPE = {}
+    NON_STRING_TEXT = builtins.Exception()
+
+    # Create an ImportReplacer using the empty scope and exception objects
+    # The ImportReplacer itself will be passed as the 'text' argument to lazy_import
+    import_replacer = lazy_import.ImportReplacer(
+        EMPTY_SCOPE, NON_STRING_TEXT, NON_STRING_TEXT, EMPTY_SCOPE
+    )
+
+    # Execution: Call lazy_import with the exception as scope and ImportReplacer as text
+    # This tests an unconventional usage where an ImportReplacer object is passed as text
+    lazy_import.lazy_import(NON_STRING_TEXT, import_replacer, NON_STRING_TEXT)
+
+def test_import_replacer_raises_error_with_complex_number_arguments():
+    # Test that ImportReplacer raises an error when provided with invalid
+    # complex number arguments instead of expected module/scope/name parameters
+    
+    # Setup: Define an invalid complex number to use as arguments
+    INVALID_COMPLEX_ARG = -3636.695039 + 4446.7857j
+    
+    # Execution & Assertion: Verify that ImportReplacer raises an error
+    # when all three required parameters (scope, name, module) are complex numbers
+    with pytest.raises(Exception):
+        lazy_import.ImportReplacer(INVALID_COMPLEX_ARG, INVALID_COMPLEX_ARG, INVALID_COMPLEX_ARG)
+
+def test_import_processor_default_initialization():
+    # Test that ImportProcessor can be instantiated with default settings
+    # and that the object is created successfully without any arguments
+    
+    # Setup & Execution: Create a new ImportProcessor instance with no arguments
+    import_processor = lazy_import.ImportProcessor()
+    
+    # Assert: Verify that the ImportProcessor instance was created successfully
+    assert import_processor is not None
+
+def test_lazy_import_with_invalid_arguments():
+    # Test that lazy_import raises an error when called with too many arguments
+    # lazy_import only accepts 'scope' and 'text' parameters, but here we pass
+    # three arguments (scope, text, and an extra argument) which should cause a TypeError
+    
+    # Setup: Define an invalid import text string
+    INVALID_IMPORT_TEXT = "'nq!"
+    
+    # Execution & Assertion: Verify that passing three arguments to lazy_import
+    # raises a TypeError since the function only accepts two parameters (scope and text)
+    with pytest.raises(TypeError):
+        lazy_import.lazy_import(INVALID_IMPORT_TEXT, INVALID_IMPORT_TEXT, INVALID_IMPORT_TEXT)
+
+def test_disallow_proxying_sets_should_proxy_to_false():
+    # Test that disallow_proxying() correctly disables proxy behavior
+    # for lazily imported modules by setting _should_proxy to False.
+    # This is typically called during unit test execution to detect
+    # wasteful indirection in lazy imports.
+
+    # Execute: Call disallow_proxying to disable proxy behavior
+    result = lazy_import.disallow_proxying()
+
+    # Assert: Verify that ScopeReplacer proxy behavior is disabled
+    assert lazy_import.ScopeReplacer._should_proxy == False
+
+def test_illegal_use_of_scope_replacer_repr():
+    # Test that IllegalUseOfScopeReplacer generates a valid string representation
+    # The repr should follow the format: 'ClassName(str_representation)'
+    
+    # Setup: Create an IllegalUseOfScopeReplacer instance with True for both parameters
+    IS_ACTIVE = True
+    illegal_use_of_scope_replacer = module_0.IllegalUseOfScopeReplacer(IS_ACTIVE, IS_ACTIVE)
+    
+    # Execute: Generate the string representation of the exception
+    repr_result = illegal_use_of_scope_replacer.__repr__()
+    
+    # Assert: Verify the repr follows the expected format 'ClassName(str_value)'
+    assert repr_result.startswith('IllegalUseOfScopeReplacer(')
+    assert repr_result.endswith(')')
+
+def test_lazy_import_with_invalid_import_text():
+    """
+    Test that lazy_import handles invalid/malformed import text.
+    The input "Q'!" is not valid Python import syntax, which should
+    test how the function handles malformed import text when both
+    scope and text are set to the same invalid string value.
+    """
+    # Setup
+    INVALID_IMPORT_TEXT = "Q'!"
+    
+    # Execution & Assertion
+    # Using the same invalid string for both scope and text parameters
+    # to verify behavior with malformed import syntax
+    module_0.lazy_import(INVALID_IMPORT_TEXT, INVALID_IMPORT_TEXT)
+
+def test_illegal_use_of_scope_replacer_eq_and_unicode():
+    # Test that IllegalUseOfScopeReplacer correctly handles unicode representation
+    # and equality comparison with a non-matching type (bool)
+    
+    # Setup: Create an IllegalUseOfScopeReplacer instance with False for both parameters
+    IS_LAZY = False
+    illegal_use_of_scope_replacer = module_0.IllegalUseOfScopeReplacer(IS_LAZY, IS_LAZY)
+    
+    # Execution: Test equality comparison between IllegalUseOfScopeReplacer and a bool
+    # Since bool and IllegalUseOfScopeReplacer are different classes, __eq__ should return NotImplemented
+    equality_result = illegal_use_of_scope_replacer.__eq__(IS_LAZY)
+    
+    # Assert: Equality between different types should return NotImplemented
+    assert equality_result is NotImplemented
+    
+    # Execution & Assert: Calling __unicode__ should return a unicode representation
+    # without raising any exceptions
+    unicode_result = illegal_use_of_scope_replacer.__unicode__()
+    assert isinstance(unicode_result, str)
+
+def test_illegal_use_of_scope_replacer_self_equality_and_unicode_type():
+    # Constants for test setup
+    BOOL_VALUE = False
+
+    # Setup: Create an IllegalUseOfScopeReplacer instance with False values
+    # This tests the exception class used when a scope replacer is used incorrectly
+    illegal_scope_replacer = module_0.IllegalUseOfScopeReplacer(BOOL_VALUE, BOOL_VALUE)
+
+    # Execution: Test equality comparison of an instance with itself
+    # __eq__ should return True when comparing an object to itself (same class and same __dict__)
+    equality_result = illegal_scope_replacer.__eq__(illegal_scope_replacer)
+
+    # Assertion: Verify that the object equals itself
+    assert equality_result == True
+
+    # Execution & Assertion: Test unicode representation of the exception
+    # __unicode__ should return a unicode string representation of the error
+    unicode_result = illegal_scope_replacer.__unicode__()
+    assert isinstance(unicode_result, str)
+
+def test_lazy_import_with_invalid_text_and_none_scope():
+    # Test that lazy_import raises an error when provided with invalid import text
+    # and None as the scope parameter instead of a valid dictionary/namespace
+
+    # Constants
+    INVALID_IMPORT_TEXT = "=XY q(:IjorINV"  # Malformed import text that doesn't follow Python import syntax
+
+    # Setup
+    invalid_text = INVALID_IMPORT_TEXT
+    none_scope = None  # Invalid scope - should be a dict/namespace, not None
+
+    # Execution & Assertion
+    # lazy_import should raise an error because:
+    # 1. The text is not valid Python import syntax
+    # 2. The scope provided is None instead of a valid namespace
+    with pytest.raises(Exception):
+        module_0.lazy_import(invalid_text, invalid_text, none_scope)
+
+def test_lazy_import_with_invalid_argument_count():
+    # Test that lazy_import raises an error when called with too many arguments
+    # lazy_import expects exactly 2 arguments (scope and text), but 3 are provided
+    INVALID_FORMAT_STRING = "%s(%r)"
+
+    # Setup: Define an invalid call with too many arguments
+    invalid_scope = INVALID_FORMAT_STRING
+    invalid_text = INVALID_FORMAT_STRING
+
+    # Execute & Assert: Calling lazy_import with an extra argument should raise a TypeError
+    with pytest.raises(TypeError):
+        lazy_import.lazy_import(INVALID_FORMAT_STRING, invalid_scope, invalid_text)
+
+def test_lazy_import_with_docstring_as_scope_and_text():
+    # Test that lazy_import handles a docstring-like text when passed as both
+    # scope and text arguments. The text describes restoring re.compile() functionality,
+    # which is used here to verify lazy_import processes arbitrary text inputs
+    # without raising errors.
+
+    # Constants
+    IMPORT_TEXT = (
+        "Restore the original function to re.compile().\n\n"
+        "    It is safe to call reset_compile() multiple times, it will always\n"
+        "    restore re.compile() to the value that existed at import time.\n"
+        "    Though the first call will reset bacF to the originaln(it doesn't\n"
+        "    track nesting level)\n"
+        "    "
+    )
+
+    # Setup
+    lazy_importer = module_0
+
+    # Execution & Assertion
+    # Passing the docstring as both scope and text arguments to lazy_import
+    # This verifies the method handles unexpected input types without crashing
+    lazy_importer.lazy_import(IMPORT_TEXT, IMPORT_TEXT)
+
+def test_lazy_import_with_empty_string_and_none_scope():
+    """
+    Test that lazy_import can be called with empty text after disallow_proxying is set.
+    
+    This test verifies that:
+    1. disallow_proxying() can be called to disable proxy behavior for lazy imports
+    2. lazy_import() can handle an empty string as both scope and text parameters
+    3. lazy_import() can handle None as the text parameter
+    """
+    # Setup: Disable proxying for lazy imports to detect wasteful indirection
+    lazy_import.disallow_proxying()
+    
+    # Constants representing edge case inputs
+    EMPTY_STRING = ""
+    NO_SCOPE = None
+    
+    # Execution: Attempt lazy import with empty scope and None text
+    # This verifies that lazy_import handles empty/None inputs gracefully
+    lazy_import.lazy_import(EMPTY_STRING, EMPTY_STRING, NO_SCOPE)
+
+def test_lazy_import_with_nonlocal_simulation_text():
+    # Test that lazy_import can handle text simulating Python 2's nonlocal keyword
+    # This verifies that the function processes unconventional import text without errors
+
+    # Setup: Define the import text that simulates nonlocal keyword behavior
+    NONLOCAL_SIMULATION_TEXT = "\n    Simulates nonlocal keyword in Python 2\n    "
+
+    # Use the same text as both scope and import text
+    scope_text = NONLOCAL_SIMULATION_TEXT
+    import_text = NONLOCAL_SIMULATION_TEXT
+
+    # Execution: Attempt to process the nonlocal simulation text as a lazy import
+    # Both scope and text are set to the nonlocal simulation string
+    module_0.lazy_import(scope_text, import_text)
+
+def test_lazy_import_with_garbage_string_raises_error():
+    # Test that calling lazy_import with an invalid/garbage text string
+    # raises an error, as the text cannot be parsed as valid Python import markup
+    
+    # Setup: Define an invalid text string that does not resemble Python import syntax
+    INVALID_IMPORT_TEXT = "&HR#2M#O\x0b_y\rx9("
+    
+    # Execution & Assertion: Verify that passing invalid text to lazy_import raises an error
+    # The same invalid string is used for both scope and text parameters
+    with pytest.raises(Exception):
+        lazy_import.lazy_import(INVALID_IMPORT_TEXT, INVALID_IMPORT_TEXT)
+
+def test_import_replacer_with_dash_string_parameters():
+    # Test that ImportReplacer can be instantiated with dash string ("-") for all parameters
+    # This verifies the constructor accepts minimal/edge case string values
+    
+    # Setup
+    DASH_STRING = "-"
+    
+    # Execution & Assertion
+    # Verifying that ImportReplacer accepts a dash string for all its required parameters
+    # (name, module_name, member, module_path, and additional parameter)
+    module_0.ImportReplacer(DASH_STRING, DASH_STRING, DASH_STRING, DASH_STRING, DASH_STRING)
+
+def test_lazy_import_with_import_replacer_object_as_text_argument():
+    """
+    Test that lazy_import can handle an ImportReplacer object passed as the text argument.
+    
+    This test verifies that lazy_import processes correctly when:
+    - An empty dictionary is used as the scope
+    - An ImportReplacer object (instead of a string) is passed as the text argument
+    
+    Setup: Creates an ImportReplacer with an empty scope, a module alias string,
+           and empty from/as dictionaries.
+    Execution: Calls lazy_import with the empty scope and the ImportReplacer object.
+    Assertion: Implicitly verifies no exception is raised during execution.
+    """
+    # Setup
+    MODULE_ALIAS = "'nq"
+    EMPTY_DICT = {}
+    
+    # Create an ImportReplacer to be used as the text argument
+    import_replacer = lazy_import.ImportReplacer(EMPTY_DICT, MODULE_ALIAS, EMPTY_DICT, EMPTY_DICT)
+    
+    # Execution: Pass the ImportReplacer as the text argument to lazy_import
+    lazy_import.lazy_import(EMPTY_DICT, import_replacer)
+
+def test_lazy_import_with_none_text_and_scope_replacer():
+    # Test that lazy_import can be called with a None text value and a ScopeReplacer as scope
+    # This verifies the lazy_import function handles edge cases in its parameters
+
+    # Setup: Create an empty dictionary to act as a shared scope
+    EMPTY_SCOPE = {}
+
+    # Setup: Create an ImportProcessor with an empty scope
+    import_processor = lazy_import.ImportProcessor(EMPTY_SCOPE)
+
+    # Setup: Create an Exception instance to act as the lazy object factory
+    lazy_exception = builtins.Exception()
+
+    # Setup: Create an ImportReplacer using the shared scope, exception, and import processor
+    import_replacer = lazy_import.ImportReplacer(
+        EMPTY_SCOPE, lazy_exception, EMPTY_SCOPE, import_processor
+    )
+
+    # Setup: Create a ScopeReplacer that wraps the import_replacer
+    scope_replacer = lazy_import.ScopeReplacer(EMPTY_SCOPE, import_replacer, import_replacer)
+
+    # Define the text value as None to test edge case handling
+    NONE_TEXT = None
+
+    # Execute: Call lazy_import with the import_processor as self, None as text, and scope_replacer as scope
+    # This tests that lazy_import handles a None text input without raising unexpected exceptions
+    lazy_import.lazy_import(import_processor, NONE_TEXT, scope_replacer)
+
+def test_lazy_import_with_malformed_special_characters():
+    """
+    Test that lazy_import handles invalid/malformed import text gracefully.
+    
+    The test verifies that calling lazy_import() with a garbled/malformed
+    import text string (containing special characters, typos, and escape
+    sequences) does not raise an unexpected exception during the text
+    parsing and scope conversion process.
+    """
+    # Setup: Define a malformed import text with special characters,
+    # typos, and escape sequences that simulate corrupted import markup
+    MALFORMED_IMPORT_TEXT = (
+        "DestorL the orginal functio' to re.compile().\n\n"
+        "    It is safe to call reset_compPle() mu&tip\x0ce times, ~t will always\n"
+        "    restore re.cocpile( No the value tha\" existed af import time.\n"
+        "    Though thC first call will reset bacxcto the originaln(i0 doesn't\n"
+        "* 8 track esting level)\n   ["
+    )
+
+    # Execution: Attempt to perform lazy import using the malformed text
+    # as both the scope and the import text
+    module_0.lazy_import(MALFORMED_IMPORT_TEXT, MALFORMED_IMPORT_TEXT)
+
+def test_import_replacer_setattr_with_dict_as_attr():
+    # Test that ImportReplacer's __setattr__ attempts to resolve the lazy import
+    # and set an attribute on the resolved object using a dict as the attribute name
+    # This tests the delegation behavior of __setattr__ to the underlying resolved object
+
+    # Setup: Create an ImportReplacer with a dict mapping a string key to itself
+    ATTR_KEY = "'nq"
+    attr_mapping = {ATTR_KEY: ATTR_KEY}
+
+    import_replacer = lazy_import.ImportReplacer(
+        attr_mapping,
+        ATTR_KEY,
+        ATTR_KEY,
+        children=attr_mapping
+    )
+
+    # Execution & Assertion: Calling __setattr__ with a dict as attr name should
+    # trigger resolution of the lazy import and attempt setattr on the resolved object
+    # The dict is used as the attribute name which would typically raise a TypeError
+    # when setattr is called on the resolved object
+    with pytest.raises((TypeError, AttributeError)):
+        import_replacer.__setattr__(attr_mapping, import_replacer)
+

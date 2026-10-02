@@ -1,0 +1,55 @@
+{
+    "module": "codetiming_timer.py",
+    "timestamp": "2026-09-29T14:39:13.976236",
+    "llm_info": {
+        "model": "deepseek-v3",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "combined"
+    },
+    "run_number": 2,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 0,
+        "diff_failing_tests": 0,
+        "diff_coverage": -8.99
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 11, 'pass': 3, 'fail': 7, 'error': 0}",
+        "Refactored Test Results": "{'total': 11, 'pass': 3, 'fail': 7, 'error': 0}",
+        "total_tests_before": 11,
+        "total_tests_after": 11
+    },
+    "coverage": {
+        "before_refactoring": 69.92,
+        "after_refactoring": 60.93
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "pass",
+            "test_case_1": "fail",
+            "test_case_2": "pass",
+            "test_case_3": "fail",
+            "test_case_4": "fail",
+            "test_case_5": "pass",
+            "test_case_6": "fail",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail"
+        },
+        "after_refactoring": {
+            "test_timer_error_instantiation": "pass",
+            "test_timer_start_raises_error_when_already_running_instance": "pass",
+            "test_timer_context_manager_enter_returns_self_and_exit_stops_timer_when_used_as_context_manager": "pass",
+            "test_timer_exit_stops_timer_without_exception": "fail",
+            "test_timer_context_manager_entry_starts_timer_without_logger": "fail",
+            "test_timer_context_manager_comparison_and_representation_operations": "fail",
+            "test_timer_repr_and_lifecycle_controls": "fail",
+            "test_timer_cannot_restart_after_exit_while_running": "fail",
+            "test_timer_start_does_not_raise_for_new_instance_with_additional_arguments": "fail",
+            "test_timer_lifecycle_and_copy_after_context_entry": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

@@ -1,0 +1,47 @@
+{
+    "module": "helpers.py",
+    "timestamp": "2026-09-28T21:53:01.984131",
+    "llm_info": {
+        "model": "sonnet",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "combined"
+    },
+    "run_number": 3,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": -4,
+        "diff_failing_tests": 4,
+        "diff_coverage": -16.88
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 7, 'pass': 4, 'fail': 2, 'error': 0}",
+        "Refactored Test Results": "{'total': 7, 'pass': 0, 'fail': 6, 'error': 0}",
+        "total_tests_before": 7,
+        "total_tests_after": 7
+    },
+    "coverage": {
+        "before_refactoring": 45.45,
+        "after_refactoring": 28.57
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "pass",
+            "test_case_1": "pass",
+            "test_case_2": "pass",
+            "test_case_3": "fail",
+            "test_case_4": "pass",
+            "test_case_5": "fail"
+        },
+        "after_refactoring": {
+            "test_debug_with_purged_message": "fail",
+            "test_variables_generator_instantiation": "fail",
+            "test_eager_decorator_wraps_variables_generator": "fail",
+            "test_eager_wraps_callable_and_warn_logs_message": "fail",
+            "test_warn_with_proxy_handler_message": "fail",
+            "test_eager_decorator_with_non_callable_raises_type_error": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

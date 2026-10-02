@@ -1,0 +1,55 @@
+{
+    "module": "codetiming_timer.py",
+    "timestamp": "2026-09-29T12:40:54.013063",
+    "llm_info": {
+        "model": "deepseek-v3",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 2,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 1,
+        "diff_failing_tests": -1,
+        "diff_coverage": -19.6
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 11, 'pass': 3, 'fail': 7, 'error': 0}",
+        "Refactored Test Results": "{'total': 11, 'pass': 4, 'fail': 6, 'error': 0}",
+        "total_tests_before": 11,
+        "total_tests_after": 11
+    },
+    "coverage": {
+        "before_refactoring": 69.92,
+        "after_refactoring": 50.32
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "pass",
+            "test_case_1": "fail",
+            "test_case_2": "pass",
+            "test_case_3": "fail",
+            "test_case_4": "fail",
+            "test_case_5": "pass",
+            "test_case_6": "fail",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail"
+        },
+        "after_refactoring": {
+            "test_timer_error_instance_creation": "pass",
+            "test_timer_context_manager_lifecycle": "fail",
+            "test_timer_context_manager_enter_returns_instance_and_exit_stops_timer": "fail",
+            "test_timer_exit_stops_timer_and_preserves_timers_attribute": "fail",
+            "test_timer_context_manager_with_none_logger_starts_successfully": "pass",
+            "test_timer_context_manager_repr_and_equality_with_invalid_operand": "fail",
+            "test_timer_context_manager_stop_returns_elapsed_time_and_equality_with_invalid_operand": "fail",
+            "test_timer_can_restart_after_context_manager_exit_with_none_logger": "pass",
+            "test_timer_context_manager_initialization_and_text_logging": "fail",
+            "test_initial_text_logged_and_valid_elapsed_time_when_timer_started": "pass"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

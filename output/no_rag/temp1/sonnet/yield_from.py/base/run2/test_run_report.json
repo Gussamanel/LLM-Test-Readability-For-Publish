@@ -1,0 +1,43 @@
+{
+    "module": "yield_from.py",
+    "timestamp": "2026-09-28T18:04:35.425517",
+    "llm_info": {
+        "model": "sonnet",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 2,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 0,
+        "diff_failing_tests": 0,
+        "diff_coverage": 3.11
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 5, 'pass': 3, 'fail': 1, 'error': 0}",
+        "Refactored Test Results": "{'total': 5, 'pass': 3, 'fail': 1, 'error': 0}",
+        "total_tests_before": 5,
+        "total_tests_after": 5
+    },
+    "coverage": {
+        "before_refactoring": 39.24,
+        "after_refactoring": 42.35
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "fail",
+            "test_case_1": "pass",
+            "test_case_2": "pass",
+            "test_case_3": "pass"
+        },
+        "after_refactoring": {
+            "test_yield_from_transformer_visit_with_none_node": "fail",
+            "test_yield_from_transformer_initialization_with_none": "pass",
+            "test_visit_while_node_with_none_transformer": "pass",
+            "test_visit_while_node_with_yield_from_transformer": "pass"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

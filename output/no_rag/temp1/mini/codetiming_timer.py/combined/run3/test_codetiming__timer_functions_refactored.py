@@ -1,0 +1,286 @@
+import pytest
+
+import codetiming_timer as timer
+
+def test_timer_error_is_instantiable_and_is_exception():
+    """Verify that module_0.TimerError can be instantiated and is an Exception."""
+    TIMER_ERROR_CLASS = module_0.TimerError
+    timer_error_instance = TIMER_ERROR_CLASS()
+    assert isinstance(timer_error_instance, TIMER_ERROR_CLASS)
+    assert isinstance(timer_error_instance, Exception)
+
+def test_timer_context_manager_start_stop_and_double_start_raises():
+    # Purpose:
+    # Verify that Timer.__enter__ starts the timer and returns the same Timer instance,
+    # Timer.__exit__ stops the timer (returns None), and attempting to start an already
+    # running timer raises TimerError.
+
+    # Constants
+    TIMER_NAME = "test_timer"
+
+    # Setup: create a Timer instance
+    test_timer = timer.Timer(name=TIMER_NAME)
+
+    # Exercise: enter context manager (which should start the timer)
+    returned_timer = test_timer.__enter__()
+
+    # Assertions after enter: returned object is the same and timer is running
+    assert returned_timer is test_timer
+    assert test_timer._start_time is not None
+
+    # Exercise: exit context manager (which should stop the timer)
+    exit_result = test_timer.__exit__()
+
+    # Assertions after exit: __exit__ returns None and timer is stopped
+    assert exit_result is None
+    assert test_timer._start_time is None
+
+    # Exercise: start the timer again normally
+    test_timer.start()
+    assert test_timer._start_time is not None
+
+    # Assertion: attempting to start while already running raises TimerError
+    with pytest.raises(timer.TimerError):
+        test_timer.start()
+
+def test_timer_context_manager_start_and_stop_are_called(monkeypatch):
+    # Verify Timer.__enter__ starts the timer and returns the same instance,
+    # and Timer.__exit__ stops the timer and returns None.
+    ENTER_CALLED_FLAG = {"called": False}
+    EXIT_CALLED_FLAG = {"called": False}
+
+    timer_instance = timer.Timer()
+
+    def fake_start(self):
+        ENTER_CALLED_FLAG["called"] = True
+
+    def fake_stop(self, *args, **kwargs):
+        EXIT_CALLED_FLAG["called"] = True
+
+    monkeypatch.setattr(timer.Timer, "start", fake_start)
+    monkeypatch.setattr(timer.Timer, "stop", fake_stop)
+
+    entered_instance = timer_instance.__enter__()
+    exit_return = timer_instance.__exit__()
+
+    assert entered_instance is timer_instance
+    assert ENTER_CALLED_FLAG["called"] is True
+    assert EXIT_CALLED_FLAG["called"] is True
+    assert exit_return is None
+
+def test_timer_exit_returns_none_and_stops_timer():
+    # Purpose:
+    # Verify that Timer.__exit__ can be called directly (as it would be
+    # when leaving a context manager), that it performs its stop action,
+    # and that it returns None (no suppression of exceptions).
+    #
+    # Setup: create a Timer and replace its stop method with a spy.
+    timer_instance = timer.Timer()
+    called = []
+    def fake_stop():
+        called.append(True)
+    timer_instance.stop = fake_stop
+
+    # Execution: call __exit__ without exception info (normal context exit).
+    exit_result = timer_instance.__exit__()
+
+    # Assertion: __exit__ should return None (does not suppress exceptions).
+    assert exit_result is None
+    # And it should have performed its stop action.
+    assert called == [True]
+
+def test_timer_context_manager_starts_timer_and_returns_self_when_no_logger():
+    # Purpose:
+    # Verify that using Timer as a context manager (__enter__) starts the timer
+    # and returns the same Timer instance even when no logger is provided.
+
+    # Constants / configuration for the test
+    LOGGER_NONE = None
+    TIMER_NAME = None
+
+    # Setup: create a Timer instance with no logger
+    timer_instance = timer.Timer(logger=LOGGER_NONE, name=TIMER_NAME)
+
+    # Precondition assertion: timer has not been started yet
+    assert timer_instance._start_time is None
+
+    # Execution: enter the context which should call start() and return the timer
+    returned_instance = timer_instance.__enter__()
+
+    # Assertions:
+    # - __enter__ returns the same Timer instance
+    assert returned_instance is timer_instance
+    # - start() was called and _start_time was set to a float (perf_counter)
+    assert isinstance(timer_instance._start_time, float)
+
+    # Additional behavior check:
+    # Calling start() again while the timer is running should raise TimerError
+    with pytest.raises(timer.TimerError):
+        timer_instance.start()
+
+def test_timer_context_start_stop_equality_and_repr():
+    # Purpose:
+    # - Verify that using Timer as a context manager starts the timer
+    # - Verify stop() returns a non-negative float and stops the timer
+    # - Verify __eq__ with an unrelated type returns False
+    # - Verify __repr__ returns a string
+    # - Verify starting a Timer created with a callable text and a falsy initial_text works (start returns None and _start_time is set)
+    #
+    # Setup
+    NEGATIVE_INT = -1092
+    main_timer = timer.Timer()
+    # Use the context-manager enter method to start the timer and get the same Timer instance back
+    context_timer = main_timer.__enter__()
+    text_callable = timer.FloatArg()
+    another_text_callable = timer.FloatArg()
+
+    # Create a timer using the context_timer object as initial_text (non-string, truthy object)
+    timer_with_initial_object = timer.Timer(initial_text=context_timer)
+
+    # Execution
+    # Compare Timer to an unrelated integer type
+    equality_result = main_timer.__eq__(NEGATIVE_INT)
+
+    # Stop the timer that was started via __enter__()
+    elapsed_from_context = context_timer.stop()
+
+    # Create a timer with a callable text and a falsy initial_text (the equality_result is expected to be False)
+    timer_with_text_and_initial = timer.Timer(text=text_callable, initial_text=equality_result)
+
+    # Capture reprs for both timers
+    repr_main = main_timer.__repr__()
+    repr_other = timer_with_text_and_initial.__repr__()
+
+    # Start the timer created with callable text; start() returns None but should set an internal start time
+    start_return = timer_with_text_and_initial.start()
+
+    # Assertions
+    assert equality_result is False, "Timer should not be equal to an unrelated integer"
+    assert isinstance(elapsed_from_context, float) and elapsed_from_context >= 0, "stop() should return a non-negative float"
+    assert isinstance(repr_main, str) and isinstance(repr_other, str), "__repr__ should return a string for Timer instances"
+    assert start_return is None, "start() should return None"
+    # Internal state check: after start, the private _start_time should be set (non-None)
+    assert getattr(timer_with_text_and_initial, "_start_time", None) is not None, "Timer._start_time should be set after start()"
+
+    # Clean up: stop the timer we started to avoid leaving timers running
+    stopped_after_start = timer_with_text_and_initial.stop()
+    assert isinstance(stopped_after_start, float) and stopped_after_start >= 0, "stop() should return a non-negative float after starting"
+
+def test_timer_context_start_repr_eq_stop_and_start_with_custom_text():
+    """
+    Purpose:
+    - Verify that using Timer.__enter__() starts the timer.
+    - Capture __repr__ while the timer is running.
+    - Exercise __eq__ against a non-timer (an integer) and accept boolean/NotImplemented.
+    - Stop the running timer and ensure a non-negative elapsed float is returned and the timer is no longer running.
+    - Create a second Timer with a custom initial_text (using the first repr) and a callable text argument,
+      obtain its repr, then start it and verify it is running.
+    """
+
+    # Constants
+    NEGATIVE_INT = -1092
+
+    # Setup: create primary timer and start it via context manager entry
+    primary_timer = timer.Timer()
+    running_timer = primary_timer.__enter__()  # starts the timer
+
+    # Execution: inspect running timer, compare with unrelated type, then stop it
+    running_repr = running_timer.__repr__()  # representation while running
+    eq_result_with_int = primary_timer.__eq__(NEGATIVE_INT)  # compare Timer with int
+    elapsed_time = running_timer.stop()  # stop and get elapsed time
+
+    # Setup for second timer: use a callable text argument and the earlier repr as initial_text
+    callable_text = timer.FloatArg()
+    second_timer = timer.Timer(text=callable_text, initial_text=running_repr)
+    second_repr = second_timer.__repr__()  # representation before starting
+    second_timer.start()  # start the second timer
+
+    # Assertions: types and expected state changes
+    assert isinstance(running_repr, str), "Expected running timer repr to be a string"
+    assert isinstance(second_repr, str), "Expected second timer repr to be a string"
+    assert isinstance(elapsed_time, float), "stop() should return a float elapsed time"
+    assert elapsed_time >= 0.0, "Elapsed time should be non-negative"
+    # __eq__ implementation may return True/False or NotImplemented when comparing to an unrelated type
+    assert eq_result_with_int in (True, False, NotImplemented)
+    # After stopping the primary timer, its internal start time should be cleared
+    assert primary_timer._start_time is None
+    # After starting the second timer, its internal start time should be set
+    assert second_timer._start_time is not None
+
+def test_timer_start_and_exit_resets_start_time():
+    # Purpose:
+    # Verify that calling start() on a Timer sets an internal start timestamp,
+    # and that invoking the context-manager exit (__exit__) stops the timer
+    # (resetting the internal start timestamp).
+
+    # Setup: create a Timer with no logger to avoid any logging side-effects.
+    NO_LOGGER = None
+    timer_name = None
+    sut = timer.Timer(logger=NO_LOGGER, name=timer_name)
+
+    # Execution: start the timer and capture the start time, then call __exit__
+    sut.start()
+    start_time_after_start = sut._start_time  # internal start time should be set
+
+    # Stop the timer via the context-manager exit method (calls stop()).
+    sut.__exit__()
+
+    # Assertions: the start time was set to a float when started, and reset to None after exit.
+    assert isinstance(start_time_after_start, float)
+    assert start_time_after_start is not None
+    assert sut._start_time is None
+
+def test_start_raises_type_error_when_logger_is_non_callable_and_initial_text_present():
+    """
+    Verify Timer.start() raises TypeError when logger is truthy but not callable,
+    and initial_text is a Timer instance (non-string). start() will try to call
+    logger(initial_text), causing the TypeError.
+    """
+    # Create and enter a timer to obtain a Timer instance to use as initial_text
+    original_timer = timer.Timer()
+    entered_timer = original_timer.__enter__()  # starts original_timer and returns it
+
+    # Create a non-callable logger value (True) by comparing the timer to itself
+    non_callable_logger = original_timer == original_timer  # boolean True
+
+    # Exit the original timer context to stop it
+    original_timer.__exit__()
+
+    # Timer whose initial_text is a Timer instance and logger is a boolean (non-callable)
+    timer_with_timer_initial = timer.Timer(initial_text=entered_timer, logger=non_callable_logger)
+
+    # Nested timer: pass the Timer instance as name and the previous timer as initial_text,
+    # with a non-callable logger
+    nested_timer = timer.Timer(entered_timer, initial_text=timer_with_timer_initial, logger=non_callable_logger)
+
+    # Starting nested_timer should raise TypeError because logger is not callable.
+    import pytest
+    with pytest.raises(TypeError):
+        nested_timer.start()
+
+def test_timer_start_stop_enter_and_copy_behavior():
+    """
+    Verify basic Timer lifecycle methods:
+    - start() followed by stop() returns a float and resets internal start time
+    - __enter__() starts the timer and returns the same Timer instance
+    - copy() returns a Timer instance (a copy/duplicate)
+    """
+    # Setup
+    TIMER_NAME = "Timer started"
+    timer_instance = timer.Timer(TIMER_NAME)
+
+    # start() and stop() should produce a float elapsed time and reset _start_time
+    timer_instance.start()
+    elapsed = timer_instance.stop()
+    assert isinstance(elapsed, float), "stop() should return a float elapsed time"
+    assert timer_instance._start_time is None, "stop() should reset internal _start_time to None"
+
+    # __enter__ should start the timer and return self
+    entered = timer_instance.__enter__()
+    assert entered is timer_instance, "__enter__ should return the same Timer instance"
+    assert isinstance(timer_instance._start_time, float), "__enter__ should set _start_time to a float (perf_counter)"
+
+    # copy() should produce another Timer instance
+    copied_timer = timer_instance.copy()
+    assert isinstance(copied_timer, timer.Timer), "copy() should return a Timer instance"
+

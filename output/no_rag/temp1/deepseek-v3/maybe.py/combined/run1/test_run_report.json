@@ -1,0 +1,75 @@
+{
+    "module": "maybe.py",
+    "timestamp": "2026-09-29T14:24:19.772052",
+    "llm_info": {
+        "model": "deepseek-v3",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "combined"
+    },
+    "run_number": 1,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": -3,
+        "diff_failing_tests": 3,
+        "diff_coverage": -21.11
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 21, 'pass': 7, 'fail': 13, 'error': 0}",
+        "Refactored Test Results": "{'total': 21, 'pass': 4, 'fail': 16, 'error': 0}",
+        "total_tests_before": 21,
+        "total_tests_after": 21
+    },
+    "coverage": {
+        "before_refactoring": 83.27,
+        "after_refactoring": 62.16
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "pass",
+            "test_case_1": "pass",
+            "test_case_2": "pass",
+            "test_case_3": "pass",
+            "test_case_4": "fail",
+            "test_case_5": "fail",
+            "test_case_6": "fail",
+            "test_case_7": "pass",
+            "test_case_8": "fail",
+            "test_case_9": "pass",
+            "test_case_10": "fail",
+            "test_case_11": "fail",
+            "test_case_12": "fail",
+            "test_case_13": "pass",
+            "test_case_14": "fail",
+            "test_case_15": "fail",
+            "test_case_16": "fail",
+            "test_case_17": "fail",
+            "test_case_18": "fail",
+            "test_case_19": "fail"
+        },
+        "after_refactoring": {
+            "test_maybe_initialization_with_identical_byte_sequence_for_value_and_default": "fail",
+            "test_maybe_constructor_accepts_none_for_value_and_default": "pass",
+            "test_maybe_string_value_operation_flow_and_transformations": "pass",
+            "test_maybe_equality_with_set_object_yields_false": "pass",
+            "test_maybe_chain_operations_and_box_conversion_from_empty_set": "fail",
+            "test_map_on_empty_maybe_returns_nothing_instance_of_maybe": "pass",
+            "test_bind_on_empty_maybe_skips_mapper_invocation": "fail",
+            "test_maybe_bytes_value_filter_ap_and_lazy_transformations": "fail",
+            "test_ap_on_nothing_disregards_applicative_argument": "fail",
+            "test_nothing_maybe_filter_map_to_lazy_and_to_try_short_circuits": "fail",
+            "test_filter_nothing_maybe_with_lazy_maybe_filterer_stays_nothing": "fail",
+            "test_get_or_else_returns_stored_tuple_when_maybe_is_defined_and_filter_invocation_uses_it": "fail",
+            "test_maybe_conversions_bind_behavior_and_value_retrieval": "fail",
+            "test_mapping_nothing_maybe_returns_empty_and_converting_just_maybe_to_either_yields_right": "fail",
+            "test_maybe_conversions_nothing_and_tuple_via_lazy_either_try": "fail",
+            "test_maybe_just_transforms_to_try_and_converts_to_box_with_value": "fail",
+            "test_maybe_nothing_ap_and_cross_monad_conversions_with_filtering": "fail",
+            "test_maybe_conversion_chain_ap_equality_and_try_binding_behavior": "fail",
+            "test_maybe_map_with_validation_created_from_lazy_of_nothing": "fail",
+            "test_maybe_false_value_self_equality_and_try_to_validation_conversion": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

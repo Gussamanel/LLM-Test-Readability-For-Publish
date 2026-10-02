@@ -1,0 +1,57 @@
+{
+    "module": "namedtupleutils.py",
+    "timestamp": "2026-09-28T20:07:24.082569",
+    "llm_info": {
+        "model": "mini",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 3,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 0,
+        "diff_failing_tests": 0,
+        "diff_coverage": -14.97
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 12, 'pass': 3, 'fail': 8, 'error': 0}",
+        "Refactored Test Results": "{'total': 12, 'pass': 3, 'fail': 8, 'error': 0}",
+        "total_tests_before": 12,
+        "total_tests_after": 12
+    },
+    "coverage": {
+        "before_refactoring": 78.95,
+        "after_refactoring": 63.98
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "fail",
+            "test_case_1": "fail",
+            "test_case_2": "pass",
+            "test_case_3": "fail",
+            "test_case_4": "pass",
+            "test_case_5": "pass",
+            "test_case_6": "fail",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail",
+            "test_case_10": "fail"
+        },
+        "after_refactoring": {
+            "test_to_namedtuple_preserves_float_value_and_type": "fail",
+            "test_to_namedtuple_converts_tuple_with_set_member": "fail",
+            "test_to_namedtuple_converts_mapping_and_is_idempotent": "fail",
+            "test_to_namedtuple_returns_bytes_unchanged_for_bytes_input": "fail",
+            "test_to_namedtuple_returns_empty_tuple_for_empty_input": "pass",
+            "test_to_namedtuple_handles_empty_ordereddict_and_tuple_with_bytes": "pass",
+            "test_to_namedtuple_handles_ordereddict_with_non_identifier_keys_and_invalid_constructor_arg": "pass",
+            "test_to_namedtuple_converts_nested_empty_list_and_returns_none_for_none_input": "fail",
+            "test_to_namedtuple_handles_mixed_nested_structures": "fail",
+            "test_to_namedtuple_recursive_conversion_and_idempotence": "fail",
+            "test_to_namedtuple_with_byte_keys_and_values_does_not_raise_and_returns_tuple": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

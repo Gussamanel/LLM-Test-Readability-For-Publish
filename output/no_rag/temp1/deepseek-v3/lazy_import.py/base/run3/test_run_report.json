@@ -1,0 +1,78 @@
+{
+    "module": "lazy_import.py",
+    "timestamp": "2026-09-29T13:56:24.959444",
+    "llm_info": {
+        "model": "deepseek-v3",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 3,
+    "diff_metrics": {
+        "diff_total_tests": -1,
+        "diff_passing_tests": 1,
+        "diff_failing_tests": -2,
+        "diff_coverage": -24.81
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 23, 'pass': 2, 'fail': 20, 'error': 0}",
+        "Refactored Test Results": "{'total': 22, 'pass': 3, 'fail': 18, 'error': 0}",
+        "total_tests_before": 23,
+        "total_tests_after": 22
+    },
+    "coverage": {
+        "before_refactoring": 50.34,
+        "after_refactoring": 25.53
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "fail",
+            "test_case_1": "fail",
+            "test_case_2": "fail",
+            "test_case_3": "fail",
+            "test_case_4": "pass",
+            "test_case_5": "fail",
+            "test_case_6": "pass",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail",
+            "test_case_10": "fail",
+            "test_case_11": "fail",
+            "test_case_12": "fail",
+            "test_case_13": "fail",
+            "test_case_14": "fail",
+            "test_case_15": "fail",
+            "test_case_16": "fail",
+            "test_case_17": "fail",
+            "test_case_18": "fail",
+            "test_case_19": "fail",
+            "test_case_20": "fail",
+            "test_case_21": "fail"
+        },
+        "after_refactoring": {
+            "test_illegal_use_of_scope_replacer_repr_contains_class_name_and_error_message_when_all_fields_identical": "fail",
+            "test_illegal_use_of_scope_replacer_unicode_returns_unicode_string": "fail",
+            "test_lazy_import_with_empty_import_map_completes_without_error": "fail",
+            "test_import_replacer_initialization_succeeds_with_complex_numeric_arguments": "fail",
+            "test_import_processor_initialization_creates_valid_instance": "pass",
+            "test_lazy_import_accepts_identical_scope_and_import_text_token": "fail",
+            "test_disallow_proxying_sets_scope_replacer_proxy_flag_to_false": "pass",
+            "test_illegal_use_of_scope_replacer_repr_returns_string_with_class_name_for_boolean_params": "fail",
+            "test_lazy_import_with_invalid_identifier_name_does_not_raise_error": "fail",
+            "test_illegal_use_of_scope_replacer_equality_comparison_with_boolean_and_unicode_representation": "fail",
+            "test_illegal_use_of_scope_replacer_self_equality_and_unicode_conversion": "fail",
+            "test_lazy_import_with_malformed_import_format_does_not_raise": "fail",
+            "test_lazy_import_with_multiline_module_text_containing_docstrings": "fail",
+            "test_lazy_import_with_empty_scope_and_text_after_disallowing_proxying": "fail",
+            "test_lazy_import_python2_nonlocal_keyword_simulation_completes_without_error": "fail",
+            "test_lazy_import_with_only_special_characters_raises_error": "pass",
+            "test_import_replacer_instantiation_with_dash_string_arguments": "fail",
+            "test_lazy_import_with_nonstandard_string_preserves_empty_scope": "fail",
+            "test_lazy_import_with_exception_scope_replacer_and_none_text": "fail",
+            "test_lazy_import_with_docstring_like_text_content": "fail",
+            "test_import_replacer_delegates_setattr_to_resolved_object": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "module": "decorators.py",
+    "timestamp": "2026-10-02T18:14:01.498090",
+    "llm_info": {
+        "model": "deepseek-coder",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 1,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 0,
+        "diff_failing_tests": 0,
+        "diff_coverage": -0.21
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 4, 'pass': 1, 'fail': 2, 'error': 0}",
+        "Refactored Test Results": "{'total': 4, 'pass': 1, 'fail': 2, 'error': 0}",
+        "total_tests_before": 4,
+        "total_tests_after": 4
+    },
+    "coverage": {
+        "before_refactoring": 23.85,
+        "after_refactoring": 23.64
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "fail",
+            "test_case_1": "fail",
+            "test_case_2": "pass"
+        },
+        "after_refactoring": {
+            "test_case_0": "fail",
+            "test_get_cached_value_for_attribute": "fail",
+            "test_decorators_cached_property_set_initialization": "pass"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

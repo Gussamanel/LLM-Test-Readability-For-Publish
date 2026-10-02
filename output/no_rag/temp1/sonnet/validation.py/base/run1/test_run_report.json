@@ -1,0 +1,73 @@
+{
+    "module": "validation.py",
+    "timestamp": "2026-09-28T17:35:37.624408",
+    "llm_info": {
+        "model": "sonnet",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 1,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 4,
+        "diff_failing_tests": -4,
+        "diff_coverage": -2.26
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 20, 'pass': 1, 'fail': 18, 'error': 0}",
+        "Refactored Test Results": "{'total': 20, 'pass': 5, 'fail': 14, 'error': 0}",
+        "total_tests_before": 20,
+        "total_tests_after": 20
+    },
+    "coverage": {
+        "before_refactoring": 77.01,
+        "after_refactoring": 74.75
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "fail",
+            "test_case_1": "fail",
+            "test_case_2": "fail",
+            "test_case_3": "fail",
+            "test_case_4": "fail",
+            "test_case_5": "fail",
+            "test_case_6": "pass",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail",
+            "test_case_10": "fail",
+            "test_case_11": "fail",
+            "test_case_12": "fail",
+            "test_case_13": "fail",
+            "test_case_14": "fail",
+            "test_case_15": "fail",
+            "test_case_16": "fail",
+            "test_case_17": "fail",
+            "test_case_18": "fail"
+        },
+        "after_refactoring": {
+            "test_validation_equality_and_maybe_conversion_when_fail": "fail",
+            "test_validation_equality_with_none_returns_false_and_has_no_success": "fail",
+            "test_validation_is_fail_returns_false_for_empty_errors": "pass",
+            "test_validation_with_empty_sets_transforms_to_either_and_maybe": "fail",
+            "test_validation_with_string_value_conversions_and_equality": "fail",
+            "test_validation_to_maybe_chaining_returns_maybe": "fail",
+            "test_validation_initialization_with_none_arguments": "pass",
+            "test_validation_to_maybe_returns_nothing_when_errors_present": "fail",
+            "test_is_fail_returns_false_when_no_errors_added": "fail",
+            "test_map_with_none_mapper_raises_type_error": "pass",
+            "test_validation_bind_with_none_folder_raises_type_error": "pass",
+            "test_validation_ap_with_failure_combines_errors": "fail",
+            "test_validation_to_box_is_success": "fail",
+            "test_validation_to_lazy_bind_with_none_folder_then_to_lazy": "fail",
+            "test_validation_to_lazy_and_try_conversions_with_empty_dict": "fail",
+            "test_validation_to_try_returns_successful_try_when_no_errors": "fail",
+            "test_validation_chained_transformations_with_map": "fail",
+            "test_validation_equality_maybe_conversion_and_bind": "pass",
+            "test_validation_equality_check_returns_false_and_converts_to_box": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

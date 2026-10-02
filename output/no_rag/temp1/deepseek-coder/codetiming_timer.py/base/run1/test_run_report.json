@@ -1,0 +1,55 @@
+{
+    "module": "codetiming_timer.py",
+    "timestamp": "2026-10-02T18:11:10.457505",
+    "llm_info": {
+        "model": "deepseek-coder",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 1,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": -2,
+        "diff_failing_tests": 2,
+        "diff_coverage": -0.54
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 11, 'pass': 3, 'fail': 7, 'error': 0}",
+        "Refactored Test Results": "{'total': 11, 'pass': 1, 'fail': 9, 'error': 0}",
+        "total_tests_before": 11,
+        "total_tests_after": 11
+    },
+    "coverage": {
+        "before_refactoring": 24.36,
+        "after_refactoring": 23.82
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "pass",
+            "test_case_1": "fail",
+            "test_case_2": "pass",
+            "test_case_3": "fail",
+            "test_case_4": "fail",
+            "test_case_5": "pass",
+            "test_case_6": "fail",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail"
+        },
+        "after_refactoring": {
+            "test_imported_module_timer_initialization_no_error": "fail",
+            "test_case_1": "fail",
+            "test_TimerAsContextManager": "pass",
+            "test_case_3": "fail",
+            "test_case_4": "fail",
+            "test_timer_stop_reports_elapsed_time": "fail",
+            "test_timer_context_manager": "fail",
+            "test_timer_initialization_check": "fail",
+            "test_case_8_stopwatch": "fail",
+            "test_case_5_timer_as_context_manager": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

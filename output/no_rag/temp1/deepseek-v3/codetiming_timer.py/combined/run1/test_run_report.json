@@ -1,0 +1,55 @@
+{
+    "module": "codetiming_timer.py",
+    "timestamp": "2026-09-29T13:59:42.847382",
+    "llm_info": {
+        "model": "deepseek-v3",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "combined"
+    },
+    "run_number": 1,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 2,
+        "diff_failing_tests": -2,
+        "diff_coverage": -5.49
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 11, 'pass': 3, 'fail': 7, 'error': 0}",
+        "Refactored Test Results": "{'total': 11, 'pass': 5, 'fail': 5, 'error': 0}",
+        "total_tests_before": 11,
+        "total_tests_after": 11
+    },
+    "coverage": {
+        "before_refactoring": 69.92,
+        "after_refactoring": 64.43
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "pass",
+            "test_case_1": "fail",
+            "test_case_2": "pass",
+            "test_case_3": "fail",
+            "test_case_4": "fail",
+            "test_case_5": "pass",
+            "test_case_6": "fail",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail"
+        },
+        "after_refactoring": {
+            "test_timer_error_can_be_instantiated": "pass",
+            "test_timer_context_manager_start_and_restart_raises_error_uniquely_named": "pass",
+            "test_timer_context_manager_entry_and_exit_should_start_and_stop_timer": "pass",
+            "test_timer_exit_deactivates_running_state": "fail",
+            "test_entering_context_manager_after_start_does_not_raise": "fail",
+            "test_timer_float_text_and_initial_text_context_manager_operations_text": "pass",
+            "test_timer_repr_and_elapsed_time_after_context_exit": "fail",
+            "test_timer_without_logger_and_dict_operations_with_self_reference": "fail",
+            "test_timer_context_manager_and_timer_creation_with_various_arguments": "fail",
+            "test_timer_context_manager_start_and_stop_successfully_from_clean_state": "pass"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

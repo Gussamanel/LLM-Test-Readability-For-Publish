@@ -1,0 +1,47 @@
+{
+    "module": "helpers.py",
+    "timestamp": "2026-09-29T15:30:52.822072",
+    "llm_info": {
+        "model": "deepseek-v3",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "combined"
+    },
+    "run_number": 3,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": -4,
+        "diff_failing_tests": 4,
+        "diff_coverage": -17.95
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 7, 'pass': 4, 'fail': 2, 'error': 0}",
+        "Refactored Test Results": "{'total': 7, 'pass': 0, 'fail': 6, 'error': 0}",
+        "total_tests_before": 7,
+        "total_tests_after": 7
+    },
+    "coverage": {
+        "before_refactoring": 45.45,
+        "after_refactoring": 27.5
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "pass",
+            "test_case_1": "pass",
+            "test_case_2": "pass",
+            "test_case_3": "fail",
+            "test_case_4": "pass",
+            "test_case_5": "fail"
+        },
+        "after_refactoring": {
+            "test_purge_result_is_logged_when_debug_enabled": "fail",
+            "test_variables_generator_instantiation_succeeds": "fail",
+            "test_eager_decorator_returns_list_from_generator_function": "fail",
+            "test_eager_decorator_wraps_integer_callable_and_preserves_callable_behavior": "fail",
+            "test_warn_outputs_message_to_stderr_as_warning": "fail",
+            "test_eager_decorator_forwards_self_as_start_keyword_argument": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

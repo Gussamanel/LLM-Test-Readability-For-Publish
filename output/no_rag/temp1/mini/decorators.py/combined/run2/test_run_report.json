@@ -1,0 +1,41 @@
+{
+    "module": "decorators.py",
+    "timestamp": "2026-09-28T22:37:44.759077",
+    "llm_info": {
+        "model": "mini",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "combined"
+    },
+    "run_number": 2,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 0,
+        "diff_failing_tests": 0,
+        "diff_coverage": 15.45
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 4, 'pass': 1, 'fail': 2, 'error': 0}",
+        "Refactored Test Results": "{'total': 4, 'pass': 1, 'fail': 2, 'error': 0}",
+        "total_tests_before": 4,
+        "total_tests_after": 4
+    },
+    "coverage": {
+        "before_refactoring": 44.12,
+        "after_refactoring": 59.57
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "fail",
+            "test_case_1": "fail",
+            "test_case_2": "pass"
+        },
+        "after_refactoring": {
+            "test_cached_property_descriptor_returns_self_for_class_access_and_raises_if_func_missing": "fail",
+            "test_cached_property_caches_computed_value_and_returns_self_when_accessed_on_class": "pass",
+            "test_cached_property_raises_when_given_non_callable": "fail"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

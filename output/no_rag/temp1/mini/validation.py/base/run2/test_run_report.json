@@ -1,0 +1,73 @@
+{
+    "module": "validation.py",
+    "timestamp": "2026-09-28T19:36:34.859036",
+    "llm_info": {
+        "model": "mini",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "base"
+    },
+    "run_number": 2,
+    "diff_metrics": {
+        "diff_total_tests": 0,
+        "diff_passing_tests": 12,
+        "diff_failing_tests": -12,
+        "diff_coverage": 2.0
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 20, 'pass': 1, 'fail': 18, 'error': 0}",
+        "Refactored Test Results": "{'total': 20, 'pass': 13, 'fail': 6, 'error': 0}",
+        "total_tests_before": 20,
+        "total_tests_after": 20
+    },
+    "coverage": {
+        "before_refactoring": 77.01,
+        "after_refactoring": 79.01
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "fail",
+            "test_case_1": "fail",
+            "test_case_2": "fail",
+            "test_case_3": "fail",
+            "test_case_4": "fail",
+            "test_case_5": "fail",
+            "test_case_6": "pass",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail",
+            "test_case_10": "fail",
+            "test_case_11": "fail",
+            "test_case_12": "fail",
+            "test_case_13": "fail",
+            "test_case_14": "fail",
+            "test_case_15": "fail",
+            "test_case_16": "fail",
+            "test_case_17": "fail",
+            "test_case_18": "fail"
+        },
+        "after_refactoring": {
+            "test_validation_success_behaviors_and_to_maybe_conversion": "pass",
+            "test_validation_equality_with_none_and_is_success_behavior": "pass",
+            "test_validation_success_representation_and_is_fail_returns_false": "pass",
+            "test_validation_converts_successful_validation_to_either_and_maybe": "fail",
+            "test_validation_with_non_empty_errors_converts_to_left_and_empty_maybe": "pass",
+            "test_validation_to_maybe_returns_maybe_for_success_and_allows_reconversion": "fail",
+            "test_validation_constructor_accepts_none_values": "pass",
+            "test_validation_to_maybe_with_none_inputs_returns_maybe_object": "fail",
+            "test_is_fail_returns_false_when_errors_list_is_empty": "pass",
+            "test_map_raises_typeerror_when_mapper_is_none": "pass",
+            "test_bind_raises_type_error_when_folder_is_none": "pass",
+            "test_ap_concatenates_errors_from_callable_provider": "pass",
+            "test_validation_with_empty_errors_reports_success_and_transforms_to_box": "pass",
+            "test_validation_to_lazy_bind_with_none_produces_lazy_like_result": "fail",
+            "test_validation_to_lazy_then_try_and_ap_combines_errors_and_preserves_value": "fail",
+            "test_to_try_returns_failed_try_when_validation_has_errors": "fail",
+            "test_validation_mapping_and_conversion_helpers_behavior": "pass",
+            "test_validation_equality_bind_and_to_maybe_behavior": "pass",
+            "test_validation_equality_result_and_to_box_call_behavior": "pass"
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

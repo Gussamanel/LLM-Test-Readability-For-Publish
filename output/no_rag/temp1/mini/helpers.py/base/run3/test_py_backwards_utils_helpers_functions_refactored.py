@@ -1,0 +1,185 @@
+import pytest
+
+import re as regex
+import helpers as helpers_utils
+
+def test_debug_prints_formatted_message_to_stderr_when_debug_enabled(monkeypatch, capsys):
+    # Purpose:
+    # Verify that module_1.debug calls messages.debug with the callable returned by
+    # module_0.purge and prints the resulting formatted string to stderr when debug mode is enabled.
+
+    # Constants used by the test
+    EXPECTED_RAW_MESSAGE = "Test debug message"
+    EXPECTED_FORMATTED_PREFIX = "FAKE_DEBUG:"
+
+    # --- Setup ---
+    # Create a callable that returns a deterministic message (simulates the get_message callable)
+    def get_message_callable():
+        return EXPECTED_RAW_MESSAGE
+
+    # Monkeypatch module_0.purge to return our callable (setup step)
+    monkeypatch.setattr(module_0, "purge", lambda: get_message_callable)
+
+    # Ensure module_1 is in debug mode for the test
+    monkeypatch.setattr(module_1, "settings", type("S", (), {"debug": True})())
+
+    # Monkeypatch messages.debug to return a predictable formatted string given the callable
+    def fake_messages_debug(get_message):
+        # messages.debug is expected to call the callable and return a string
+        return EXPECTED_FORMATTED_PREFIX + get_message()
+    monkeypatch.setattr(module_1, "messages", type("M", (), {"debug": fake_messages_debug})())
+
+    # --- Execution ---
+    # Call purge to obtain the callable and pass it to debug (this mirrors the original test flow)
+    get_message = module_0.purge()
+    module_1.debug(get_message)
+
+    # --- Assertion ---
+    # Capture stderr and assert the formatted debug string was printed
+    captured = capsys.readouterr()
+    assert EXPECTED_FORMATTED_PREFIX + EXPECTED_RAW_MESSAGE in captured.err
+
+def test_variables_generator_instantiation_returns_instance():
+    # Purpose:
+    # Verify that the VariablesGenerator can be instantiated from module_1
+    # and that the created object is of the expected type and has an expected class name.
+
+    # Constants / Expectations
+    EXPECTED_CLASS = module_1.VariablesGenerator
+    CLASS_NAME_PATTERN = r"VariablesGenerator"
+
+    # Setup: prepare any prerequisites (none required beyond the class reference)
+    # Execution: instantiate the VariablesGenerator
+    variables_generator_instance = EXPECTED_CLASS()
+
+    # Assertions:
+    # - The constructor returns a non-None object
+    # - The object is an instance of the expected class
+    # - The runtime class name matches the expected pattern (guards against proxy/wrapper classes)
+    assert variables_generator_instance is not None, "VariablesGenerator() returned None"
+    assert isinstance(variables_generator_instance, EXPECTED_CLASS), (
+        f"Expected instance of {EXPECTED_CLASS}, got {type(variables_generator_instance)}"
+    )
+    assert regex.search(CLASS_NAME_PATTERN, type(variables_generator_instance).__name__), (
+        f"Runtime class name '{type(variables_generator_instance).__name__}' does not match pattern '{CLASS_NAME_PATTERN}'"
+    )
+
+def test_eager_wraps_callable_generator_returns_list():
+    """Verify module_1.eager wraps a generator-like callable and returns a callable
+    that produces a fresh list with the same contents on each invocation.
+    """
+    # Setup
+    variables_generator = module_1.VariablesGenerator()
+    eagerly_wrapped = module_1.eager(variables_generator)
+
+    # Get the underlying iterable whether variables_generator is callable or an iterable.
+    underlying_iterable = variables_generator() if callable(variables_generator) else variables_generator
+
+    expected_list = list(underlying_iterable)
+    num_invocations = 2
+    results = [eagerly_wrapped() for _ in range(num_invocations)]
+
+    # Assertions
+    assert callable(eagerly_wrapped), "eager() should return a callable"
+
+    for idx, result in enumerate(results):
+        assert isinstance(result, list), f"Invocation {idx} did not return a list"
+        assert result == expected_list, f"Invocation {idx} returned unexpected contents"
+
+    # Each invocation should return a distinct list object (not the same reference)
+    assert results[0] is not results[1], "Consecutive invocations should return new list objects"
+
+def test_eager_wrapper_debug_warn_and_get_source_behaviour():
+    # Purpose:
+    # - Verify module_1.eager returns a callable even when given a non-callable input,
+    #   that it correctly wraps a generator to return a list, and that module_1.debug,
+    #   module_1.warn and module_1.get_source behave as expected (no exceptions and return values).
+    #
+    # Setup (constants and test helpers)
+    SAMPLE_NUMBER = 939
+    EXPECTED_GENERATOR_OUTPUT = [0, 1, 2]
+
+    # A simple generator used to test the normal eager wrapping behaviour
+    def sample_generator(n):
+        for i in range(n):
+            yield i
+
+    # Instantiate an auxiliary object used in the original test (kept for parity)
+    variables_generator = module_1.VariablesGenerator()
+
+    # Execution
+    # 1) Wrap a non-callable (an integer) with eager. The eager decorator returns a callable wrapper
+    #    even if the original input is not a function (it does not invoke the input here).
+    wrapped_non_callable = module_1.eager(SAMPLE_NUMBER)
+
+    # 2) Wrap a proper generator function with eager to get a callable that returns a list
+    eager_generator = module_1.eager(sample_generator)
+    generator_result = eager_generator(3)
+
+    # 3) Wrap the already-wrapped non-callable to confirm nesting still yields a callable
+    double_wrapped = module_1.eager(wrapped_non_callable)
+
+    # 4) Call debug with a small callable returning a string. debug prints only if settings.debug is True.
+    debug_result = module_1.debug(lambda: "debug message")
+
+    # 5) Call warn with a string message; it prints to stderr and should return None
+    warn_result = module_1.warn(str(SAMPLE_NUMBER))
+
+    # 6) Retrieve source of the sample generator function
+    source_text = module_1.get_source(sample_generator)
+
+    # Assertions
+    # wrapped_non_callable should be callable (eager returns a wrapper function)
+    assert callable(wrapped_non_callable), "eager should return a callable wrapper even for non-callable input"
+
+    # eager_generator should produce a list when invoked and match the expected output
+    assert isinstance(generator_result, list), "eager-wrapped generator should return a list"
+    assert generator_result == EXPECTED_GENERATOR_OUTPUT
+
+    # double wrapping should still produce a callable wrapper
+    assert callable(double_wrapped), "nesting eager should still return a callable"
+
+    # debug and warn should not return any meaningful value (they return None); primarily ensure no exceptions
+    assert debug_result is None
+    assert warn_result is None
+
+    # get_source should return source text that includes the function name
+    assert "sample_generator" in source_text
+
+def test_warn_outputs_message_to_stderr(capsys):
+    """Verify that module_1.warn(...) writes the provided message to stderr."""
+    message = "ProxyHandler"
+
+    # Call the function that should print/log the warning to stderr.
+    module_1.warn(message)
+
+    # Capture what was written to stdout/stderr.
+    captured = capsys.readouterr()
+
+    # Ensure something was written to stderr and that it contains the message.
+    assert captured.err, "Expected warn(...) to write to stderr, but stderr was empty."
+    assert message in captured.err, f"Expected stderr to contain {message!r}, got: {captured.err!r}"
+
+def test_eager_decorator_with_non_callable_input_raises_type_error():
+    # Purpose:
+    # Verify that applying the eager decorator to a non-callable object
+    # produces a wrapped object that raises a TypeError when invoked.
+    #
+    # This mirrors the original test which passed an integer into the decorator
+    # then invoked the resulting callable via its __call__ method.
+
+    # Constants / setup
+    NON_CALLABLE = 939  # value that is not callable (int)
+    KWARGS = {"module": None}  # keyword args used in the invocation
+
+    # Create the wrapped callable by applying the eager decorator to a non-callable.
+    # The decorator returns a function-like object (wrapped) which will attempt to call
+    # the original object when invoked.
+    wrapped_callable = module_1.eager(NON_CALLABLE)
+
+    # Execution & assertion
+    # Calling the wrapped object should raise a TypeError because the original target
+    # (an int) is not callable. Use __call__ explicitly to mirror the original test's invocation.
+    with pytest.raises(TypeError):
+        wrapped_callable.__call__(wrapped_callable, wrapped_callable, **KWARGS)
+

@@ -1,0 +1,29 @@
+{
+  "collection_failed": false,
+  "tests": {
+    "test_immutable_list_basic_behaviors_str_and_invalid_add_raises": "pass",
+    "test_immutable_list_operations_on_empty_list": "pass",
+    "test_append_returns_new_list_and_find_locates_first_matching_element": "pass",
+    "test_add_with_non_immutable_list_raises_value_error": "pass",
+    "test_find_returns_head_when_predicate_matches_empty_head": "pass",
+    "test_find_returns_head_and_length_for_single_element_list": "pass",
+    "test_find_raises_type_error_when_predicate_is_not_callable": "pass",
+    "test_find_returns_none_for_empty_list_and_list_add_with_none_raises": "fail",
+    "test_map_raises_type_error_when_called_with_non_callable": "pass",
+    "test_map_raises_type_error_when_mapping_with_none": "pass",
+    "test_filter_raises_type_error_when_predicate_is_not_callable": "pass",
+    "test_filter_raises_type_error_with_non_callable_argument": "pass",
+    "test_find_on_empty_immutable_list_returns_none_and_has_length_zero": "pass",
+    "test_find_raises_type_error_for_non_callable_predicate": "pass",
+    "test_reduce_on_empty_returns_accumulator_and_find_returns_matching_head": "pass",
+    "test_create_empty_immutable_list_is_instance_of_expected_type": "pass",
+    "test_immutable_list_str_and_find_returns_head_when_predicate_matches": "pass",
+    "test_find_accepts_predicate_like_object_and_returns_head_or_none": "fail",
+    "test_find_returns_none_when_predicate_never_matches": "pass",
+    "test_append_creates_new_list_and_find_returns_matching_head": "pass",
+    "test_reduce_on_empty_list_returns_accumulator_and_find_raises_type_error_for_non_callable": "pass",
+    "test_reduce_empty_returns_acc_and_self_reference_behaviors_and_find_type_error": "pass",
+    "test_reduce_raises_type_error_when_reducer_not_callable": "pass",
+    "_captured_output": ".......F.........F.....                                                  [100%]\n=================================== FAILURES ===================================\n_____ test_find_returns_none_for_empty_list_and_list_add_with_none_raises ______\noutput/no_rag/temp1/mini/immutable_list.py/combined/run3/test_pymonet_immutable_list_functions_refactored.py:211: in test_find_returns_none_for_empty_list_and_list_add_with_none_raises\n    assert len(python_list_representation) == 1\nE   assert 2 == 1\nE    +  where 2 = len([None, <immutable_list.ImmutableList object at 0x40016ebea3a0>])\n_______ test_find_accepts_predicate_like_object_and_returns_head_or_none _______\noutput/no_rag/temp1/mini/immutable_list.py/combined/run3/test_pymonet_immutable_list_functions_refactored.py:405: in test_find_accepts_predicate_like_object_and_returns_head_or_none\n    result = original_list.find(original_list)\ndata/pymonet.immutable_list/immutable_list.py:144: in find\n    return self.head if fn(self.head) else None\nE   TypeError: 'ImmutableList' object is not callable\n=============================== warnings summary ===============================\nvenv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290\nvenv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290\n  /nobackup/proj/disk/llm-readability/shared/llm-test-readability/venv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; langsmith\n    self._mark_plugins_for_rewrite(hook, disable_autoload)\n\nvenv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290\nvenv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290\n  /nobackup/proj/disk/llm-readability/shared/llm-test-readability/venv_gpu/lib64/python3.9/site-packages/_pytest/config/__init__.py:1290: PytestAssertRewriteWarning: Module already imported so cannot be rewritten; anyio\n    self._mark_plugins_for_rewrite(hook, disable_autoload)\n\n-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html\n=========================== short test summary info ============================\nFAILED output/no_rag/temp1/mini/immutable_list.py/combined/run3/test_pymonet_immutable_list_functions_refactored.py::test_find_returns_none_for_empty_list_and_list_add_with_none_raises\nFAILED output/no_rag/temp1/mini/immutable_list.py/combined/run3/test_pymonet_immutable_list_functions_refactored.py::test_find_accepts_predicate_like_object_and_returns_head_or_none\n2 failed, 21 passed, 4 warnings in 0.07s\n"
+  }
+}
