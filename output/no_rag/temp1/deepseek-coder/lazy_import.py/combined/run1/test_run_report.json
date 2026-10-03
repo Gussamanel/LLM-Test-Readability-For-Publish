@@ -1,0 +1,58 @@
+{
+    "module": "lazy_import.py",
+    "timestamp": "2026-10-03T02:18:32.742184",
+    "llm_info": {
+        "model": "deepseek-coder",
+        "version": "functions",
+        "temperature": 1.0,
+        "prompt_style": "combined"
+    },
+    "run_number": 1,
+    "diff_metrics": {
+        "diff_total_tests": -22,
+        "diff_passing_tests": -2,
+        "diff_failing_tests": -20,
+        "diff_coverage": -5.18
+    },
+    "test_summary": {
+        "Original Test Results": "{'total': 23, 'pass': 2, 'fail': 20, 'error': 0}",
+        "Refactored Test Results": "{'total': 1, 'pass': 0, 'fail': 0, 'error': 0}",
+        "total_tests_before": 23,
+        "total_tests_after": 1
+    },
+    "coverage": {
+        "before_refactoring": 24.62,
+        "after_refactoring": 19.44
+    },
+    "test_results": {
+        "before_refactoring": {
+            "test_case_0": "fail",
+            "test_case_1": "fail",
+            "test_case_2": "fail",
+            "test_case_3": "fail",
+            "test_case_4": "pass",
+            "test_case_5": "fail",
+            "test_case_6": "pass",
+            "test_case_7": "fail",
+            "test_case_8": "fail",
+            "test_case_9": "fail",
+            "test_case_10": "fail",
+            "test_case_11": "fail",
+            "test_case_12": "fail",
+            "test_case_13": "fail",
+            "test_case_14": "fail",
+            "test_case_15": "fail",
+            "test_case_16": "fail",
+            "test_case_17": "fail",
+            "test_case_18": "fail",
+            "test_case_19": "fail",
+            "test_case_20": "fail",
+            "test_case_21": "fail"
+        },
+        "after_refactoring": {
+            "collection_error": true
+        },
+        "dan_score_before": {},
+        "dan_score_after": {}
+    }
+}

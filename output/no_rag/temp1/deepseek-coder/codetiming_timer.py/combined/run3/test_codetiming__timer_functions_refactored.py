@@ -1,0 +1,240 @@
+import codetiming_timer as timer
+
+def test_import_no_relevance_feedback():
+    # Setup
+    import_data = {
+        "table_name": "no_relevance_feedback",
+        "file_path": "/path/to/file.csv",
+        "id_column": "id",
+        "text_column": "text",
+        "label_column": "label"
+    }
+
+    # Execution
+    result = import_feedback(import_data)
+
+    # Assertion
+    assert result.status == 200
+    assert result.job_id == "unique_job_id"
+    assert result.imported_rows == 50  # Assumes we've imported some data for this test
+    assert result.imported_columns == import_data.keys()
+    assert result.feedback_type == "import"
+
+def test_no_relevance_feedback_import():
+    # Initialize timer for context management
+    timer_context = module_0.Timer()
+    
+    # Ensure that timer starts when entering the context manager
+    with timer_context as timer:
+        # Log initial text when timer starts
+        start_text = timer.initial_text
+        if timer.logger and start_text:
+            if isinstance(start_text, str):
+                start_text = start_text.format(name=timer.name)
+            elif timer.name:
+                start_text = f"Timer {timer.name} started"
+            else:
+                start_text = "Timer started"
+            assert timer.logger.call_count == 1
+    
+    # Ensure that timer stops when exiting the context manager
+    # assert not timer.is_running, "Timer should not be running after the context manager exits"
+    # assert timer._stop_time is not None, "Timer should stop when exiting the context manager"
+    
+    # Ensure that timer can be restarted
+    timer.start()
+    assert timer._start_time is not None, "Timer should be able to start again"
+
+def test_case_2():
+    # Instantiate the Timer object
+    timer = Timer()
+
+    # Start the timer context
+    timer.__enter__()
+    
+    # Some code or operations to be timed here
+    # ...
+
+    # Stop the timer context
+    _ = timer.__exit__()
+    # The result of __exit__ is not used in the test case so it is assigned to a dummy variable '_'
+
+def test_case_3():
+    # Initialize a float_arg_0 instance from module_0.FloatArg()
+    float_arg_0 = module_0.FloatArg()
+
+    # Initialize a timer_error_0 instance from module_0.TimerError()
+    timer_error_0 = module_0.TimerError()
+
+    # Initialize a timer_0 instance from module_0.Timer()
+    timer_0 = module_0.Timer()
+
+    # Stop the context manager timer_0
+    # This action is taken to ensure the timer is not keeping the program running in the background
+    timer_0.__exit__()
+
+def test_timer_setitem_and_start():
+    # given
+    initial_dict = {}
+    none_val = None
+
+    # when
+    # Define constants for timer name and initial text (could be moved to the test's class)
+    TIMER_NAME = 'test_timer'
+    TIMER_INITIAL_TEXT = 'Timer {name} has started'
+
+    # Initialize timer with given logger and name
+    timer = module_0.Timer(logger=print, name=TIMER_NAME, initial_text=TIMER_INITIAL_TEXT)
+
+    # Set item in dictionary (simulating usage as context manager)
+    timer_context = timer.__setitem__(none_val, initial_dict)
+
+    # Start timer and enter context
+    with timer_context as t:
+        t.start()
+
+    # then
+    # Assert that start time is not None (check if timer has started)
+    assert t._start_time is not None
+
+    # Check that the logger has been properly called
+    # This check and all subsequent assert checks are assertions (ensuring the program's behaviors)
+    # This check ensures that when the timer starts, the logger should be called with desired text
+    # It's also good to check that initial text from timer has been used properly in logger
+    assert timer.name == TIMER_NAME
+    assert timer.initial_text == TIMER_INITIAL_TEXT
+
+def test_verify_timer_initialization_and_stop():
+    # Constant definitions
+    TOTAL_TIMES = 1092
+    FLOAT_ARG_TEMPLATE = "Elapsed time: {:.2f} seconds"
+    TIMER_INITIAL_TEXT = "Timer started."
+    TIMER_TEXT_TEMPLATE = "{name} took {:.2f} seconds to execute."
+    NONE_TYPE_VALUE = None
+
+    # Setup
+    module_0 = Timer()  
+    timer_0 = module_0.__enter__()
+    int_0 = -TOTAL_TIMES
+    float_arg_0 = FloatArg(FLOAT_ARG_TEMPLATE)
+    timer_2 = Timer(initial_text=TIMER_INITIAL_TEXT)
+    float_arg_1 = FloatArg()
+
+    # Execution
+    var_0 = timer_0.__eq__(int_0)
+    float_0 = timer_0.stop()
+    timer_3 = Timer(text=float_arg_1, initial_text=var_0)
+    var_1 = timer_0.__repr__()
+    var_2 = timer_3.__repr__()
+    none_type_0 = timer_3.start()
+
+    # Assertion
+    assert float_0 is float, "Assert the type of float_0 is a 'float'."
+    assert none_type_0 is None, "Assert none_type_0 is None."
+    assert var_0 is bool, "Assert the type of var_0 is 'bool'."
+    assert var_2 == TIMER_TEXT_TEMPLATE.format(name="", milliseconds=float_0*1000, seconds=float_0, minutes=float_0/60), "Assert var_2 is equal to TIMER_TEXT_TEMPLATE with custom name"
+
+# Define a constant for the module_0 name
+MODULE_0_NAME = "module_0"
+
+# Define a constant for the initial text of the timer
+INITIAL_TEXT = "Timer {name} started"
+
+# Define a constant for the name of the timer
+TIMER_NAME = "timer_0"
+
+# Define a constant for the integer value in the test case
+INT_0 = -1092
+
+def test_case_7():
+    # Initialize the timer and start it
+    timer_0 = module_0.Timer(name=TIMER_NAME)
+    timer_0.start()
+    
+    # Assert that the timer's name is equal to the constant
+    assert timer_0.name == TIMER_NAME
+
+    # Initialize a float argument
+    float_arg_0 = module_0.FloatArg()
+
+    # Initialize another timer with the starting text equal to the representation
+    # of the first timer
+    timer_2 = module_0.Timer(text=float_arg_0, initial_text=timer_0.__repr__())
+
+    # Assert that the string representation of the two timers are not the same
+    assert timer_0.__repr__() != timer_2.__repr__()
+
+    # Stop the second timer
+    float_0 = timer_0.stop()
+
+    # Assert that the elapsed time of the first timer is a float
+    assert isinstance(float_0, float)
+
+    # Initialize another timer with the same text argument as the first timer
+    timer_3 = module_0.Timer(text=float_arg_0, initial_text=timer_0.__repr__())
+
+    # Start the third timer
+    timer_3.start()
+
+    # Assert that the string representation of the third timer is not the same
+    # as the representation of the first timer
+    assert timer_3.__repr__() != timer_0.__repr__()
+
+def test_timer_can_be_started_and_stopped():
+    # Arrange
+    logger = None
+    timer = Timer(logger=None)
+    test_start_time = time.perf_counter()
+    dict_0 = {}
+    none_type_2 = None
+    initial_text=None
+    if logger and initial_text:
+        if isinstance(initial_text, str):
+            initial_text = initial_text.format(name=timer.name)
+        elif timer.name:
+            initial_text="Timer {name} started".format(name=timer.name)
+        else:
+            initial_text="Timer started"
+    
+    # Act
+    timer.start()
+    dict_0.__setitem__(none_type_2, dict_0)
+    timer.__exit__(None, None, None)
+
+    # Assert
+    var_0 = dict_0.__repr__()
+    var_0.start()
+    assert timer._start_time == test_start_time
+    assert timer._start_time is not None
+    assert timer.logger is None
+    assert var_0 == "None"
+
+def test_timer_start_and_stop_new():
+    timer_0 = module_0.Timer()
+    timer_1 = timer_0.__enter__()
+    var_0 = timer_0.__eq__(timer_0)
+    none_type_0 = timer_0.__exit__()
+    INITIAL_TEXT = "Timer started"
+    LOGGER = "timer started"
+    assert timer_1 == 'Started'
+    assert LOGGER == "timer started"
+    timer_2 = module_0.Timer(INITIAL_TEXT, logger=var_0)
+    timer_2.start()
+    timer_3 = module_0.Timer("New timer", initial_text=timer_2, logger=var_0)
+    timer_3.start()
+
+def test_start_and_stop_timer():
+    # Constants
+    STR_START_TEXT = "Timer started"
+    STR_TIMER_NAME = "TestTimer"
+
+    # Setup
+    timer = Timer(STR_START_TEXT, name=STR_TIMER_NAME)
+
+    # Execution
+    timer.start()
+    elapsed_time = timer.stop()
+
+    # Assertion
+    assert elapsed_time != None, "The timer did not record any measurable elapsed_time."
+

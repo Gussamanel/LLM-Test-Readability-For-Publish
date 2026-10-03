@@ -108,3 +108,132 @@ def test_transform_validation_to_maybe_with_no_errors():
     # Assert that the Maybe is empty and has no value
     assert maybe_empty.is_nothing(), f"Expected Maybe Value to be {None}, but got {maybe_empty.value}"
 
+def test_validation_with_None_values_1():
+    """
+    Test Case: Verifying the Validation functionality with None values.
+    """
+    # Setting up the test
+    NONE_VALUE = None
+    validation = Validation(NONE_VALUE, NONE_VALUE)
+
+    # Execution - Calling the function(s) that is being tested
+    result = validation.method_under_test()  # replace 'method_under_test' with an actual method 
+
+    # Assertion - checking if the returned value is as expected
+    assert result == expected_result, "The returned result does not match the expected result"
+
+def test_to_maybe_with_successful_validation():
+    # Preparation
+    none_type = None
+    validation = vld.Validation(none_type, none_type)
+
+    # Execution
+    result = validation.to_maybe()
+
+    # Assertion
+    assert result.is_just() is False, "The validation was successful so the result should be in failure state (nothing)"
+
+def test_validation_is_fail_when_errors_list_is_not_empty():
+    # SETUP
+    # Define the test objects
+    object_0 = module_1.object()
+    validation_0 = module_0.Validation(object_0, object_0)
+
+    # EXECUTION
+    # Execute the function is_fail with the defined test objects
+    result = validation_0.is_fail()
+
+    # ASSERTION
+    # Make an assertion that the result is the expected result
+    assert result == False, "The result was not as expected. Expected False, but got True"
+
+def test_validation_with_None_mapper():
+    # None constant for mapper parameter validation
+    NONE = None
+
+    # Inputs for the validation function
+    INPUT_INT = -895
+    INPUT_BOOL = True
+    INPUT_TUPLE = (INPUT_INT, INPUT_BOOL)
+    INPUT_DICT = {INPUT_TUPLE: INPUT_TUPLE}
+    INPUT_TUPLE_MAPPER = (INPUT_DICT, INPUT_DICT, INPUT_INT)
+
+    # Setup: create a Validation instance with the provided inputs and bool_0
+    INSTANCE_VALIDATION = module_0.Validation(INPUT_TUPLE_MAPPER, INPUT_BOOL)
+
+    # Execution: call map method with None as the mapper function
+    RESULT_VALIDATION = INSTANCE_VALIDATION.map(NONE)
+
+    # Assertion: Check if the result of the map function is as expected
+    assert RESULT_VALIDATION.value is None
+    assert RESULT_VALIDATION.errors == INSTANCE_VALIDATION.errors
+
+def test_validation_bind_none_should_return_none():
+    # Constants for the test case
+    BYTES_DATA = b"s\x8flul\xd1p\x86\xe0<q\xd9\xb2\xf6\x17EC\xaf\xd0"
+    NONE = None
+
+    # Setup
+    # Create Validation object
+    validation = module_0.Validation(BYTES_DATA, BYTES_DATA)
+
+    # Execution
+    # Bind Validation object with None
+    none_type_validation = validation.bind(NONE)
+
+    # Assertion
+    # Check if none_type_validation is None
+    assert none_type_validation is NONE, "Bind operation returned wrong value"
+
+def test_validation_append_errors_method():
+    # Setup
+    FALSE = False
+    TRUE = True
+    LIST_BOOLS = [TRUE, TRUE, TRUE, TRUE]
+    VALIDATION_OBJECT = module_0.Validation(FALSE, LIST_BOOLS)
+
+    # Execution
+    # Here `ap` accepts a function that returns a `Validation` object. 
+    # Let's assume the function takes a list as input and returns a `Validation`
+    # object with the same list as value and a single error message in errors.
+    def function_ap(bool_list):
+        return module_0.Validation(bool_list, ['Appending errors'])
+
+    validation_after_ap = VALIDATION_OBJECT.ap(function_ap)
+
+    # Assertions
+    # The new `Validation` object should have the same value and concat of errors
+    assert validation_after_ap.value == LIST_BOOLS
+    assert validation_after_ap.errors == ['Appending errors']
+
+def test_validation_success_when_empty_errors():
+    """
+    Test to validate the success method of Validation.
+    If the Validation object has no errors
+    the success method should return true.
+    """
+    # Setup
+    bool_value = True
+    validation_obj = vld.Validation(bool_value, bool_value)
+
+    # Execution
+    box_obj = validation_obj.to_box()
+    is_success = box_obj.is_success()
+
+    # Assertion
+    assert is_success is True, "The success function returned False, expected True"
+
+def test_bind_then_to_lazy_with_none_value():
+"""
+This test case checks whether the bind method correctly binds a function to the Validation value
+and the to_lazy method correctly transforms the Validation to a lazy Try. In this test case, we test
+the bind and to_lazy with None value.
+"""
+NONE_VALUE = None
+EMPTY_LIST = []
+validation = vld.Validation(EMPTY_LIST, EMPTY_LIST)
+
+validation_value = validation.to_lazy()
+binded_value = validation_value.bind(NONE_VALUE)
+binded_value.to_lazy()
+
