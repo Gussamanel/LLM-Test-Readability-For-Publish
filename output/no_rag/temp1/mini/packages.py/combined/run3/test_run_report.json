@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 0,
         "diff_failing_tests": 0,
-        "diff_coverage": -4.76
+        "diff_coverage": -4.76,
+        "dan_score_diff": 0.390825
     },
     "test_summary": {
         "Original Test Results": "{'total': 2, 'pass': 0, 'fail': 1, 'error': 0}",
@@ -31,7 +32,15 @@
         "after_refactoring": {
             "test_version_part_constructor_smoke": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.872949,
+            "test_case_0": 0.931987
+        },
+        "dan_score_after": {
+            "__main__": 0.750868,
+            "test_version_part_constructor_smoke": 0.272418
+        },
+        "avg_dan_score_before": 0.902468,
+        "avg_dan_score_after": 0.511643
     }
 }

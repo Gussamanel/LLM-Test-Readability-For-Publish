@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": -2,
         "diff_failing_tests": 2,
-        "diff_coverage": -13.94
+        "diff_coverage": -13.94,
+        "dan_score_diff": 0.002705
     },
     "test_summary": {
         "Original Test Results": "{'total': 5, 'pass': 3, 'fail': 1, 'error': 0}",
@@ -37,7 +38,21 @@
             "test_yield_from_transformer_visits_while_statement": "fail",
             "test_yield_from_transformer_processes_while_node_with_kwargs": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.501779,
+            "test_case_0": 0.42161,
+            "test_case_1": 0.527525,
+            "test_case_2": 0.269239,
+            "test_case_3": 0.244563
+        },
+        "dan_score_after": {
+            "__main__": 0.471299,
+            "test_yield_from_transformer_visit_none_input": 0.369105,
+            "test_yield_from_transformer_initialization_with_none": 0.567229,
+            "test_yield_from_transformer_visits_while_statement": 0.301711,
+            "test_yield_from_transformer_processes_while_node_with_kwargs": 0.241846
+        },
+        "avg_dan_score_before": 0.392943,
+        "avg_dan_score_after": 0.390238
     }
 }

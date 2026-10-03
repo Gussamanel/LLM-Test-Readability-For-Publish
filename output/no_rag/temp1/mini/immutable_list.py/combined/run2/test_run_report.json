@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 19,
         "diff_failing_tests": -19,
-        "diff_coverage": 5.96
+        "diff_coverage": 5.96,
+        "dan_score_diff": 0.193174
     },
     "test_summary": {
         "Original Test Results": "{'total': 24, 'pass': 1, 'fail': 22, 'error': 0}",
@@ -75,7 +76,59 @@
             "test_reduce_on_empty_returns_acc_and_list_operations": "pass",
             "test_reduce_with_non_callable_fn_raises_type_error": "pass"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.821398,
+            "test_case_0": 0.262113,
+            "test_case_1": 0.354476,
+            "test_case_2": 0.519975,
+            "test_case_3": 0.416561,
+            "test_case_4": 0.370633,
+            "test_case_5": 0.626613,
+            "test_case_6": 0.638706,
+            "test_case_7": 0.263882,
+            "test_case_8": 0.276027,
+            "test_case_9": 0.351682,
+            "test_case_10": 0.714723,
+            "test_case_11": 0.587199,
+            "test_case_12": 0.538685,
+            "test_case_13": 0.689735,
+            "test_case_14": 0.544332,
+            "test_case_15": 0.653639,
+            "test_case_16": 0.641117,
+            "test_case_17": 0.604782,
+            "test_case_18": 0.337638,
+            "test_case_19": 0.46668,
+            "test_case_20": 0.344254,
+            "test_case_21": 0.312638,
+            "test_case_22": 0.544119
+        },
+        "dan_score_after": {
+            "__main__": 0.647358,
+            "test_empty_immutable_list_basic_behaviors": 0.214963,
+            "test_immutable_list_empty_behaviour_and_reduce_raises_type_error": 0.169928,
+            "test_append_returns_new_list_and_find_locates_element": 0.335543,
+            "test_add_raises_for_non_immutable_list_operand": 0.327501,
+            "test_find_returns_head_when_predicate_matches": 0.256626,
+            "test_find_returns_none_when_predicate_returns_false_for_single_element_list": 0.324321,
+            "test_find_raises_typeerror_when_predicate_is_not_callable": 0.370988,
+            "test_append_self_and_invalid_add_operations_raise": 0.19193,
+            "test_map_raises_type_error_when_given_non_callable_argument": 0.308561,
+            "test_map_with_non_callable_raises_type_error": 0.263952,
+            "test_filter_with_non_callable_argument_raises_type_error": 0.433769,
+            "test_filter_raises_type_error_when_given_non_callable_after_concatenating_empty_lists": 0.197828,
+            "test_find_on_empty_immutable_list_returns_none_and_none_has_no_len": 0.512948,
+            "test_find_raises_type_error_for_non_callable_predicate": 0.377432,
+            "test_reduce_on_empty_returns_acc_and_find_with_non_callable_raises_typeerror": 0.227235,
+            "test_create_empty_immutable_list_is_instance_and_initially_empty": 0.252394,
+            "test_str_and_find_on_empty_immutable_list_returns_expected": 0.297093,
+            "test_unshift_puts_element_at_head_and_find_with_non_callable_predicate_raises_type_error": 0.298964,
+            "test_find_returns_none_when_predicate_matches_no_elements": 0.285962,
+            "test_append_increases_length_and_find_returns_matching_head": 0.33447,
+            "test_reduce_unshift_append_and_find_non_callable_predicate_behavior": 0.191162,
+            "test_reduce_on_empty_returns_acc_and_list_operations": 0.190845,
+            "test_reduce_with_non_callable_fn_raises_type_error": 0.233651
+        },
+        "avg_dan_score_before": 0.495067,
+        "avg_dan_score_after": 0.301893
     }
 }

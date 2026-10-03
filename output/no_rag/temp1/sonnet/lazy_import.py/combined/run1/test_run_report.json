@@ -12,7 +12,8 @@
         "diff_total_tests": -1,
         "diff_passing_tests": 3,
         "diff_failing_tests": -4,
-        "diff_coverage": -11.61
+        "diff_coverage": -11.61,
+        "dan_score_diff": 0.079623
     },
     "test_summary": {
         "Original Test Results": "{'total': 23, 'pass': 2, 'fail': 20, 'error': 0}",
@@ -72,7 +73,56 @@
             "test_lazy_import_with_malformed_special_characters": "fail",
             "test_import_replacer_setattr_with_dict_as_attr": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.615022,
+            "test_case_0": 0.312774,
+            "test_case_1": 0.46464,
+            "test_case_2": 0.414355,
+            "test_case_3": 0.397603,
+            "test_case_4": 0.67807,
+            "test_case_5": 0.409867,
+            "test_case_6": 0.631157,
+            "test_case_7": 0.47112,
+            "test_case_8": 0.527848,
+            "test_case_9": 0.367091,
+            "test_case_10": 0.386573,
+            "test_case_11": 0.348294,
+            "test_case_12": 0.399413,
+            "test_case_13": 0.38531,
+            "test_case_14": 0.314015,
+            "test_case_15": 0.328517,
+            "test_case_16": 0.440973,
+            "test_case_17": 0.484669,
+            "test_case_18": 0.439498,
+            "test_case_19": 0.276239,
+            "test_case_20": 0.482291,
+            "test_case_21": 0.399242
+        },
+        "dan_score_after": {
+            "__main__": 0.537658,
+            "test_illegal_use_of_scope_replacer_repr": 0.2471,
+            "test_illegal_use_of_scope_replacer_unicode_representation": 0.281168,
+            "test_lazy_import_with_import_replacer_as_text": 0.276572,
+            "test_import_replacer_raises_error_with_complex_number_arguments": 0.336949,
+            "test_import_processor_default_initialization": 0.492847,
+            "test_lazy_import_with_invalid_arguments": 0.548409,
+            "test_disallow_proxying_sets_should_proxy_to_false": 0.358706,
+            "test_lazy_import_with_invalid_import_text": 0.32281,
+            "test_illegal_use_of_scope_replacer_eq_and_unicode": 0.245823,
+            "test_illegal_use_of_scope_replacer_self_equality_and_unicode_type": 0.22262,
+            "test_lazy_import_with_invalid_text_and_none_scope": 0.299693,
+            "test_lazy_import_with_invalid_argument_count": 0.434842,
+            "test_lazy_import_with_docstring_as_scope_and_text": 0.279918,
+            "test_lazy_import_with_empty_string_and_none_scope": 0.4584,
+            "test_lazy_import_with_nonlocal_simulation_text": 0.285592,
+            "test_lazy_import_with_garbage_string_raises_error": 0.546547,
+            "test_import_replacer_with_dash_string_parameters": 0.507147,
+            "test_lazy_import_with_import_replacer_object_as_text_argument": 0.217466,
+            "test_lazy_import_with_none_text_and_scope_replacer": 0.260144,
+            "test_lazy_import_with_malformed_special_characters": 0.309672,
+            "test_import_replacer_setattr_with_dict_as_attr": 0.31911
+        },
+        "avg_dan_score_before": 0.433677,
+        "avg_dan_score_after": 0.354054
     }
 }

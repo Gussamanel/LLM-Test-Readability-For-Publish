@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 0,
         "diff_failing_tests": 0,
-        "diff_coverage": -0.02
+        "diff_coverage": -0.02,
+        "dan_score_diff": 0.05337
     },
     "test_summary": {
         "Original Test Results": "{'total': 1, 'pass': 0, 'fail': 0, 'error': 0}",
@@ -29,7 +30,24 @@
         "after_refactoring": {
             "collection_error": true
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.641154,
+            "test_case_0": 0.438483,
+            "test_case_1": 0.582286,
+            "test_case_2": 0.354861,
+            "test_case_3": 0.268647,
+            "test_case_4": 0.519234,
+            "test_case_5": 0.418507
+        },
+        "dan_score_after": {
+            "__main__": 0.470649,
+            "test_purging_and_debugging": 0.3108,
+            "test_eager_wrapper_returns_iterables_as_lists": 0.278791,
+            "test_case_3": 0.193396,
+            "test_case_4_proxy_handler_warn": 0.615108,
+            "test_function_returns_list_from_iterable": 0.573754
+        },
+        "avg_dan_score_before": 0.460453,
+        "avg_dan_score_after": 0.407083
     }
 }

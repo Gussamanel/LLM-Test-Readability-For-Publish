@@ -12,7 +12,8 @@
         "diff_total_tests": -22,
         "diff_passing_tests": -2,
         "diff_failing_tests": -20,
-        "diff_coverage": -5.18
+        "diff_coverage": -5.18,
+        "dan_score_diff": 0.104175
     },
     "test_summary": {
         "Original Test Results": "{'total': 23, 'pass': 2, 'fail': 20, 'error': 0}",
@@ -52,7 +53,57 @@
         "after_refactoring": {
             "collection_error": true
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.615022,
+            "test_case_0": 0.312774,
+            "test_case_1": 0.46464,
+            "test_case_2": 0.414355,
+            "test_case_3": 0.397603,
+            "test_case_4": 0.67807,
+            "test_case_5": 0.409867,
+            "test_case_6": 0.631157,
+            "test_case_7": 0.47112,
+            "test_case_8": 0.527848,
+            "test_case_9": 0.367091,
+            "test_case_10": 0.386573,
+            "test_case_11": 0.348294,
+            "test_case_12": 0.399413,
+            "test_case_13": 0.38531,
+            "test_case_14": 0.314015,
+            "test_case_15": 0.328517,
+            "test_case_16": 0.440973,
+            "test_case_17": 0.484669,
+            "test_case_18": 0.439498,
+            "test_case_19": 0.276239,
+            "test_case_20": 0.482291,
+            "test_case_21": 0.399242
+        },
+        "dan_score_after": {
+            "__main__": 0.519652,
+            "test_create_replacer_instance_and_convert_to_string": 0.24322,
+            "test_illegal_use_of_scope_replacer_unicode_method_convert_to_string": 0.370426,
+            "test_case_2": 0.391382,
+            "test_complex_value_not_raising_exception": 0.240767,
+            "test_case_4": 0.704708,
+            "test_case_6": 0.334783,
+            "test_disallow_lazy_import": 0.332596,
+            "test_illegal_use_of_scope_replacer_repr": 0.286553,
+            "test_import_and_lazy_import": 0.205731,
+            "test_verify_IllegalUseOfScopeReplacer_unequality": 0.170378,
+            "test_equality_of_two_instances_of_differing_classes_unique": 0.36126,
+            "test_lazy_import_converts_similar_python_import_markup_to_lazy_import_objects": 0.323146,
+            "test_lazy_import_converts_text_into_lazy_import_objects": 0.193371,
+            "test_reset_compile_to_original": 0.171145,
+            "test_import_text_should_convert_text_to_lazy_import_objects": 0.257923,
+            "test_lazy_import_with_nonlocal_keyword": 0.478164,
+            "test_lazy_import_with_valid_text_conversion": 0.351136,
+            "test_import_replacer_valid_inputs": 0.453575,
+            "test_check_lazy_import_function": 0.413342,
+            "test_implement_lazy_import": 0.294417,
+            "test_lazy_import_replaces_compile_function": 0.254647,
+            "test_set_attribute_in_lazy_imported_object": 0.226233
+        },
+        "avg_dan_score_before": 0.433677,
+        "avg_dan_score_after": 0.329502
     }
 }

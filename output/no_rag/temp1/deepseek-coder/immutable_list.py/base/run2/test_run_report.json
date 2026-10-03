@@ -53,7 +53,33 @@
         "after_refactoring": {
             "collection_error": true
         },
-        "dan_score_before": {},
-        "dan_score_after": null
+        "dan_score_before": {
+            "__main__": 0.821398,
+            "test_case_0": 0.262113,
+            "test_case_1": 0.354476,
+            "test_case_2": 0.519975,
+            "test_case_3": 0.416561,
+            "test_case_4": 0.370633,
+            "test_case_5": 0.626613,
+            "test_case_6": 0.638706,
+            "test_case_7": 0.263882,
+            "test_case_8": 0.276027,
+            "test_case_9": 0.351682,
+            "test_case_10": 0.714723,
+            "test_case_11": 0.587199,
+            "test_case_12": 0.538685,
+            "test_case_13": 0.689735,
+            "test_case_14": 0.544332,
+            "test_case_15": 0.653639,
+            "test_case_16": 0.641117,
+            "test_case_17": 0.604782,
+            "test_case_18": 0.337638,
+            "test_case_19": 0.46668,
+            "test_case_20": 0.344254,
+            "test_case_21": 0.312638,
+            "test_case_22": 0.544119
+        },
+        "dan_score_after": {},
+        "avg_dan_score_before": 0.495067
     }
 }

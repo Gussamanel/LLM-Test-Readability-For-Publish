@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 0,
         "diff_failing_tests": 0,
-        "diff_coverage": -14.97
+        "diff_coverage": -14.97,
+        "dan_score_diff": 0.060241
     },
     "test_summary": {
         "Original Test Results": "{'total': 12, 'pass': 3, 'fail': 8, 'error': 0}",
@@ -51,7 +52,35 @@
             "test_to_namedtuple_recursive_conversion_and_idempotence": "fail",
             "test_to_namedtuple_with_byte_keys_and_values_does_not_raise_and_returns_tuple": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.624672,
+            "test_case_0": 0.551661,
+            "test_case_1": 0.275,
+            "test_case_2": 0.233238,
+            "test_case_3": 0.350584,
+            "test_case_4": 0.485773,
+            "test_case_5": 0.179177,
+            "test_case_6": 0.198925,
+            "test_case_7": 0.2615,
+            "test_case_8": 0.111221,
+            "test_case_9": 0.141845,
+            "test_case_10": 0.279753
+        },
+        "dan_score_after": {
+            "__main__": 0.504662,
+            "test_to_namedtuple_preserves_float_value_and_type": 0.481527,
+            "test_to_namedtuple_converts_tuple_with_set_member": 0.181178,
+            "test_to_namedtuple_converts_mapping_and_is_idempotent": 0.208823,
+            "test_to_namedtuple_returns_bytes_unchanged_for_bytes_input": 0.249181,
+            "test_to_namedtuple_returns_empty_tuple_for_empty_input": 0.40755,
+            "test_to_namedtuple_handles_empty_ordereddict_and_tuple_with_bytes": 0.130457,
+            "test_to_namedtuple_handles_ordereddict_with_non_identifier_keys_and_invalid_constructor_arg": 0.179322,
+            "test_to_namedtuple_converts_nested_empty_list_and_returns_none_for_none_input": 0.210157,
+            "test_to_namedtuple_handles_mixed_nested_structures": 0.113121,
+            "test_to_namedtuple_recursive_conversion_and_idempotence": 0.125239,
+            "test_to_namedtuple_with_byte_keys_and_values_does_not_raise_and_returns_tuple": 0.179237
+        },
+        "avg_dan_score_before": 0.307779,
+        "avg_dan_score_after": 0.247538
     }
 }

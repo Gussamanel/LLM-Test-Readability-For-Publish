@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": -1,
         "diff_failing_tests": 1,
-        "diff_coverage": -12.66
+        "diff_coverage": -12.66,
+        "dan_score_diff": 0.097252
     },
     "test_summary": {
         "Original Test Results": "{'total': 23, 'pass': 2, 'fail': 20, 'error': 0}",
@@ -73,7 +74,57 @@
             "test_lazy_import_accepts_malformed_text_when_scope_is_string": "fail",
             "test_import_replacer_setattr_raises_type_error_for_non_string_attribute": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.615022,
+            "test_case_0": 0.312774,
+            "test_case_1": 0.46464,
+            "test_case_2": 0.414355,
+            "test_case_3": 0.397603,
+            "test_case_4": 0.67807,
+            "test_case_5": 0.409867,
+            "test_case_6": 0.631157,
+            "test_case_7": 0.47112,
+            "test_case_8": 0.527848,
+            "test_case_9": 0.367091,
+            "test_case_10": 0.386573,
+            "test_case_11": 0.348294,
+            "test_case_12": 0.399413,
+            "test_case_13": 0.38531,
+            "test_case_14": 0.314015,
+            "test_case_15": 0.328517,
+            "test_case_16": 0.440973,
+            "test_case_17": 0.484669,
+            "test_case_18": 0.439498,
+            "test_case_19": 0.276239,
+            "test_case_20": 0.482291,
+            "test_case_21": 0.399242
+        },
+        "dan_score_after": {
+            "__main__": 0.4937,
+            "test_illegal_use_of_scope_replacer_repr_returns_expected_format": 0.217231,
+            "test_illegal_use_of_scope_replacer_returns_unicode": 0.285735,
+            "test_lazy_import_builds_map_and_converts_imports": 0.399188,
+            "test_import_replacer_handles_three_identical_complex_arguments": 0.390017,
+            "test_import_processor_can_be_instantiated": 0.409564,
+            "test_lazy_import_with_malformed_text_does_not_raise_and_returns_none": 0.355093,
+            "test_disallow_proxying_clears_scope_replacer_flag": 0.224575,
+            "test_illegal_use_of_scope_replacer_repr_contains_class_name_and_parenthesized_content": 0.180329,
+            "test_lazy_import_handles_irregular_input_returns_none": 0.420195,
+            "test_illegal_use_of_scope_replacer_equality_and_unicode_conversion": 0.254673,
+            "test_illegal_use_of_scope_replacer_equality_and_unicode": 0.29847,
+            "test_lazy_import_handles_nonstandard_import_text_and_returns_none": 0.409715,
+            "test_lazy_import_processes_import_like_text_without_error": 0.346627,
+            "test_lazy_import_with_multiline_docstring_does_not_raise": 0.297798,
+            "test_disallow_proxying_then_lazy_import_returns_none": 0.326696,
+            "test_lazy_import_handles_nonlocal_keyword_simulation": 0.419802,
+            "test_lazy_import_handles_nonstandard_text_input_no_error": 0.453358,
+            "test_import_replacer_handles_hyphen_inputs_no_raise": 0.380448,
+            "test_lazy_import_with_invalid_token_does_not_modify_scope": 0.306439,
+            "test_lazy_import_with_none_scope_and_scope_replacer_text": 0.302304,
+            "test_lazy_import_accepts_malformed_text_when_scope_is_string": 0.33814,
+            "test_import_replacer_setattr_raises_type_error_for_non_string_attribute": 0.227671
+        },
+        "avg_dan_score_before": 0.433677,
+        "avg_dan_score_after": 0.336425
     }
 }

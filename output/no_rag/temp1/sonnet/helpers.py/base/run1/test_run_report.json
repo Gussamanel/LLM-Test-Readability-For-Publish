@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": -4,
         "diff_failing_tests": 4,
-        "diff_coverage": -21.77
+        "diff_coverage": -21.77,
+        "dan_score_diff": 0.082853
     },
     "test_summary": {
         "Original Test Results": "{'total': 7, 'pass': 4, 'fail': 2, 'error': 0}",
@@ -41,7 +42,25 @@
             "test_warn_with_proxy_handler_message": "fail",
             "test_eager_decorator_with_non_callable_argument": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.641154,
+            "test_case_0": 0.438483,
+            "test_case_1": 0.582286,
+            "test_case_2": 0.354861,
+            "test_case_3": 0.268647,
+            "test_case_4": 0.519234,
+            "test_case_5": 0.418507
+        },
+        "dan_score_after": {
+            "__main__": 0.653661,
+            "test_debug_with_purged_message": 0.371668,
+            "test_variables_generator_instantiation": 0.509383,
+            "test_eager_decorator_with_variables_generator": 0.288318,
+            "test_eager_wraps_function_and_debug_warn_get_source": 0.2005,
+            "test_warn_with_proxy_handler_message": 0.33312,
+            "test_eager_decorator_with_non_callable_argument": 0.28655
+        },
+        "avg_dan_score_before": 0.460453,
+        "avg_dan_score_after": 0.3776
     }
 }

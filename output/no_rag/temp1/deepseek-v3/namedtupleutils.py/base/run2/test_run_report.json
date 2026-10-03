@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 0,
         "diff_failing_tests": 0,
-        "diff_coverage": -2.65
+        "diff_coverage": -2.65,
+        "dan_score_diff": 0.023467
     },
     "test_summary": {
         "Original Test Results": "{'total': 12, 'pass': 3, 'fail': 8, 'error': 0}",
@@ -51,7 +52,35 @@
             "test_to_namedtuple_handles_nested_structures_and_unsupported_types": "fail",
             "test_to_namedtuple_with_invalid_bytes_key_raises_type_error": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.624672,
+            "test_case_0": 0.551661,
+            "test_case_1": 0.275,
+            "test_case_2": 0.233238,
+            "test_case_3": 0.350584,
+            "test_case_4": 0.485773,
+            "test_case_5": 0.179177,
+            "test_case_6": 0.198925,
+            "test_case_7": 0.2615,
+            "test_case_8": 0.111221,
+            "test_case_9": 0.141845,
+            "test_case_10": 0.279753
+        },
+        "dan_score_after": {
+            "__main__": 0.516902,
+            "test_to_namedtuple_with_negative_float_returns_input_unchanged": 0.460064,
+            "test_to_namedtuple_with_tuple_containing_negative_float_and_set": 0.188282,
+            "test_to_namedtuple_handles_already_converted_namedtuple_returns_equivalent_namedtuple": 0.283932,
+            "test_to_namedtuple_with_bytes_input_raises_type_error": 0.233577,
+            "test_to_namedtuple_with_empty_tuple_returns_empty_tuple": 0.358334,
+            "test_to_namedtuple_with_empty_ordered_dict_and_repeated_recursive_conversion": 0.144225,
+            "test_to_namedtuple_with_ordered_dict_and_special_character_string_keys": 0.335872,
+            "test_to_namedtuple_handles_empty_list_and_none_gracefully": 0.328835,
+            "test_to_namedtuple_recursively_converts_nested_mappings_tuples_and_booleans": 0.139265,
+            "test_to_namedtuple_handles_nested_structures_and_unsupported_types": 0.180356,
+            "test_to_namedtuple_with_invalid_bytes_key_raises_type_error": 0.242103
+        },
+        "avg_dan_score_before": 0.307779,
+        "avg_dan_score_after": 0.284312
     }
 }

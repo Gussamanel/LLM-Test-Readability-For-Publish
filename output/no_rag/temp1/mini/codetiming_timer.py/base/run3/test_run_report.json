@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 3,
         "diff_failing_tests": -3,
-        "diff_coverage": -7.28
+        "diff_coverage": -7.28,
+        "dan_score_diff": 0.142595
     },
     "test_summary": {
         "Original Test Results": "{'total': 11, 'pass': 3, 'fail': 7, 'error': 0}",
@@ -49,7 +50,33 @@
             "test_start_raises_type_error_when_logger_is_not_callable": "pass",
             "test_timer_start_stop_enter_and_copy_behavior": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.702666,
+            "test_case_0": 0.755686,
+            "test_case_1": 0.408712,
+            "test_case_2": 0.415788,
+            "test_case_3": 0.319897,
+            "test_case_4": 0.209765,
+            "test_case_5": 0.228859,
+            "test_case_6": 0.235425,
+            "test_case_7": 0.19346,
+            "test_case_8": 0.319533,
+            "test_case_9": 0.365313
+        },
+        "dan_score_after": {
+            "__main__": 0.529924,
+            "test_timer_error_instantiation_and_type": 0.268923,
+            "test_start_raises_when_starting_twice_after_manual_context_usage": 0.200589,
+            "test_timer_context_manager_enter_returns_self_and_exit_returns_none": 0.258448,
+            "test_timer_exit_stops_context_manager_without_exception": 0.247382,
+            "test_timer_enter_starts_timer_and_prevents_restarting": 0.209398,
+            "test_timer_context_enter_stop_and_start_changes_state_and_returns_expected_types": 0.128802,
+            "test_timer_context_manager_start_stop_and_repr_and_equality": 0.118296,
+            "test_timer_start_and_exit_resets_start_time_and_supports_self_referential_dict": 0.209842,
+            "test_start_raises_type_error_when_logger_is_not_callable": 0.263944,
+            "test_timer_start_stop_enter_and_copy_behavior": 0.151011
+        },
+        "avg_dan_score_before": 0.377737,
+        "avg_dan_score_after": 0.235142
     }
 }

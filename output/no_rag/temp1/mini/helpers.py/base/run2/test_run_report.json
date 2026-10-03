@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": -4,
         "diff_failing_tests": 4,
-        "diff_coverage": -15.87
+        "diff_coverage": -15.87,
+        "dan_score_diff": 0.144303
     },
     "test_summary": {
         "Original Test Results": "{'total': 7, 'pass': 4, 'fail': 2, 'error': 0}",
@@ -41,7 +42,25 @@
             "test_warn_prints_input_message_to_stderr_and_returns_none": "fail",
             "test_eager_wrap_with_non_callable_raises_type_error_on_invocation": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.641154,
+            "test_case_0": 0.438483,
+            "test_case_1": 0.582286,
+            "test_case_2": 0.354861,
+            "test_case_3": 0.268647,
+            "test_case_4": 0.519234,
+            "test_case_5": 0.418507
+        },
+        "dan_score_after": {
+            "__main__": 0.603403,
+            "test_debug_with_purge_callable_returns_none": 0.255504,
+            "test_variables_generator_instantiation_creates_object": 0.177184,
+            "test_eager_wraps_callable_generator_and_returns_list": 0.215385,
+            "test_eager_wrapper_and_source_and_logging": 0.174493,
+            "test_warn_prints_input_message_to_stderr_and_returns_none": 0.445025,
+            "test_eager_wrap_with_non_callable_raises_type_error_on_invocation": 0.342057
+        },
+        "avg_dan_score_before": 0.460453,
+        "avg_dan_score_after": 0.31615
     }
 }

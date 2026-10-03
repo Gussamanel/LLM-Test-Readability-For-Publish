@@ -12,7 +12,8 @@
         "diff_total_tests": -10,
         "diff_passing_tests": -3,
         "diff_failing_tests": -7,
-        "diff_coverage": -4.92
+        "diff_coverage": -4.92,
+        "dan_score_diff": 0.090001
     },
     "test_summary": {
         "Original Test Results": "{'total': 11, 'pass': 3, 'fail': 7, 'error': 0}",
@@ -40,7 +41,33 @@
         "after_refactoring": {
             "collection_error": true
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.702666,
+            "test_case_0": 0.755686,
+            "test_case_1": 0.408712,
+            "test_case_2": 0.415788,
+            "test_case_3": 0.319897,
+            "test_case_4": 0.209765,
+            "test_case_5": 0.228859,
+            "test_case_6": 0.235425,
+            "test_case_7": 0.19346,
+            "test_case_8": 0.319533,
+            "test_case_9": 0.365313
+        },
+        "dan_score_after": {
+            "__main__": 0.292275,
+            "test_import_no_relevance_feedback": 0.400122,
+            "test_no_relevance_feedback_import": 0.261865,
+            "test_case_2": 0.611479,
+            "test_case_3": 0.319897,
+            "test_timer_setitem_and_start": 0.253779,
+            "test_verify_timer_initialization_and_stop": 0.090787,
+            "test_case_7": 0.249528,
+            "test_timer_can_be_started_and_stopped": 0.198072,
+            "test_timer_start_and_stop_new": 0.207251,
+            "test_start_and_stop_timer": 0.280038
+        },
+        "avg_dan_score_before": 0.377737,
+        "avg_dan_score_after": 0.287736
     }
 }

@@ -12,7 +12,8 @@
         "diff_total_tests": -11,
         "diff_passing_tests": -3,
         "diff_failing_tests": -8,
-        "diff_coverage": -4.53
+        "diff_coverage": -4.53,
+        "dan_score_diff": 0.024158
     },
     "test_summary": {
         "Original Test Results": "{'total': 12, 'pass': 3, 'fail': 8, 'error': 0}",
@@ -41,7 +42,36 @@
         "after_refactoring": {
             "collection_error": true
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.624672,
+            "test_case_0": 0.551661,
+            "test_case_1": 0.275,
+            "test_case_2": 0.233238,
+            "test_case_3": 0.350584,
+            "test_case_4": 0.485773,
+            "test_case_5": 0.179177,
+            "test_case_6": 0.198925,
+            "test_case_7": 0.2615,
+            "test_case_8": 0.111221,
+            "test_case_9": 0.141845,
+            "test_case_10": 0.279753
+        },
+        "dan_score_after": {
+            "__main__": 0.546819,
+            "test_convert_float_to_namedtuple": 0.307,
+            "test_convert_object_to_namedtuple": 0.256154,
+            "test_convert_dict_namedtuple_and_back": 0.344428,
+            "test_namedtuple_with_bytes_input": 0.308128,
+            "test_to_namedtuple": 0.138272,
+            "test_convert_ordered_dict_with_non_identifier_keys_to_namedtuple": 0.285547,
+            "test_to_namedtuple_converts_simple_objects": 0.291141,
+            "test_namedtuple_conversion_and_back_and_exceptions": 0.1582,
+            "test_to_namedtuple_with_list": 0.370744,
+            "test_to_namedtuple_with_namedtuple": 0.266386,
+            "test_to_namedtuple_with_int": 0.261182,
+            "test_convert_dictionary_to_namedtuple": 0.153069
+        },
+        "avg_dan_score_before": 0.307779,
+        "avg_dan_score_after": 0.283621
     }
 }

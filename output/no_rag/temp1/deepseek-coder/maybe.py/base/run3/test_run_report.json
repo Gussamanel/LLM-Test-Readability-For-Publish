@@ -12,7 +12,8 @@
         "diff_total_tests": -20,
         "diff_passing_tests": -3,
         "diff_failing_tests": -17,
-        "diff_coverage": -5.02
+        "diff_coverage": -5.02,
+        "dan_score_diff": 0.016256
     },
     "test_summary": {
         "Original Test Results": "{'total': 21, 'pass': 3, 'fail': 17, 'error': 0}",
@@ -50,7 +51,55 @@
         "after_refactoring": {
             "collection_error": true
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.869158,
+            "test_case_0": 0.391773,
+            "test_case_1": 0.403319,
+            "test_case_2": 0.16177,
+            "test_case_3": 0.306849,
+            "test_case_4": 0.28734,
+            "test_case_5": 0.432324,
+            "test_case_6": 0.270064,
+            "test_case_7": 0.133864,
+            "test_case_8": 0.491095,
+            "test_case_9": 0.205555,
+            "test_case_10": 0.209419,
+            "test_case_11": 0.183925,
+            "test_case_12": 0.164529,
+            "test_case_13": 0.191801,
+            "test_case_14": 0.179004,
+            "test_case_15": 0.298007,
+            "test_case_16": 0.166292,
+            "test_case_17": 0.102512,
+            "test_case_18": 0.213544,
+            "test_case_19": 0.292841
+        },
+        "dan_score_after": {
+            "__main__": 0.588879,
+            "get_test_names": 0.432106,
+            "check_duplicate_tests": 0.31137,
+            "test_maybe_constructor_handles_none": 0.465066,
+            "test_maybe_structure": 0.134746,
+            "test_maybe_equality": 0.238086,
+            "test_bind_and_map_methods_of_maybe_monad_when_maybe_has_a_value": 0.24495,
+            "test_maybe_map_functionality_given_none_and_false": 0.29657,
+            "test_maybe_bind_operation": 0.174486,
+            "test_maybe_conversion_and_filtering": 0.103895,
+            "test_case_8_changed": 0.291786,
+            "test_double_value_with_maybe": 0.344818,
+            "test_filter_maybe_with_true_predicate_returns_same_value": 0.219659,
+            "test_filter_and_get_or_else_with_empty_maybe_should_return_default": 0.188259,
+            "test_maybe_values_conversion_and_or_else_handling": 0.12525,
+            "test_maybe_structure_and_conversion": 0.179307,
+            "test_maybe_to_either_success": 0.397034,
+            "test_maybe_to_either_failure": 0.352464,
+            "test_maybe_conversion_to_try": 0.353042,
+            "test_maybe_should_ap_to_try_map_and_filter": 0.196511,
+            "test_transform_maybe_to_try_none": 0.10363,
+            "test_maybe_mapping_with_valid_value": 0.20566,
+            "test_maybe_equality_and_monad_transformations": 0.200676
+        },
+        "avg_dan_score_before": 0.283571,
+        "avg_dan_score_after": 0.267315
     }
 }

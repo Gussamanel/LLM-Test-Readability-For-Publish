@@ -12,7 +12,8 @@
         "diff_total_tests": 1,
         "diff_passing_tests": 1,
         "diff_failing_tests": 0,
-        "diff_coverage": 0.42
+        "diff_coverage": 0.42,
+        "dan_score_diff": 0.169779
     },
     "test_summary": {
         "Original Test Results": "{'total': 24, 'pass': 1, 'fail': 22, 'error': 0}",
@@ -76,7 +77,60 @@
             "test_reduce_length_and_unshift_operation": "fail",
             "test_to_list_method_with_empty_tail": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.821398,
+            "test_case_0": 0.262113,
+            "test_case_1": 0.354476,
+            "test_case_2": 0.519975,
+            "test_case_3": 0.416561,
+            "test_case_4": 0.370633,
+            "test_case_5": 0.626613,
+            "test_case_6": 0.638706,
+            "test_case_7": 0.263882,
+            "test_case_8": 0.276027,
+            "test_case_9": 0.351682,
+            "test_case_10": 0.714723,
+            "test_case_11": 0.587199,
+            "test_case_12": 0.538685,
+            "test_case_13": 0.689735,
+            "test_case_14": 0.544332,
+            "test_case_15": 0.653639,
+            "test_case_16": 0.641117,
+            "test_case_17": 0.604782,
+            "test_case_18": 0.337638,
+            "test_case_19": 0.46668,
+            "test_case_20": 0.344254,
+            "test_case_21": 0.312638,
+            "test_case_22": 0.544119
+        },
+        "dan_score_after": {
+            "__main__": 0.502069,
+            "test_equality_of_empty_immutable_list_with_none": 0.36098,
+            "test_reduce_method_on_immutable_list": 0.197537,
+            "test_find_element_in_prepended_immutable_list": 0.284266,
+            "test_case_3": 0.461869,
+            "test_find_element_in_prepended_immutable_list_alternative": 0.329541,
+            "test_append_and_find_in_empty_list": 0.209106,
+            "test_map_functionality": 0.423675,
+            "test_unshift_new_element_on_empty_list": 0.41235,
+            "test_unshift_new_element_on_existing_list": 0.408831,
+            "test_append_new_element_to_empty_list": 0.36701,
+            "test_immutable_list_filter_true": 0.269406,
+            "test_immutable_list_filter_by_length": 0.291801,
+            "test_immutable_list_find_returns_first_element_passing_criteria": 0.374055,
+            "test_find_matching_element_alternative": 0.453005,
+            "test_immutable_list_reduce_behavior": 0.171642,
+            "test_immutable_list_find_behavior": 0.226658,
+            "test_immutable_list_zero_length_at_init": 0.59272,
+            "test_finding_element_in_immutable_list": 0.202657,
+            "test_find_in_unshifted_list_should_return_first_matching_element_correctly": 0.351189,
+            "test_add_element_at_start_and_find_it": 0.349784,
+            "test_append_and_find_in_immutable_list": 0.199224,
+            "test_find_element_in_prepended_immutable_list_difference": 0.24788,
+            "test_reduce_length_and_unshift_operation": 0.228759,
+            "test_to_list_method_with_empty_tail": 0.216189
+        },
+        "avg_dan_score_before": 0.495067,
+        "avg_dan_score_after": 0.325288
     }
 }

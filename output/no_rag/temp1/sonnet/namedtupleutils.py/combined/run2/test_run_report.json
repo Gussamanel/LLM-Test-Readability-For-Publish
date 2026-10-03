@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 2,
         "diff_failing_tests": -2,
-        "diff_coverage": -3.14
+        "diff_coverage": -3.14,
+        "dan_score_diff": 0.072854
     },
     "test_summary": {
         "Original Test Results": "{'total': 12, 'pass': 3, 'fail': 8, 'error': 0}",
@@ -51,7 +52,35 @@
             "test_to_namedtuple_with_nested_structures_and_idempotency": "fail",
             "test_to_namedtuple_with_dict_containing_bytes_keys_and_values": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.624672,
+            "test_case_0": 0.551661,
+            "test_case_1": 0.275,
+            "test_case_2": 0.233238,
+            "test_case_3": 0.350584,
+            "test_case_4": 0.485773,
+            "test_case_5": 0.179177,
+            "test_case_6": 0.198925,
+            "test_case_7": 0.2615,
+            "test_case_8": 0.111221,
+            "test_case_9": 0.141845,
+            "test_case_10": 0.279753
+        },
+        "dan_score_after": {
+            "__main__": 0.534705,
+            "test_to_namedtuple_with_float_input_raises_no_error": 0.250545,
+            "test_to_namedtuple_with_tuple_containing_set_and_direct_set": 0.175112,
+            "test_convert_dict_to_namedtuple_and_reconvert": 0.266676,
+            "test_to_namedtuple_with_bytes_input_raises_error": 0.233374,
+            "test_to_namedtuple_with_empty_tuple_returns_empty_tuple": 0.280093,
+            "test_convert_empty_ordered_dict_and_tuple_with_bytes": 0.14783,
+            "test_convert_ordered_dict_with_special_char_key_to_namedtuple": 0.265306,
+            "test_to_namedtuple_with_list_containing_empty_list_and_none": 0.204508,
+            "test_to_namedtuple_with_complex_nested_structures": 0.107963,
+            "test_to_namedtuple_with_nested_structures_and_idempotency": 0.1276,
+            "test_to_namedtuple_with_dict_containing_bytes_keys_and_values": 0.225385
+        },
+        "avg_dan_score_before": 0.307779,
+        "avg_dan_score_after": 0.234925
     }
 }

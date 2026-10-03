@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": -2,
         "diff_failing_tests": 2,
-        "diff_coverage": -29.21
+        "diff_coverage": -29.21,
+        "dan_score_diff": 0.029167
     },
     "test_summary": {
         "Original Test Results": "{'total': 12, 'pass': 3, 'fail': 8, 'error': 0}",
@@ -51,7 +52,35 @@
             "test_to_namedtuple_recursively_converts_nested_list_tuple_and_dict_with_non_identifier_keys": "fail",
             "test_to_namedtuple_with_duplicate_bytes_key_collapses_mapping_successfully": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.624672,
+            "test_case_0": 0.551661,
+            "test_case_1": 0.275,
+            "test_case_2": 0.233238,
+            "test_case_3": 0.350584,
+            "test_case_4": 0.485773,
+            "test_case_5": 0.179177,
+            "test_case_6": 0.198925,
+            "test_case_7": 0.2615,
+            "test_case_8": 0.111221,
+            "test_case_9": 0.141845,
+            "test_case_10": 0.279753
+        },
+        "dan_score_after": {
+            "__main__": 0.574251,
+            "test_to_namedtuple_with_float_returns_same_float_value": 0.277356,
+            "test_to_namedtuple_converts_tuple_with_duplicate_set_items_to_namedtuple": 0.164336,
+            "test_to_namedtuple_is_idempotent_for_repeated_mapping_key": 0.331592,
+            "test_to_namedtuple_with_bytes_non_ascii_and_special_chars_returns_unchanged": 0.340665,
+            "test_to_namedtuple_with_empty_tuple_returns_empty_namedtuple_like_object": 0.322996,
+            "test_to_namedtuple_with_empty_ordered_dict_and_nested_tuple_including_bytes_payload": 0.214299,
+            "test_to_namedtuple_requires_valid_namedtuple_attribute_identifier_keys": 0.336013,
+            "test_to_namedtuple_with_nested_empty_list_and_none_input": 0.301013,
+            "test_to_namedtuple_nested_structures_falsy_and_mixed_keys_roundtrip": 0.127095,
+            "test_to_namedtuple_recursively_converts_nested_list_tuple_and_dict_with_non_identifier_keys": 0.082048,
+            "test_to_namedtuple_with_duplicate_bytes_key_collapses_mapping_successfully": 0.271681
+        },
+        "avg_dan_score_before": 0.307779,
+        "avg_dan_score_after": 0.278612
     }
 }

@@ -12,7 +12,8 @@
         "diff_total_tests": 1,
         "diff_passing_tests": 9,
         "diff_failing_tests": -8,
-        "diff_coverage": -9.45
+        "diff_coverage": -9.45,
+        "dan_score_diff": 0.134176
     },
     "test_summary": {
         "Original Test Results": "{'total': 24, 'pass': 1, 'fail': 22, 'error': 0}",
@@ -76,7 +77,60 @@
             "test_unshift_and_reduce_with_function_as_element": "pass",
             "test_reduce_returns_accumulator_when_head_is_true_and_tail_is_none": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.821398,
+            "test_case_0": 0.262113,
+            "test_case_1": 0.354476,
+            "test_case_2": 0.519975,
+            "test_case_3": 0.416561,
+            "test_case_4": 0.370633,
+            "test_case_5": 0.626613,
+            "test_case_6": 0.638706,
+            "test_case_7": 0.263882,
+            "test_case_8": 0.276027,
+            "test_case_9": 0.351682,
+            "test_case_10": 0.714723,
+            "test_case_11": 0.587199,
+            "test_case_12": 0.538685,
+            "test_case_13": 0.689735,
+            "test_case_14": 0.544332,
+            "test_case_15": 0.653639,
+            "test_case_16": 0.641117,
+            "test_case_17": 0.604782,
+            "test_case_18": 0.337638,
+            "test_case_19": 0.46668,
+            "test_case_20": 0.344254,
+            "test_case_21": 0.312638,
+            "test_case_22": 0.544119
+        },
+        "dan_score_after": {
+            "__main__": 0.698469,
+            "test_empty_immutable_list_behavior_with_equality_string_conversion_and_concatenation": 0.21551,
+            "test_immutable_list_boolean_argument_operations_behavior": 0.302617,
+            "test_find_on_appended_immutable_list_true_element": 0.400332,
+            "test_adding_none_to_immutable_list_raises_value_error": 0.315484,
+            "test_find_on_immutable_list_with_empty_head_returns_none": 0.374716,
+            "test_find_on_empty_immutable_list_returns_none_and_length_is_zero_check": 0.424943,
+            "test_find_on_empty_immutable_list_using_empty_list_predicate_returns_none": 0.386485,
+            "test_append_empty_list_to_itself_then_convert_to_python_list_and_verify_concatenation_type_error": 0.243842,
+            "test_map_on_non_empty_flag_immutable_list_returns_none_element_list": 0.262235,
+            "test_unshift_and_append_operations_on_immutable_list_with_none_values_handling": 0.260702,
+            "test_filter_with_empty_immutable_list_as_predicate_returns_empty_list": 0.483973,
+            "test_filter_with_length_of_empty_list_raises_type_error": 0.254109,
+            "test_find_returns_none_and_length_is_zero_on_empty_immutable_list": 0.340137,
+            "test_find_returns_none_when_searching_in_an_empty_immutable_list": 0.496943,
+            "test_reduce_empty_list_with_false_initial_value_returns_false": 0.327112,
+            "test_find_on_self_containing_list_returns_none_with_identity_predicate": 0.415524,
+            "test_create_immutable_list_with_no_elements": 0.412526,
+            "test_empty_immutable_list_string_representation_and_self_search": 0.391962,
+            "test_find_on_list_containing_itself_returns_the_element": 0.599569,
+            "test_find_first_matching_element_in_concatenated_list_with_prepended_boolean": 0.349112,
+            "test_immutable_list_append_length_and_find_boolean_element": 0.355606,
+            "test_self_referential_immutable_list_appending_unshifting_and_conversion_behavior": 0.27746,
+            "test_unshift_and_reduce_with_function_as_element": 0.226541,
+            "test_reduce_returns_accumulator_when_head_is_true_and_tail_is_none": 0.206362
+        },
+        "avg_dan_score_before": 0.495067,
+        "avg_dan_score_after": 0.360891
     }
 }

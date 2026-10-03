@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 3,
         "diff_failing_tests": -3,
-        "diff_coverage": -8.42
+        "diff_coverage": -8.42,
+        "dan_score_diff": 0.161711
     },
     "test_summary": {
         "Original Test Results": "{'total': 6, 'pass': 0, 'fail': 5, 'error': 0}",
@@ -39,7 +40,23 @@
             "test_transport_plugin_get_adapter_raises_not_implemented_in_base_class": "fail",
             "test_converter_plugin_convert_raises_not_implemented_for_base_class": "pass"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.717308,
+            "test_case_0": 0.937119,
+            "test_case_1": 0.386265,
+            "test_case_2": 0.463278,
+            "test_case_3": 0.233189,
+            "test_case_4": 0.428657
+        },
+        "dan_score_after": {
+            "__main__": 0.621033,
+            "test_formatter_plugin_can_be_instantiated": 0.42459,
+            "test_authplugin_get_auth_raises_when_called_with_password": 0.444183,
+            "test_transport_plugin_get_adapter_raises_not_implemented": 0.230301,
+            "test_transport_plugin_get_adapter_raises_not_implemented_in_base_class": 0.156116,
+            "test_converter_plugin_convert_raises_not_implemented_for_base_class": 0.319327
+        },
+        "avg_dan_score_before": 0.527636,
+        "avg_dan_score_after": 0.365925
     }
 }

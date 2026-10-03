@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 0,
         "diff_failing_tests": 0,
-        "diff_coverage": -8.49
+        "diff_coverage": -8.49,
+        "dan_score_diff": 0.112447
     },
     "test_summary": {
         "Original Test Results": "{'total': 6, 'pass': 2, 'fail': 3, 'error': 0}",
@@ -39,7 +40,23 @@
             "test_visit_import_from_handles_module_and_name_rewrites": "fail",
             "test_visit_ImportFrom_with_nonstandard_module_and_duplicate_keys_calls_generic_visit": "pass"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.549625,
+            "test_case_0": 0.693174,
+            "test_case_1": 0.308728,
+            "test_case_2": 0.238958,
+            "test_case_3": 0.225797,
+            "test_case_4": 0.201974
+        },
+        "dan_score_after": {
+            "__main__": 0.465709,
+            "test_base_node_transformer_initializes_with_none_argument": 0.298384,
+            "test_base_import_rewrite_visit_importfrom_applies_module_rewrite": 0.222276,
+            "test_base_import_rewrite_visit_importfrom_with_none_module_and_matmult_returns_ast": 0.205158,
+            "test_visit_import_from_handles_module_and_name_rewrites": 0.200025,
+            "test_visit_ImportFrom_with_nonstandard_module_and_duplicate_keys_calls_generic_visit": 0.15202
+        },
+        "avg_dan_score_before": 0.369709,
+        "avg_dan_score_after": 0.257262
     }
 }

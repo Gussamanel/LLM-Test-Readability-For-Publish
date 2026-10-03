@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 3,
         "diff_failing_tests": -3,
-        "diff_coverage": -6.07
+        "diff_coverage": -6.07,
+        "dan_score_diff": -0.004563
     },
     "test_summary": {
         "Original Test Results": "{'total': 20, 'pass': 1, 'fail': 18, 'error': 0}",
@@ -67,7 +68,51 @@
             "test_validation_eq_to_maybe_and_bind_operations": "fail",
             "test_validation_equality_check_returns_false_and_converts_to_box": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.63655,
+            "test_case_0": 0.198764,
+            "test_case_1": 0.29508,
+            "test_case_2": 0.331487,
+            "test_case_3": 0.325395,
+            "test_case_4": 0.201477,
+            "test_case_5": 0.314458,
+            "test_case_6": 0.420801,
+            "test_case_7": 0.433031,
+            "test_case_8": 0.360335,
+            "test_case_9": 0.300978,
+            "test_case_10": 0.26125,
+            "test_case_11": 0.396416,
+            "test_case_12": 0.334638,
+            "test_case_13": 0.312128,
+            "test_case_14": 0.270602,
+            "test_case_15": 0.310631,
+            "test_case_16": 0.114527,
+            "test_case_17": 0.25669,
+            "test_case_18": 0.23558
+        },
+        "dan_score_after": {
+            "__main__": 0.641054,
+            "test_validation_with_docstring_value_converts_to_maybe_nothing": 0.246786,
+            "test_validation_eq_with_none_returns_false_object_with_is_success": 0.332767,
+            "test_validation_str_representation_with_empty_dict_is_not_fail": 0.313254,
+            "test_validation_empty_set_converts_to_either_right_and_maybe_just": 0.289394,
+            "test_validation_with_string_value_conversions_and_equality": 0.223924,
+            "test_validation_to_maybe_chained_conversion": 0.279518,
+            "test_validation_initializes_with_none_values": 0.527272,
+            "test_validation_with_none_value_and_no_errors_converts_to_maybe_just": 0.395811,
+            "test_is_fail_returns_false_when_no_errors_present": 0.325676,
+            "test_map_with_none_mapper_on_validation_with_tuple_value": 0.310468,
+            "test_validation_bind_with_none_folder_raises_type_error": 0.249105,
+            "test_ap_combines_errors_from_failed_validation": 0.289858,
+            "test_validation_to_box_is_success_when_valid": 0.402806,
+            "test_lazy_bind_with_none_returns_lazy_monad": 0.34587,
+            "test_validation_to_lazy_to_try_and_ap_with_empty_dict": 0.248522,
+            "test_validation_with_errors_converts_to_failed_try": 0.500321,
+            "test_validation_map_with_string_representation": 0.118817,
+            "test_validation_eq_to_maybe_and_bind_operations": 0.203783,
+            "test_validation_equality_check_returns_false_and_converts_to_box": 0.157079
+        },
+        "avg_dan_score_before": 0.315541,
+        "avg_dan_score_after": 0.320104
     }
 }

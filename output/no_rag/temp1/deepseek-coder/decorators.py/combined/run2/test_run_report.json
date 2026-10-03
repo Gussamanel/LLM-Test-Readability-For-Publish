@@ -12,7 +12,8 @@
         "diff_total_tests": -3,
         "diff_passing_tests": -1,
         "diff_failing_tests": -2,
-        "diff_coverage": -4.41
+        "diff_coverage": -4.41,
+        "dan_score_diff": 0.12329
     },
     "test_summary": {
         "Original Test Results": "{'total': 4, 'pass': 1, 'fail': 2, 'error': 0}",
@@ -33,7 +34,19 @@
         "after_refactoring": {
             "collection_error": true
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.838236,
+            "test_case_0": 0.445152,
+            "test_case_1": 0.451517,
+            "test_case_2": 0.493785
+        },
+        "dan_score_after": {
+            "__main__": 0.372659,
+            "test_case_0": 0.47639,
+            "test_cached_property_get": 0.317351,
+            "test_cached_property_correctly_set": 0.56913
+        },
+        "avg_dan_score_before": 0.557172,
+        "avg_dan_score_after": 0.433882
     }
 }

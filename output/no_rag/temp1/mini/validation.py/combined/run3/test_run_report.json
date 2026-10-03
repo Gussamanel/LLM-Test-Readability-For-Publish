@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 10,
         "diff_failing_tests": -10,
-        "diff_coverage": -0.65
+        "diff_coverage": -0.65,
+        "dan_score_diff": 0.037531
     },
     "test_summary": {
         "Original Test Results": "{'total': 20, 'pass': 1, 'fail': 18, 'error': 0}",
@@ -67,7 +68,51 @@
             "test_validation_equality_to_maybe_and_bind_behavior": "pass",
             "test_validation_equality_then_to_box_called_on_result": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.63655,
+            "test_case_0": 0.198764,
+            "test_case_1": 0.29508,
+            "test_case_2": 0.331487,
+            "test_case_3": 0.325395,
+            "test_case_4": 0.201477,
+            "test_case_5": 0.314458,
+            "test_case_6": 0.420801,
+            "test_case_7": 0.433031,
+            "test_case_8": 0.360335,
+            "test_case_9": 0.300978,
+            "test_case_10": 0.26125,
+            "test_case_11": 0.396416,
+            "test_case_12": 0.334638,
+            "test_case_13": 0.312128,
+            "test_case_14": 0.270602,
+            "test_case_15": 0.310631,
+            "test_case_16": 0.114527,
+            "test_case_17": 0.25669,
+            "test_case_18": 0.23558
+        },
+        "dan_score_after": {
+            "__main__": 0.546768,
+            "test_validation_to_maybe_returns_empty_when_validation_has_errors": 0.142679,
+            "test_validation_not_equal_to_none_and_reports_failure_when_errors_present": 0.36646,
+            "test_validation_with_empty_errors_returns_success_string_and_is_not_fail": 0.294786,
+            "test_validation_transforms_to_either_and_maybe_when_no_errors": 0.291311,
+            "test_validation_with_non_empty_errors_transforms_to_left_and_empty_maybe": 0.14332,
+            "test_validation_to_maybe_returns_maybe_and_is_chainable": 0.245333,
+            "test_validation_init_with_none_parameters_does_not_raise_and_creates_instance": 0.357533,
+            "test_validation_to_maybe_returns_just_for_success": 0.333339,
+            "test_validation_is_fail_returns_true_when_errors_exist": 0.34393,
+            "test_map_raises_type_error_when_mapper_is_none": 0.260035,
+            "test_bind_with_none_raises_type_error": 0.268982,
+            "test_ap_appends_errors_from_callable_and_preserves_original_value": 0.290475,
+            "test_validation_to_box_and_is_success_returns_boolean": 0.297129,
+            "test_validation_bind_raises_type_error_for_non_callable_mapper": 0.319596,
+            "test_lazy_to_try_and_ap_with_no_errors_returns_successful_try": 0.280498,
+            "test_to_try_preserves_validation_success_flag": 0.269416,
+            "test_validation_conversions_and_map": 0.106321,
+            "test_validation_equality_to_maybe_and_bind_behavior": 0.192206,
+            "test_validation_equality_then_to_box_called_on_result": 0.210092
+        },
+        "avg_dan_score_before": 0.315541,
+        "avg_dan_score_after": 0.27801
     }
 }

@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": -2,
         "diff_failing_tests": 2,
-        "diff_coverage": -13.85
+        "diff_coverage": -13.85,
+        "dan_score_diff": 0.033762
     },
     "test_summary": {
         "Original Test Results": "{'total': 21, 'pass': 7, 'fail': 13, 'error': 0}",
@@ -69,7 +70,53 @@
             "test_empty_maybe_equality_with_boolean_and_chained_monad_conversions_without_mapper_invocation": "fail",
             "test_maybe_non_empty_equality_and_conversion_to_validation_success": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.869158,
+            "test_case_0": 0.391773,
+            "test_case_1": 0.403319,
+            "test_case_2": 0.16177,
+            "test_case_3": 0.306849,
+            "test_case_4": 0.28734,
+            "test_case_5": 0.432324,
+            "test_case_6": 0.270064,
+            "test_case_7": 0.133864,
+            "test_case_8": 0.491095,
+            "test_case_9": 0.205555,
+            "test_case_10": 0.209419,
+            "test_case_11": 0.183925,
+            "test_case_12": 0.164529,
+            "test_case_13": 0.191801,
+            "test_case_14": 0.179004,
+            "test_case_15": 0.298007,
+            "test_case_16": 0.166292,
+            "test_case_17": 0.102512,
+            "test_case_18": 0.213544,
+            "test_case_19": 0.292841
+        },
+        "dan_score_after": {
+            "__main__": 0.644409,
+            "test_maybe_initialization_stores_matching_byte_values": 0.239294,
+            "test_maybe_initialization_with_both_none_arguments": 0.436676,
+            "test_chainable_maybe_operations_yield_expected_monads": 0.124989,
+            "test_equality_between_empty_maybe_and_set_returns_false": 0.240948,
+            "test_verified_maybe_value_binding_mapping_and_conversion_to_box": 0.25519,
+            "test_map_on_empty_maybe_returns_nothing": 0.476479,
+            "test_bind_on_maybe_with_nothing_flag_short_circuits_and_skips_mapper": 0.172569,
+            "test_maybe_chaining_with_box_filter_and_lazy_transformations": 0.139736,
+            "test_ap_on_maybe_marked_as_nothing_ignores_argument_and_returns_nothing": 0.211442,
+            "test_maybe_filter_and_map_preserve_just_value_through_monad_conversions": 0.201931,
+            "test_maybe_filter_with_tuple_callable_on_nothing_maybe_returns_empty_maybe_via_lazy": 0.188267,
+            "test_maybe_filter_on_empty_maybe_returns_nothing": 0.202666,
+            "test_maybe_transformations_and_binding_with_non_maybe_returns": 0.271219,
+            "test_empty_maybe_map_returns_nothing_and_just_maybe_to_either_returns_right_value": 0.150619,
+            "test_maybe_transformations_to_lazy_either_and_try": 0.171491,
+            "test_maybe_to_try_to_box_conversion_preserves_value": 0.370974,
+            "test_maybe_chain_operations_on_empty_maybe_produce_empty_containers_and_equality_holds": 0.150891,
+            "test_maybe_ap_chaining_and_monad_conversions_to_validation_either_and_try": 0.113434,
+            "test_empty_maybe_equality_with_boolean_and_chained_monad_conversions_without_mapper_invocation": 0.220652,
+            "test_maybe_non_empty_equality_and_conversion_to_validation_success": 0.262112
+        },
+        "avg_dan_score_before": 0.283571,
+        "avg_dan_score_after": 0.249809
     }
 }

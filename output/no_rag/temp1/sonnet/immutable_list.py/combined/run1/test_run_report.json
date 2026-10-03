@@ -12,7 +12,8 @@
         "diff_total_tests": -1,
         "diff_passing_tests": 3,
         "diff_failing_tests": -4,
-        "diff_coverage": -10.05
+        "diff_coverage": -10.05,
+        "dan_score_diff": 0.154475
     },
     "test_summary": {
         "Original Test Results": "{'total': 24, 'pass': 1, 'fail': 22, 'error': 0}",
@@ -74,7 +75,58 @@
             "test_reduce_and_find_on_nested_immutable_lists": "fail",
             "test_reduce_with_to_list_as_function_and_accumulator": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.821398,
+            "test_case_0": 0.262113,
+            "test_case_1": 0.354476,
+            "test_case_2": 0.519975,
+            "test_case_3": 0.416561,
+            "test_case_4": 0.370633,
+            "test_case_5": 0.626613,
+            "test_case_6": 0.638706,
+            "test_case_7": 0.263882,
+            "test_case_8": 0.276027,
+            "test_case_9": 0.351682,
+            "test_case_10": 0.714723,
+            "test_case_11": 0.587199,
+            "test_case_12": 0.538685,
+            "test_case_13": 0.689735,
+            "test_case_14": 0.544332,
+            "test_case_15": 0.653639,
+            "test_case_16": 0.641117,
+            "test_case_17": 0.604782,
+            "test_case_18": 0.337638,
+            "test_case_19": 0.46668,
+            "test_case_20": 0.344254,
+            "test_case_21": 0.312638,
+            "test_case_22": 0.544119
+        },
+        "dan_score_after": {
+            "__main__": 0.698469,
+            "test_empty_immutable_list_operations": 0.21177,
+            "test_find_on_single_element_list_with_itself_as_predicate": 0.367256,
+            "test_add_raises_value_error_when_adding_non_immutable_list": 0.27266,
+            "test_find_returns_none_when_searching_empty_list": 0.326277,
+            "test_find_returns_none_when_list_is_empty": 0.347201,
+            "test_find_with_list_as_predicate_on_single_element_list": 0.455109,
+            "test_find_returns_none_on_empty_list_and_add_non_list_raises_type_error": 0.269709,
+            "test_map_with_list_as_function_on_non_empty_immutable_list": 0.324686,
+            "test_map_with_none_raises_type_error": 0.21295,
+            "test_filter_with_immutable_list_as_predicate": 0.272254,
+            "test_filter_with_length_as_predicate_on_concatenated_empty_lists": 0.289671,
+            "test_find_on_empty_list_returns_none_with_zero_length": 0.520879,
+            "test_find_returns_none_using_empty_list_as_predicate": 0.436563,
+            "test_reduce_empty_list_and_find_with_non_callable_predicate": 0.206822,
+            "test_immutable_list_default_initialization": 0.541682,
+            "test_find_on_empty_immutable_list_returns_none": 0.406933,
+            "test_find_element_after_unshift_with_immutable_list_as_predicate": 0.40068,
+            "test_find_with_false_predicate_on_list_with_nested_list": 0.225247,
+            "test_immutable_list_append_and_find_on_empty_list": 0.372238,
+            "test_reduce_with_immutable_list_accumulator_and_nested_operations": 0.20162,
+            "test_reduce_and_find_on_nested_immutable_lists": 0.203502,
+            "test_reduce_with_to_list_as_function_and_accumulator": 0.26943
+        },
+        "avg_dan_score_before": 0.495067,
+        "avg_dan_score_after": 0.340592
     }
 }

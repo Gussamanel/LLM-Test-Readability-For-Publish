@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 0,
         "diff_failing_tests": 0,
-        "diff_coverage": 23.81
+        "diff_coverage": 23.81,
+        "dan_score_diff": 0.237644
     },
     "test_summary": {
         "Original Test Results": "{'total': 2, 'pass': 1, 'fail': 0, 'error': 0}",
@@ -31,7 +32,15 @@
         "after_refactoring": {
             "test_create_pyinfo_returns_instance": "pass"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.885369,
+            "test_case_0": 0.704276
+        },
+        "dan_score_after": {
+            "__main__": 0.743559,
+            "test_create_pyinfo_returns_instance": 0.370797
+        },
+        "avg_dan_score_before": 0.794822,
+        "avg_dan_score_after": 0.557178
     }
 }

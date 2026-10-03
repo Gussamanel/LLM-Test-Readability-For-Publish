@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 0,
         "diff_failing_tests": 0,
-        "diff_coverage": -0.03
+        "diff_coverage": -0.03,
+        "dan_score_diff": 0.014787
     },
     "test_summary": {
         "Original Test Results": "{'total': 1, 'pass': 0, 'fail': 0, 'error': 0}",
@@ -29,7 +30,22 @@
         "after_refactoring": {
             "collection_error": true
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.549625,
+            "test_case_0": 0.693174,
+            "test_case_1": 0.308728,
+            "test_case_2": 0.238958,
+            "test_case_3": 0.225797,
+            "test_case_4": 0.201974
+        },
+        "dan_score_after": {
+            "__main__": 0.610854,
+            "test_base_node_transformer_creation": 0.483058,
+            "test_base_import_rewrite_rewrites_correctly": 0.214634,
+            "test_import_from_module_is_rewritten_correctly": 0.264512,
+            "test_visit_import_from_node_with_duplicate_keys_in_dict": 0.201551
+        },
+        "avg_dan_score_before": 0.369709,
+        "avg_dan_score_after": 0.354922
     }
 }

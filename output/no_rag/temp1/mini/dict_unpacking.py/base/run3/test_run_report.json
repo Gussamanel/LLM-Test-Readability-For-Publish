@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": -1,
         "diff_failing_tests": 1,
-        "diff_coverage": 0.57
+        "diff_coverage": 0.57,
+        "dan_score_diff": 0.066985
     },
     "test_summary": {
         "Original Test Results": "{'total': 3, 'pass': 2, 'fail': 0, 'error': 0}",
@@ -33,7 +34,17 @@
             "test_dict_unpacking_transformer_can_be_instantiated_and_keeps_module_reference": "fail",
             "test_visit_module_preserves_module_and_body_list": "pass"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.356782,
+            "test_case_0": 0.413023,
+            "test_case_1": 0.266257
+        },
+        "dan_score_after": {
+            "__main__": 0.330676,
+            "test_dict_unpacking_transformer_can_be_instantiated_and_keeps_module_reference": 0.216701,
+            "test_visit_module_preserves_module_and_body_list": 0.287729
+        },
+        "avg_dan_score_before": 0.345354,
+        "avg_dan_score_after": 0.278369
     }
 }

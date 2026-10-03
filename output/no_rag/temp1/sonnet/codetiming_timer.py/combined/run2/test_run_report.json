@@ -12,7 +12,8 @@
         "diff_total_tests": 0,
         "diff_passing_tests": 3,
         "diff_failing_tests": -3,
-        "diff_coverage": -1.46
+        "diff_coverage": -1.46,
+        "dan_score_diff": 0.07028
     },
     "test_summary": {
         "Original Test Results": "{'total': 11, 'pass': 3, 'fail': 7, 'error': 0}",
@@ -49,7 +50,33 @@
             "test_timer_start_with_another_timer_as_initial_text_and_logger": "fail",
             "test_timer_start_stop_and_reuse_as_context_manager": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": {}
+        "dan_score_before": {
+            "__main__": 0.702666,
+            "test_case_0": 0.755686,
+            "test_case_1": 0.408712,
+            "test_case_2": 0.415788,
+            "test_case_3": 0.319897,
+            "test_case_4": 0.209765,
+            "test_case_5": 0.228859,
+            "test_case_6": 0.235425,
+            "test_case_7": 0.19346,
+            "test_case_8": 0.319533,
+            "test_case_9": 0.365313
+        },
+        "dan_score_after": {
+            "__main__": 0.651409,
+            "test_timer_error_can_be_instantiated": 0.452188,
+            "test_timer_raises_error_when_started_while_already_running": 0.298613,
+            "test_timer_context_manager_enter_and_exit": 0.436626,
+            "test_timer_exit_stops_context_manager": 0.293631,
+            "test_none_type_lacks_enter_method_raises_attribute_error": 0.274169,
+            "test_timer_context_manager_with_custom_initial_text_and_equality": 0.139845,
+            "test_timer_context_manager_with_initial_text_and_equality_check": 0.14648,
+            "test_timer_exit_stops_running_timer": 0.222563,
+            "test_timer_start_with_another_timer_as_initial_text_and_logger": 0.273322,
+            "test_timer_start_stop_and_reuse_as_context_manager": 0.193181
+        },
+        "avg_dan_score_before": 0.377737,
+        "avg_dan_score_after": 0.307457
     }
 }
