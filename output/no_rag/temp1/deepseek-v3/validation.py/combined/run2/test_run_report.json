@@ -1,6 +1,6 @@
 {
     "module": "validation.py",
-    "timestamp": "2026-09-29T15:07:46.298431",
+    "timestamp": "2026-10-03T18:45:21.935442",
     "llm_info": {
         "model": "deepseek-v3",
         "version": "functions",
@@ -9,19 +9,21 @@
     },
     "run_number": 2,
     "diff_metrics": {
-        "diff_total_tests": -19,
-        "diff_passing_tests": -1,
-        "diff_failing_tests": -18
+        "diff_total_tests": 0,
+        "diff_passing_tests": 3,
+        "diff_failing_tests": -3,
+        "diff_coverage": -28.18,
+        "dan_score_diff": -0.008209
     },
     "test_summary": {
         "Original Test Results": "{'total': 20, 'pass': 1, 'fail': 18, 'error': 0}",
-        "Refactored Test Results": "{'total': 1, 'pass': 0, 'fail': 0, 'error': 0}",
+        "Refactored Test Results": "{'total': 20, 'pass': 4, 'fail': 15, 'error': 0}",
         "total_tests_before": 20,
-        "total_tests_after": 1
+        "total_tests_after": 20
     },
     "coverage": {
         "before_refactoring": 77.01,
-        "after_refactoring": "N/A"
+        "after_refactoring": 48.83
     },
     "test_results": {
         "before_refactoring": {
@@ -46,9 +48,71 @@
             "test_case_18": "fail"
         },
         "after_refactoring": {
-            "collection_error": true
+            "test_validation_equality_and_maybe_conversion_for_documentation_string_case": "fail",
+            "test_validation_equality_with_none_returns_success_validation_comparison_result": "fail",
+            "test_validation_str_representation_for_empty_errors_is_failure": "fail",
+            "test_validate_empty_validation_conversions_to_maybe_and_either": "fail",
+            "test_validation_conversion_and_equality_for_documentation_string_case": "fail",
+            "test_successful_validation_with_empty_set_value_converts_to_maybe": "fail",
+            "test_validation_constructor_with_none_arguments_does_not_raise_exception": "pass",
+            "test_to_maybe_returns_just_with_value_when_validation_has_no_errors": "fail",
+            "test_is_fail_returns_false_when_validation_has_no_errors": "fail",
+            "test_map_with_none_mapper_raises_type_error": "pass",
+            "test_bind_applies_folder_function_to_validation_value": "pass",
+            "test_ap_concatenates_errors_from_current_and_new_validation": "pass",
+            "test_validation_to_box_carries_over_success_status": "fail",
+            "test_lazy_bind_with_no_return_and_empty_list_from_validation": "fail",
+            "test_validation_to_lazy_to_try_ap_chain_success_verification": "fail",
+            "test_validation_to_try_success_when_validation_has_no_errors": "fail",
+            "test_validation_transformation_chain_and_equality_verification": "fail",
+            "test_validation_bind_with_bytes_value_and_equality_with_none": "fail",
+            "test_validation_equality_dict_with_none_key_and_box_conversion": "fail"
         },
-        "dan_score_before": {},
-        "dan_score_after": null
+        "dan_score_before": {
+            "__main__": 0.6365497708320618,
+            "test_case_0": 0.1987636834383011,
+            "test_case_1": 0.29508039355278015,
+            "test_case_2": 0.33148741722106934,
+            "test_case_3": 0.32539525628089905,
+            "test_case_4": 0.20147718985875449,
+            "test_case_5": 0.31445834040641785,
+            "test_case_6": 0.42080044746398926,
+            "test_case_7": 0.433030903339386,
+            "test_case_8": 0.36033496260643005,
+            "test_case_9": 0.3009778559207916,
+            "test_case_10": 0.261250339448452,
+            "test_case_11": 0.39641596873601276,
+            "test_case_12": 0.33463814854621887,
+            "test_case_13": 0.31212812662124634,
+            "test_case_14": 0.2706022225320339,
+            "test_case_15": 0.31063106656074524,
+            "test_case_16": 0.11452678486704826,
+            "test_case_17": 0.2566895615309477,
+            "test_case_18": 0.23558002151548862
+        },
+        "dan_score_after": {
+            "__main__": 0.5530913472175598,
+            "test_validation_equality_and_maybe_conversion_for_documentation_string_case": 0.23259638994932175,
+            "test_validation_equality_with_none_returns_success_validation_comparison_result": 0.30578411370515823,
+            "test_validation_str_representation_for_empty_errors_is_failure": 0.4265178442001343,
+            "test_validate_empty_validation_conversions_to_maybe_and_either": 0.3624958048264186,
+            "test_validation_conversion_and_equality_for_documentation_string_case": 0.1872986810547965,
+            "test_successful_validation_with_empty_set_value_converts_to_maybe": 0.5081888437271118,
+            "test_validation_constructor_with_none_arguments_does_not_raise_exception": 0.4247373342514038,
+            "test_to_maybe_returns_just_with_value_when_validation_has_no_errors": 0.35844606161117554,
+            "test_is_fail_returns_false_when_validation_has_no_errors": 0.42029982805252075,
+            "test_map_with_none_mapper_raises_type_error": 0.2758406773209572,
+            "test_bind_applies_folder_function_to_validation_value": 0.28373034795125324,
+            "test_ap_concatenates_errors_from_current_and_new_validation": 0.36591549624096265,
+            "test_validation_to_box_carries_over_success_status": 0.49307215213775635,
+            "test_lazy_bind_with_no_return_and_empty_list_from_validation": 0.23559319227933884,
+            "test_validation_to_lazy_to_try_ap_chain_success_verification": 0.2804054282605648,
+            "test_validation_to_try_success_when_validation_has_no_errors": 0.3233627378940582,
+            "test_validation_transformation_chain_and_equality_verification": 0.11085999861359597,
+            "test_validation_bind_with_bytes_value_and_equality_with_none": 0.17998438468202949,
+            "test_validation_equality_dict_with_none_key_and_box_conversion": 0.14677955448627472
+        },
+        "avg_dan_score_before": 0.315541,
+        "avg_dan_score_after": 0.32375
     }
 }
