@@ -1,6 +1,6 @@
 {
     "module": "lazy_import.py",
-    "timestamp": "2026-10-02T20:05:19.764790",
+    "timestamp": "2026-10-04T13:40:22.306669",
     "llm_info": {
         "model": "deepseek-coder",
         "version": "functions",
@@ -9,20 +9,20 @@
     },
     "run_number": 1,
     "diff_metrics": {
-        "diff_total_tests": -22,
+        "diff_total_tests": 2,
         "diff_passing_tests": -2,
-        "diff_failing_tests": -20,
-        "diff_coverage": -4.76
+        "diff_failing_tests": 4,
+        "diff_coverage": -27.02
     },
     "test_summary": {
         "Original Test Results": "{'total': 23, 'pass': 2, 'fail': 20, 'error': 0}",
-        "Refactored Test Results": "{'total': 1, 'pass': 0, 'fail': 0, 'error': 0}",
+        "Refactored Test Results": "{'total': 25, 'pass': 0, 'fail': 24, 'error': 0}",
         "total_tests_before": 23,
-        "total_tests_after": 1
+        "total_tests_after": 25
     },
     "coverage": {
-        "before_refactoring": 24.62,
-        "after_refactoring": 19.86
+        "before_refactoring": 50.34,
+        "after_refactoring": 23.32
     },
     "test_results": {
         "before_refactoring": {
@@ -50,34 +50,30 @@
             "test_case_21": "fail"
         },
         "after_refactoring": {
-            "collection_error": true
-        },
-        "dan_score_before": {
-            "__main__": 0.615022,
-            "test_case_0": 0.312774,
-            "test_case_1": 0.46464,
-            "test_case_2": 0.414355,
-            "test_case_3": 0.397603,
-            "test_case_4": 0.67807,
-            "test_case_5": 0.409867,
-            "test_case_6": 0.631157,
-            "test_case_7": 0.47112,
-            "test_case_8": 0.527848,
-            "test_case_9": 0.367091,
-            "test_case_10": 0.386573,
-            "test_case_11": 0.348294,
-            "test_case_12": 0.399413,
-            "test_case_13": 0.38531,
-            "test_case_14": 0.314015,
-            "test_case_15": 0.328517,
-            "test_case_16": 0.440973,
-            "test_case_17": 0.484669,
-            "test_case_18": 0.439498,
-            "test_case_19": 0.276239,
-            "test_case_20": 0.482291,
-            "test_case_21": 0.399242
-        },
-        "dan_score_after": {},
-        "avg_dan_score_before": 0.433677
+            "test_case_0": "fail",
+            "test_illegal_use_of_scope_replacer_unicode_method": "fail",
+            "test_lazy_import": "fail",
+            "test_case_3": "fail",
+            "test_import_processor_initialize_without_exceptions": "fail",
+            "test_import_lazy_import_functionality": "fail",
+            "test_disallow_proxying_lazy_imports": "fail",
+            "test_illegal_use_of_scope_replacer_repr_1": "fail",
+            "test_lazy_import_with_valid_scope_text": "fail",
+            "test_IllegalUseOfScopeReplacer_eq_method_returns_not_implemented_for_diff_class": "fail",
+            "test_IllegalUseOfScopeReplacer_unicode_method_returns_unicode_str": "fail",
+            "test_unicode_representation_of_identical_objects": "fail",
+            "test_unicode_representation_of_objects": "fail",
+            "test_import_processor_lazy_import": "fail",
+            "test_case_lazy_import_functionality": "fail",
+            "test_lazy_import_single_import_recovery": "fail",
+            "test_disallow_proxying_disables_lazy_import": "fail",
+            "test_lazily_importing_modules": "fail",
+            "test_case_importing_lazy_module": "fail",
+            "test_import_replacer_functionality": "fail",
+            "test_case_initial_ensure_correct_module_handling": "fail",
+            "test_case_20": "fail",
+            "test_lazy_import_replaces_original_compile": "fail",
+            "test_different_test_case": "fail"
+        }
     }
 }

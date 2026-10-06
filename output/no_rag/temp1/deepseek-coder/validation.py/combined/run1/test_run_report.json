@@ -1,6 +1,6 @@
 {
     "module": "validation.py",
-    "timestamp": "2026-10-03T01:57:14.316036",
+    "timestamp": "2026-10-04T14:30:35.495761",
     "llm_info": {
         "model": "deepseek-coder",
         "version": "functions",
@@ -9,20 +9,20 @@
     },
     "run_number": 1,
     "diff_metrics": {
-        "diff_total_tests": -19,
-        "diff_passing_tests": -1,
-        "diff_failing_tests": -18,
-        "diff_coverage": -4.9
+        "diff_total_tests": 1,
+        "diff_passing_tests": 0,
+        "diff_failing_tests": 1,
+        "diff_coverage": -15.14
     },
     "test_summary": {
         "Original Test Results": "{'total': 20, 'pass': 1, 'fail': 18, 'error': 0}",
-        "Refactored Test Results": "{'total': 1, 'pass': 0, 'fail': 0, 'error': 0}",
+        "Refactored Test Results": "{'total': 21, 'pass': 1, 'fail': 19, 'error': 0}",
         "total_tests_before": 20,
-        "total_tests_after": 1
+        "total_tests_after": 21
     },
     "coverage": {
-        "before_refactoring": 24.34,
-        "after_refactoring": 19.44
+        "before_refactoring": 55.75,
+        "after_refactoring": 40.61
     },
     "test_results": {
         "before_refactoring": {
@@ -47,31 +47,26 @@
             "test_case_18": "fail"
         },
         "after_refactoring": {
-            "collection_error": true
-        },
-        "dan_score_before": {
-            "__main__": 0.63655,
-            "test_case_0": 0.198764,
-            "test_case_1": 0.29508,
-            "test_case_2": 0.331487,
-            "test_case_3": 0.325395,
-            "test_case_4": 0.201477,
-            "test_case_5": 0.314458,
-            "test_case_6": 0.420801,
-            "test_case_7": 0.433031,
-            "test_case_8": 0.360335,
-            "test_case_9": 0.300978,
-            "test_case_10": 0.26125,
-            "test_case_11": 0.396416,
-            "test_case_12": 0.334638,
-            "test_case_13": 0.312128,
-            "test_case_14": 0.270602,
-            "test_case_15": 0.310631,
-            "test_case_16": 0.114527,
-            "test_case_17": 0.25669,
-            "test_case_18": 0.23558
-        },
-        "dan_score_after": {},
-        "avg_dan_score_before": 0.315541
+            "test_validation_success_is_true_and_to_maybe_returns_just": "fail",
+            "test_validation_fail_is_false_and_to_maybe_returns_nothing": "fail",
+            "test_validation_equals_none_with_no_errors_returns_true_and_does_not_conflict_with_existing_test_cases": "fail",
+            "test_validation_is_fail_when_errors_list_not_empty": "pass",
+            "test_validation_to_maybe_no_errors": "fail",
+            "test_validation_to_maybe_with_errors": "fail",
+            "test_validation_equals_self_when_no_errors": "fail",
+            "test_to_maybe_valid_validation_set_no_errors": "fail",
+            "test_initialization_with_none_values_no_errors": "fail",
+            "test_validation_failure_indicated_correctly": "fail",
+            "test_map_function_with_valid_input_and_mapping_to_none": "fail",
+            "test_validation_none_type_returns_none": "fail",
+            "test_multiple_applied_validations_are_concatenated": "fail",
+            "test_successful_validation_to_box": "fail",
+            "test_bind_and_to_lazy": "fail",
+            "test_validation_success_when_to_maybe_with_errors": "fail",
+            "test_validation_is_success_with_no_errors_different": "fail",
+            "test_is_validation_converted_properly_into_try_and_equals_to_self": "fail",
+            "test_bind_operation_and_maybe_conversion": "fail",
+            "test_validation_equality_and_to_box_conversion_unique": "fail"
+        }
     }
 }

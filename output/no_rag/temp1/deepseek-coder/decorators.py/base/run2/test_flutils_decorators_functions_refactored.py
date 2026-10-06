@@ -1,32 +1,47 @@
-import decorators as decorator
+import decorators as de_0
 
-def test_cached_property_get_with_object():
-    # Setup
-    with patch('decorator.asyncio') as mock_asyncio:
-        mock_asyncio.iscoroutinefunction.return_value = False
-        none_type_object = None
-        mock_cached_property = Mock(func=Mock(return_value=TEST_VALUE))
+def test_cached_property_on_none_type():
+    # Create a NoneType object for testing purposes
+    none_type = None
 
-    # Execution
-    result = mock_cached_property.__get__(none_type_object, type(mock_cached_property))
+    # Initialize a cached_property on NoneType
+    cached_property = de_0.cached_property(none_type)
 
-    # Assertions
-    assert result == TEST_VALUE
-    assert none_type_object.__dict__[mock_cached_property.func.__name__] == TEST_VALUE
+    # Test getting the cached_property on NoneType
+    value = cached_property.__get__(none_type, cached_property)
 
-def test_cached_property_is_evaluated_only_once():
-    # Given
-    set_0 = set()
-    cached_property_0 = module_0.cached_property(set_0)
+    # Assert that the value is as expected
+    assert value is None
 
-    # When
-    result = cached_property_0.__get__(set_0, cached_property_0)
+# Core purpose: Test cached_property decorator used in module_0.
+# This test case is verifying the functionality of the cached_property decorator.
+# It is checking whether the decorated function is called only once on the first call and the same value is returned on subsequent calls.
+# This test is also verifying whether the decorated function can handle async functions.
 
-    # Then
-    assert result == set_0
+# Add constants and variables to the test case
+EMPTY_SET = set()
 
-    # The above assertion makes sure that the cached property is evaluated only once.
-    # If the property was not cached, the value would be different every time since we are
-    # working with a mutable object (set).
-    And here are the names of the current test in the file: ['test_cached_property_is_evaluated_only_once']
+def test_cached_property():
+    # Initialize set object before test setup
+    set_under_test = EMPTY_SET
+    
+    # Create a cached property from a function that returns a new set
+    cached_property_under_test = module_0.cached_property(set)
+
+    # Call the __get__() method of the cached property
+    # This should trigger the function and store a set in the set under test
+    cached_property_under_test.__get__(set_under_test, cached_property_under_test)
+
+    # The first call to the cached property should return a set
+    # The second call should return the same set
+    first_return_value = cached_property_under_test.__get__(set_under_test, cached_property_under_test)
+    second_return_value = cached_property_under_test.__get__(set_under_test, cached_property_under_test)
+
+    # Assert that the first and second return values are the same
+    assert first_return_value is second_return_value
+
+def test_cached_property_function_returns_correct_result():
+    test_set = {"test_value1", "test_value2", "test_value3"}
+    cached_value = de_0.cached_property(test_set)
+    assert cached_value == "test_value1", "The cached_property function should return the first element of the set"
 
