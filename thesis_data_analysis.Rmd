@@ -1,0 +1,883 @@
+library(tidyverse)
+library(RColorBrewer)
+library(rstatix)
+library(ggpubr)
+library(patchwork)
+# -----------------------------
+# 1. Load data
+# -----------------------------
+data_raw <- read.csv("temp1_granular_module_metrics.csv")
+
+# Ensure categorical variables are factors
+data_raw$model <- factor(data_raw$model)
+data_raw$style <- factor(data_raw$style)
+
+# -----------------------------
+# 2. Collapse 3 runs per module/config
+#    into one robust value using median
+# -----------------------------
+data <- data_raw %>%
+  group_by(module, model, style) %>%
+  mutate(run_id = row_number()) %>%
+  ungroup()
+
+data_base <- data %>% 
+  filter(style == "base")
+
+data_combined <- data %>% 
+  filter(style == "combined")
+
+# -----------------------------
+# 5. DAN box plot: DAN results by model
+# -----------------------------
+ggplot(data_base, aes(x = model, y = diff_dan, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "DAN Comparison by Model & Base",
+    x = "Model",
+    y = "DAN"
+  ) +
+  theme(legend.position = "none")
+  
+ggplot(data_combined, aes(x = model, y = diff_dan, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "DAN Comparison by Model & Combined",
+    x = "Model",
+    y = "DAN"
+  ) +
+  theme(legend.position = "none")
+  
+ggplot(data, aes(x = model, y = diff_dan, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "DAN Comparison by Model",
+    x = "Model",
+    y = "DAN"
+  ) +
+  theme(legend.position = "none")
+
+# -----------------------------
+# 6. Coverage box plot: Coverage results by model
+# -----------------------------
+
+ggplot(data_base, aes(x = model, y = diff_coverage, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Coverage Comparison by Model & Base",
+    x = "Model",
+    y = "Coverage"
+  ) +
+  theme(legend.position = "none")
+  
+ggplot(data_combined, aes(x = model, y = diff_coverage, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Coverage Comparison by Model & Combined",
+    x = "Model",
+    y = "Coverage"
+  ) +
+  theme(legend.position = "none")
+  
+ggplot(data, aes(x = model, y = diff_coverage, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Coverage Comparison by Model",
+    x = "Model",
+    y = "Coverage"
+  ) +
+  theme(legend.position = "none")
+
+# -----------------------------
+# 7. Total Tests box plot: Total Tests results by model
+# -----------------------------
+ggplot(data_base, aes(x = model, y = diff_total_tests, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Total Tests Comparison by Model & Base",
+    x = "Model",
+    y = "Total Tests"
+  ) +
+  theme(legend.position = "none")
+  
+ggplot(data_combined, aes(x = model, y = diff_total_tests, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Total Tests Comparison by Model & Combined",
+    x = "Model",
+    y = "Total Tests"
+  ) +
+  theme(legend.position = "none")
+  
+ggplot(data, aes(x = model, y = diff_total_tests, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Total Tests Comparison by Model",
+    x = "Model",
+    y = "Total Tests"
+  ) +
+  theme(legend.position = "none")
+
+# -----------------------------
+# 8. Passing Tests box plot: Passing Tests results by model
+# -----------------------------
+
+ggplot(data_base, aes(x = model, y = diff_passing_tests, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Passing Tests Comparison by Model & Base",
+    x = "Model",
+    y = "Passing Tests"
+  ) +
+  theme(legend.position = "none")
+  
+ggplot(data_combined, aes(x = model, y = diff_passing_tests, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Passing Tests Comparison by Model & Combined",
+    x = "Model",
+    y = "Passing Tests"
+  ) +
+  theme(legend.position = "none")
+  
+ggplot(data, aes(x = model, y = diff_passing_tests, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Passing Tests Comparison by Model",
+    x = "Model",
+    y = "Passing Tests"
+  ) +
+  theme(legend.position = "none")
+# -----------------------------
+# 9. Failing Tests box plot: Failing Tests results by model
+# -----------------------------
+
+ggplot(data_base, aes(x = model, y = diff_failing_tests, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Failing Tests Comparison by Model & Base",
+    x = "Model",
+    y = "Failing Tests"
+  ) +
+  theme(legend.position = "none")
+  
+ggplot(data_combined, aes(x = model, y = diff_failing_tests, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Failing Tests Comparison by Model & Combined",
+    x = "Model",
+    y = "Failing Tests"
+  ) +
+  theme(legend.position = "none")
+
+ggplot(data, aes(x = model, y = diff_failing_tests, fill = model)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Set2") +
+  labs(
+    title = "Failing Tests Comparison by Model",
+    x = "Model",
+    y = "Failing Tests"
+  ) +
+  theme(legend.position = "none")
+# -----------------------------
+# 10. DAN box plot: DAN results by prompt style
+# -----------------------------
+ggplot(data, aes(x = style, y = diff_dan, fill = style)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Accent") +
+  labs(
+    title = "DAN Comparison by Prompt",
+    x = "Prompt Style",
+    y = "DAN"
+  ) +
+  theme(legend.position = "none")
+  
+  
+# -----------------------------
+# 11. Coverage box plot: Coverage by prompt style
+# -----------------------------
+ggplot(data, aes(x = style, y = diff_coverage, fill = style)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Accent") +
+  labs(
+    title = "Coverage comparison by Prompt",
+    x = "Prompt Style",
+    y = "Coverage"
+  ) +
+  theme(legend.position = "none")
+
+# -----------------------------
+# 12. Total Tests box plot: Total Tests by prompt style
+# -----------------------------
+ggplot(data, aes(x = style, y = diff_total_tests, fill = style)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Accent") +
+  labs(
+    title = "Total Tests Comparison by Prompt",
+    x = "Prompt Style",
+    y = "Total Tests"
+  ) +
+  theme(legend.position = "none")
+
+# -----------------------------
+# 13. Passing Tests box plot: Passing Tests by prompt style
+# -----------------------------
+ggplot(data, aes(x = style, y = diff_passing_tests, fill = style)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Accent") +
+  labs(
+    title = "Passing Tests Comparison by Prompt",
+    x = "Prompt Style",
+    y = "Passing Tests"
+  ) +
+  theme(legend.position = "none")
+
+# -----------------------------
+# 14. Failing Tests box plot: Failing Tests by prompt style
+# -----------------------------
+ggplot(data, aes(x = style, y = diff_failing_tests, fill = style)) +
+  geom_boxplot(alpha = 0.7) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Accent") +
+  labs(
+    title = "Failing Tests Comparison by Prompt",
+    x = "Prompt Style",
+    y = "Failing Tests"
+  ) +
+  theme(legend.position = "none")
+
+# -----------------------------
+# 15. DAN box plot: model + prompt combination
+# -----------------------------
+ggplot(data, aes(x = model, y = diff_dan, fill = style)) +
+  geom_boxplot(alpha = 0.7, position = position_dodge(width = 0.8)) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(
+    title = "DAN Comparison by Model and Prompt Style",
+    x = "Model",
+    y = "DAN",
+    fill = "Prompt Style"
+  ) +
+  theme(legend.position = "bottom")
+  
+# -----------------------------
+# 16. Coverage box plot: model + prompt combination
+# -----------------------------
+ggplot(data, aes(x = model, y = diff_coverage, fill = style)) +
+  geom_boxplot(alpha = 0.7, position = position_dodge(width = 0.8)) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(
+    title = "Coverage Comparison by Model and Prompt Style",
+    x = "Model",
+    y = "Coverage",
+    fill = "Prompt Style"
+  ) +
+  theme(legend.position = "bottom")
+
+# -----------------------------
+# 17. Total Tests box plot: model + prompt combination
+# -----------------------------
+ggplot(data, aes(x = model, y = diff_total_tests, fill = style)) +
+  geom_boxplot(alpha = 0.7, position = position_dodge(width = 0.8)) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(
+    title = "Total Tests Comparison by Model and Prompt Style",
+    x = "Model",
+    y = "Total Tests",
+    fill = "Prompt Style"
+  ) +
+  theme(legend.position = "bottom")
+  
+# -----------------------------
+# 18. Passing Tests box plot: model + prompt combination
+# -----------------------------
+ggplot(data, aes(x = model, y = diff_passing_tests, fill = style)) +
+  geom_boxplot(alpha = 0.7, position = position_dodge(width = 0.8)) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(
+    title = "Passing Tests Comparison by Model and Prompt Style",
+    x = "Model",
+    y = "Passing Tests",
+    fill = "Prompt Style"
+  ) +
+  theme(legend.position = "bottom")
+
+# -----------------------------
+# 19. Failing Tests box plot: model + prompt combination
+# -----------------------------
+ggplot(data, aes(x = model, y = diff_failing_tests, fill = style)) +
+  geom_boxplot(alpha = 0.7, position = position_dodge(width = 0.8)) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(
+    title = "Failing Tests Comparison by Model and Prompt Style",
+    x = "Model",
+    y = "Failing Tests",
+    fill = "Prompt Style"
+  ) +
+  theme(legend.position = "bottom")
+
+
+#####################
+# PROMPT COMPARISON COMBINED BOX PLOT
+#####################
+data_clean <- data %>%
+  mutate(diff_dan = as.numeric(diff_dan)) %>% 
+  pivot_longer(
+    cols = c(diff_dan, diff_coverage, diff_total_tests, diff_passing_tests, diff_failing_tests),
+    names_to = "metric",
+    values_to = "value"
+  ) %>%
+  mutate(
+    style = str_to_title(style), 
+    metric_label = case_when(
+      metric == "diff_dan" ~ "DAN",
+      metric == "diff_coverage" ~ "Coverage",
+      metric == "diff_total_tests" ~ "Total Tests",
+      metric == "diff_passing_tests" ~ "Passing Tests",
+      metric == "diff_failing_tests" ~ "Failing Tests"
+    )
+  )
+
+shared_theme <- theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 10),
+    strip.background = element_rect(fill = "#e0e0e0", color = "black"),
+    strip.text = element_text(face = "bold", size = 10),
+    panel.grid.minor = element_blank(),
+    legend.position = "none"
+  )
+
+p1 <- data_clean %>%
+  filter(metric_label %in% c("DAN", "Coverage", "Total Tests")) %>%
+  mutate(metric_label = factor(metric_label, levels = c("DAN", "Coverage", "Total Tests"))) %>%
+  ggplot(aes(x = style, y = value, fill = style)) +
+  geom_boxplot(alpha = 0.85, width = 0.6, color = "black", linewidth = 0.4) +
+  facet_grid(metric_label ~ ., scales = "free_y") +
+  scale_fill_manual(values = c("Base" = "#7cc9eb", "Combined" = "#fdbf33")) +
+  labs(x = NULL, y = "Metric Score") +
+  shared_theme
+
+p2 <- data_clean %>%
+  filter(metric_label %in% c("Passing Tests", "Failing Tests")) %>%
+  mutate(metric_label = factor(metric_label, levels = c("Passing Tests", "Failing Tests"))) %>%
+  ggplot(aes(x = style, y = value, fill = style)) +
+  geom_boxplot(alpha = 0.85, width = 0.6, color = "black", linewidth = 0.4) +
+  facet_grid(metric_label ~ ., scales = "free_y") +
+  scale_fill_manual(values = c("Base" = "#7cc9eb", "Combined" = "#fdbf33")) +
+  labs(x = NULL, y = NULL) +
+  shared_theme
+
+final_plot <- (p1 | (plot_spacer() / p2 / plot_spacer() + plot_layout(heights = c(0.3, 2.4, 0.3)))) + 
+  plot_annotation(
+    title = "Comparison of Metrics by Prompt",
+    caption = "Prompt Style",
+    theme = theme(
+      plot.title = element_text(size = 18, face = "bold", hjust = 0),
+      plot.caption = element_text(size = 16, hjust = 0.5, margin = margin(t = 20))
+    )
+  )
+
+print(final_plot)
+
+ggsave("prompt_comparison_final.pdf", plot = final_plot, width = 10, height = 12, dpi = 300)
+
+########################
+# MODEL COMPARISON COMBINED BOX PLOT
+########################
+data_clean_models <- data %>%
+  mutate(diff_dan = as.numeric(diff_dan)) %>% 
+  pivot_longer(
+    cols = c(diff_dan, diff_coverage, diff_total_tests, diff_passing_tests, diff_failing_tests),
+    names_to = "metric",
+    values_to = "value"
+  ) %>%
+  mutate(
+    metric_label = case_when(
+      metric == "diff_dan" ~ "DAN",
+      metric == "diff_coverage" ~ "Coverage",
+      metric == "diff_total_tests" ~ "Total Tests",
+      metric == "diff_passing_tests" ~ "Passing Tests",
+      metric == "diff_failing_tests" ~ "Failing Tests"
+    )
+  )
+
+
+model_theme <- theme_bw() +
+  theme(
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 10),
+    strip.background = element_rect(fill = "#e0e0e0", color = "black"),
+    strip.text = element_text(face = "bold", size = 10),
+    panel.grid.minor = element_blank(),
+    legend.position = "none"
+  )
+
+p1_model <- data_clean_models %>%
+  filter(metric_label %in% c("DAN", "Coverage", "Total Tests")) %>%
+  mutate(metric_label = factor(metric_label, levels = c("DAN", "Coverage", "Total Tests"))) %>%
+  ggplot(aes(x = model, y = value, fill = model)) +
+  geom_boxplot(alpha = 0.85, width = 0.6, color = "black", linewidth = 0.4) +
+  facet_grid(metric_label ~ ., scales = "free_y") +
+  scale_fill_brewer(palette = "Set2") +
+  labs(x = NULL, y = "Metric Score") +
+  model_theme
+
+p2_model <- data_clean_models %>%
+  filter(metric_label %in% c("Passing Tests", "Failing Tests")) %>%
+  mutate(metric_label = factor(metric_label, levels = c("Passing Tests", "Failing Tests"))) %>%
+  ggplot(aes(x = model, y = value, fill = model)) +
+  geom_boxplot(alpha = 0.85, width = 0.6, color = "black", linewidth = 0.4) +
+  facet_grid(metric_label ~ ., scales = "free_y") +
+  scale_fill_brewer(palette = "Set2") +
+  labs(x = NULL, y = NULL) +
+  model_theme
+
+final_model_plot <- (p1_model | (plot_spacer() / p2_model / plot_spacer() + plot_layout(heights = c(0.3, 2.4, 0.3)))) + 
+  plot_annotation(
+    title = "Comparison of Metrics by Model at Temperature 1",
+    caption = "Model Name",
+    theme = theme(
+      plot.title = element_text(size = 18, face = "bold", hjust = 0),
+      plot.caption = element_text(size = 16, hjust = 0.5, margin = margin(t = 20))
+    )
+  )
+
+print(final_model_plot)
+ggsave("model_comparison_final.pdf", plot = final_model_plot, width = 12, height = 12, dpi = 300)
+
+###########################
+# MODEL and PROMPT COMPARISON COMBINED BOX PLOT
+###########################
+data_long_comb <- data %>%
+  mutate(diff_dan = as.numeric(diff_dan)) %>% 
+  pivot_longer(
+    cols = c(diff_dan, diff_coverage, diff_total_tests, diff_passing_tests, diff_failing_tests),
+    names_to = "metric",
+    values_to = "value"
+  ) %>%
+  mutate(
+    style = toupper(style),
+    metric_label = case_when(
+      metric == "diff_dan" ~ "DAN",
+      metric == "diff_coverage" ~ "Coverage",
+      metric == "diff_total_tests" ~ "Total Tests",
+      metric == "diff_passing_tests" ~ "Passing Tests",
+      metric == "diff_failing_tests" ~ "Failing Tests"
+    ),
+    metric_label = factor(metric_label, levels = c("DAN", "Coverage", "Total Tests", "Passing Tests", "Failing Tests"))
+  )
+
+final_comb_plot <- ggplot(data_long_comb, aes(x = model, y = value, fill = style)) +
+  geom_boxplot(alpha = 0.85, width = 0.7, color = "black", linewidth = 0.8, 
+               position = position_dodge(width = 0.8)) + 
+  facet_grid(metric_label ~ ., scales = "free_y") + 
+  theme_bw(base_size = 15) + 
+  scale_fill_manual(values = c("BASE" = "#7cc9eb", "COMBINED" = "#fdbf33")) +
+  labs(
+    x = "Model",
+    y = "Metric Score",
+    title = "Model Performance Comparison by Prompt",
+    fill = "Prompt Style"
+  ) +
+  theme(
+    plot.title = element_text(size = 20, face = "bold", hjust = 0.5),
+    axis.text.x = element_text(angle = 90, vjust = 0.5, hjust = 1, size = 14, face = "bold"),
+    axis.text.y = element_text(size = 12),
+    strip.background = element_rect(fill = "#e0e0e0", color = "black"),
+    strip.text = element_text(face = "bold", size = 14),
+    panel.grid.minor = element_blank(),
+    legend.position = "bottom"
+  )
+
+ggsave("model_prompt_comparison.pdf", plot = final_comb_plot, width = 15, height = 20, dpi = 300)
+
+
+
+#################################################################
+################# DESCRIPTIVE STATISTICS ########################
+#################################################################
+
+# Define the metrics we want to analyze
+metrics_to_stats <- c("diff_dan", "diff_coverage", "diff_total_tests", 
+                      "diff_passing_tests", "diff_failing_tests")
+
+# Define the columns we want in our final tables
+desired_columns <- c("variable", "n", "mean", "sd", "median", "q1", "q3")
+
+# 1. Summary stats by Model
+stats_by_model <- data %>%
+  group_by(model) %>%
+  get_summary_stats(all_of(metrics_to_stats), type = "full") %>%
+  select(model, all_of(desired_columns))
+
+# 2. Summary stats by Prompt Style
+stats_by_style <- data %>%
+  group_by(style) %>%
+  get_summary_stats(all_of(metrics_to_stats), type = "full") %>%
+  select(style, all_of(desired_columns))
+
+# 3. Combined: Summary stats by Model AND Prompt Style
+stats_combined <- data %>%
+  group_by(model, style) %>%
+  get_summary_stats(all_of(metrics_to_stats), type = "full") %>%
+  select(model, style, all_of(desired_columns))
+
+# --- Printing Results ---
+cat("\n--- STATS BY MODEL ---\n")
+print(stats_by_model, n = Inf) # n = Inf ensures all metrics are shown
+
+cat("\n--- STATS BY PROMPT STYLE ---\n")
+print(stats_by_style, n = Inf)
+
+cat("\n--- COMBINED STATS (MODEL x STYLE) ---\n")
+print(stats_combined, n = Inf)
+
+
+# ---------------------------------------------------------
+# 1. Define the specific target modules
+# ---------------------------------------------------------
+target_modules <- c(
+  "decorators.py", "packages.py", "cmd.py", "headers.py", 
+  "httpie.base.py", "py_backwards.base.py", "dict_unpacking.py", 
+  "return_from_generator.py", "yield_from.py", "journaling.py", "python.py"
+)
+
+# ---------------------------------------------------------
+# 2. Filter and calculate mean for these modules per model
+# ---------------------------------------------------------
+stats_specific_modules <- data %>%
+  # Filter the dataset for only the modules in our target list
+  filter(module %in% target_modules) %>%
+  # Group by model to see how each performed on these specific files
+  group_by(model) %>%
+  summarise(
+    mean_coverage_diff = mean(diff_coverage, na.rm = TRUE),
+    # Including n helps verify how many data points (runs) were included
+    n_observations = n(),
+    .groups = "drop"
+  )
+
+# --- Print the results ---
+cat("\n--- MEAN COVERAGE DIFF (Target Modules Only) ---\n")
+print(stats_specific_modules)
+
+
+```
+# Pivot data to long format for easy faceting
+data_long <- data %>%
+  pivot_longer(
+    cols = starts_with("diff_"), 
+    names_to = "metric", 
+    values_to = "value"
+  )
+
+# Create one comprehensive plot
+ggplot(data_long, aes(x = model, y = value, fill = style)) +
+  geom_boxplot(alpha = 0.7, position = position_dodge(width = 0.8)) +
+  facet_wrap(~metric, scales = "free_y") + # Each metric gets its own panel
+  theme_minimal() +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(title = "Metric Comparison by Model and Prompt Style") +
+  theme(legend.position = "bottom")
+
+# -----------------------------
+# 20. Descriptive Statistics
+# -----------------------------
+# Summary stats for the Composite Score by Model
+stats_by_model <- data %>%
+  group_by(model) %>%
+  get_summary_stats(composite_score, type = "median_iqr")
+
+# Summary stats for the Composite Score by Prompt Style
+stats_by_style <- data_module %>%
+  group_by(style) %>%
+  get_summary_stats(composite_score, type = "median_iqr")
+
+print(stats_by_model)
+print(stats_by_style)
+
+# -----------------------------
+# 11. Mann-Whitney U with Explicit Holm Adjustment
+# -----------------------------
+
+# Comparison across Models using Holm-Bonferroni
+stat_test_model <- data_module %>%
+  wilcox_test(composite_score ~ model) %>%
+  # Explicitly setting the adjustment method to "holm"
+  adjust_pvalue(method = "holm") %>% 
+  add_significance() %>%
+  add_xy_position(x = "model")
+
+# Comparison across Prompt Styles
+# (Since there are only 2 groups here, Holm adjustment has no effect)
+stat_test_style <- data_module %>%
+  wilcox_test(composite_score ~ style) %>%
+  adjust_pvalue(method = "holm") %>%
+  add_significance() %>%
+  add_xy_position(x = "style")
+
+print(stat_test_model)
+print(stat_test_style)
+  
+# ---------------------------------------------------------
+# 1. Friedman Test: Models (Base Prompt Style Only)
+# ---------------------------------------------------------
+# Filtering only for the 'base' style to find the strongest baseline model
+data_base <- data_module %>% 
+  filter(style == "base")
+
+print(data_base)
+
+res.fried_base <- data_base %>% 
+  friedman_test(composite_score ~ model | module)
+
+res.fried_base_b <- friedman.test(composite_score ~ model, data = data_base %>% select(model, composite_score))
+
+ggplot(data_base, aes(y = composite_score, x = model, fill = model)) +
+ geom_boxplot(width = 0.5) +
+ theme_bw()
+
+print("--- Friedman Test (Base Prompt Only) ---")
+print(res.fried_base)
+
+# ---------------------------------------------------------
+# 2. Pairwise Comparisons (Post-hoc for Models)
+# ---------------------------------------------------------
+# Performing Wilcoxon (Mann-Whitney equivalent for paired data)
+pwc_base <- data_base %>%
+  wilcox_test(composite_score ~ model, paired = TRUE, p.adjust.method = "holm") %>%
+  add_significance()
+
+print("--- Pairwise Comparisons (Base Prompt) ---")
+print(pwc_base)
+
+# ---------------------------------------------------------
+# 3. Acknowledge the "Best" Model
+# ---------------------------------------------------------
+# Identifying the model with the lowest median penalty score
+best_model_name <- data_base %>% 
+  group_by(model) %>% 
+  summarise(median_penalty = median(composite_score)) %>% 
+  arrange(median_penalty) %>% 
+  slice(1) %>% 
+  pull(model)
+
+cat("The statistically identified best model is:", as.character(best_model_name), "\n")
+
+# ---------------------------------------------------------
+# 4. Vargha-Delaney A12 for Significant Pairs
+# ---------------------------------------------------------
+if (!require("effsize")) install.packages("effsize")
+library(effsize)
+
+# Filter the pairs that were statistically significant (p.adj < 0.05)
+significant_pairs <- pwc_base %>% filter(p.adj < 0.05)
+
+if(nrow(significant_pairs) > 0) {
+  for(i in 1:nrow(significant_pairs)) {
+    m1 <- significant_pairs$group1[i]
+    m2 <- significant_pairs$group2[i]
+    
+    pair_data <- data_base %>% filter(model %in% c(m1, m2)) %>% mutate(model = factor(model))
+    res_vda <- VD.A(composite_score ~ model, data = pair_data)
+    
+    cat("\nEffect Size for", m1, "vs", m2, ":\n")
+    print(res_vda)
+  }
+} else {
+  cat("\nNo pairs were statistically significant after Holm adjustment in the Base-only subset.\n")
+}
+
+# ---------------------------------------------------------
+# 5. Prompt Analysis for the Best Model
+# ---------------------------------------------------------
+# Comparing Base vs Combined specifically for the best model (Mini)
+data_best_model <- data_module %>% 
+  filter(model == best_model_name)
+
+res.prompt_comparison <- data_best_model %>% 
+  wilcox_test(composite_score ~ style, paired = TRUE) %>%
+  add_significance()
+
+print(paste("--- Prompt Style Comparison for", best_model_name, "---"))
+print(res.prompt_comparison)
+
+# -----------------------------
+# 19. DAN Metric: Friedman Test (Step 1)
+# -----------------------------
+
+# We use the same block_id (module + style) to account for module difficulty
+res.fried_dan <- data_module %>% 
+  friedman_test(diff_dan ~ model | block_id)
+
+print("--- Friedman Test: DAN Metric ---")
+print(res.fried_dan)
+
+# -----------------------------
+# 20. DAN Metric: Pairwise Wilcoxon (Step 2)
+# -----------------------------
+
+# We check pairs to see if any specific model is better at DAN
+pwc_dan <- data_module %>%
+  wilcox_test(diff_dan ~ model, paired = TRUE, p.adjust.method = "holm") %>%
+  add_significance()
+
+print("--- Pairwise Paired Wilcoxon: DAN Metric ---")
+print(pwc_dan)
+
+# -----------------------------
+# 21. DAN Metric: Effect Size (Step 3)
+# -----------------------------
+
+# Checking the probability of one model beating another in DAN
+# Example: Claude vs. Mini
+ds_dan_vda <- data_module %>% 
+  filter(model %in% c("claude", "mini")) %>%
+  mutate(model = factor(model))
+
+res.vda_dan <- VD.A(diff_dan ~ model, data = ds_dan_vda)
+print(res.vda_dan)
+
+# Total test count penalty
+ggplot(data_module, aes(x = model, y = n_test_change, fill = style)) +
+  geom_boxplot(alpha = 0.7, position = position_dodge(width = 0.8)) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(
+    title = "Normalized Total Test Count Penalty by Model and Prompt Style",
+    subtitle = "Lower is better (closer to 0 original test-count difference)",
+    x = "Model",
+    y = "Normalized Total Test Count Penalty",
+    fill = "Prompt Style"
+  ) +
+  theme(legend.position = "bottom")
+
+# Passing tests penalty
+ggplot(data_module, aes(x = model, y = n_pass_change, fill = style)) +
+  geom_boxplot(alpha = 0.7, position = position_dodge(width = 0.8)) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(
+    title = "Normalized Passing Test Penalty by Model and Prompt Style",
+    subtitle = "Lower is better (closer to 0 original passing-test difference)",
+    x = "Model",
+    y = "Normalized Passing Test Penalty",
+    fill = "Prompt Style"
+  ) +
+  theme(legend.position = "bottom")
+
+# Failing tests penalty
+
+ggplot(data_module, aes(x = model, y = n_fail_change, fill = style)) +
+  geom_boxplot(alpha = 0.7, position = position_dodge(width = 0.8)) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(
+    title = "Failing Test Comparison by Model and Prompt Style",
+    subtitle = "Lower is better (closer to 0 original failing-test difference)",
+    x = "Model",
+    y = "Failing Test",
+    fill = "Prompt Style"
+  ) +
+  theme(legend.position = "bottom")
+  
+# -----------------------------
+# 3. Normalization function
+#    Min-max scaling to [0, 1]
+# -----------------------------
+normalize <- function(x) {
+  if (max(x, na.rm = TRUE) == min(x, na.rm = TRUE)) {
+    return(rep(0, length(x)))
+  }
+  (x - min(x, na.rm = TRUE)) / (max(x, na.rm = TRUE) - min(x, na.rm = TRUE))
+}
+  # -----------------------------
+# 4. Create normalized metric penalties
+#    Lower = better for every metric
+# -----------------------------
+data <- data %>%
+  mutate(
+    # Closer to 0 is better -> use absolute deviation from 0
+    n_cov_change   = normalize(abs(diff_coverage)),
+    n_test_change  = normalize(abs(diff_total_tests)),
+    n_pass_change  = normalize(abs(diff_passing_tests)),
+    n_fail_change  = normalize(abs(diff_failing_tests)),
+    n_dan_penalty  = normalize(-diff_dan),
+    composite_score = n_cov_change +
+                      n_test_change +
+                      n_pass_change +
+                      n_fail_change
+                      )
+
+# Optional: inspect summary
+summary(data_module$composite_score)
+
+# -----------------------------
+# 8. Normalized drill-down plots for each metric
+#    Every plot is now lower-is-better
+# -----------------------------
+
+# Coverage penalty
+ggplot(data_module, aes(x = model, y = n_cov_change, fill = style)) +
+  geom_boxplot(alpha = 0.7, position = position_dodge(width = 0.8)) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(
+    title = "Difference in Coverage Comparison by Model and Prompt Style",
+    x = "Model",
+    y = "Coverage",
+    fill = "Prompt Style"
+  ) +
+  theme(legend.position = "bottom")
+
+# DAN penalty
+ggplot(data_module, aes(x = model, y = n_dan_penalty, fill = style)) +
+  geom_boxplot(alpha = 0.7, position = position_dodge(width = 0.8)) +
+  theme_minimal() +
+  scale_fill_brewer(palette = "Pastel1") +
+  labs(
+    title = "Difference in DAN Comparison by Model and Prompt Style",
+    x = "Model",
+    y = "DAN",
+    fill = "Prompt Style"
+  ) +
+  theme(legend.position = "bottom")
+  
+```
