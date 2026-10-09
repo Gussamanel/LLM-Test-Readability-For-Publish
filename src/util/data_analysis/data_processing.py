@@ -89,6 +89,6 @@ def summarize_csvs(input_folder: str, output_file: str):
 
 
 if __name__ == "__main__":
-    input_folder = "/Users/shahhdhassann/readability/results"  # change this
+    input_folder = "output/no_rag"  # change this
     output_file = "summary.csv"
     summarize_csvs(input_folder, output_file)
